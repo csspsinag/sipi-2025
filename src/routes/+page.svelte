@@ -109,7 +109,7 @@
 
 	#sipiLogo {
 		width: 25vw;
-		margin-top: -5vh;
+		margin: -2rem 0;
 	}
 
 	.timer {
@@ -118,14 +118,15 @@
 		align-items: center;
 		justify-content: center;
 		font-variant-numeric: tabular-nums;
-		height: 100vmax;
+		height: 100vh;
+		min-width: 25vw;
 	}
 
 	.countdown-display {
 		display: inline-flex;
 		flex-direction: column;
 		align-items: center;
-		font-size: 6rem;
+		font-size: clamp(1rem, 10vw, 6rem);
 		font-weight: 700;
 		font-family: 'Bricolage Grotesque', sans-serif !important;
 
@@ -139,13 +140,15 @@
 	}
 
 	h2 {
+		font-size: clamp(0.5rem, 2.5vw, 2rem);
 		margin: 0;
 		font-weight: 400;
+		opacity: 50%;
 	}
 
 	.separator {
 		display: inline;
 		vertical-align: center;
-		font-size: 6rem;
+		font-size: clamp(1rem, 10vw, 6rem);
 	}
 </style>
