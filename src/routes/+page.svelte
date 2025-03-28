@@ -13,7 +13,8 @@
 	const format = {
 		style: 'decimal',
 		minimumIntegerDigits: 2,
-		maximumFractionDigits: 0
+		maximumFractionDigits: 0,
+		roundingMode: 'trunc'
 	};
 	const csspElection = {
 		filingCocStart: dayjs('2025-04-07'),
@@ -122,6 +123,10 @@
 		min-width: 25vw;
 	}
 
+	.cd-timer {
+		color: #d31f72;
+	}
+
 	.countdown-display {
 		display: inline-flex;
 		flex-direction: column;
@@ -136,6 +141,7 @@
 			text-align: center;
 			font-variant-caps: all-petite-caps;
 			margin: -1rem auto 0;
+			color: #36b1ae;
 		}
 	}
 
@@ -143,7 +149,7 @@
 		font-size: clamp(0.5rem, 2.5vw, 2rem);
 		margin: 0;
 		font-weight: 400;
-		opacity: 50%;
+		color: #a02ee9;
 	}
 
 	.separator {
