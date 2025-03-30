@@ -1,6 +1,6 @@
 <small>Produced and made under [SINAG](http://sinag.press/), CSSP's local college publication.</small>
 
-# SIPI 2025: Official Coverage of the 2024 CSSP Student Council Elections
+# SIPI 2025: Official Coverage of the 2025 CSSP Student Council Elections
 
 _Written, programmed, and designed by Vayne Altapascine del Rosario_
 
@@ -8,11 +8,11 @@ The 2025 CSSP Student Council Elections is a significant event in the College of
 
 The yearly elections is a manifestation of student representation and will in the College, but just as much, presents an opportunity from those across the political spectrum a chance to present themselves as the best candidate to lead the student body both for student service and mobilizing the student body to move forward with campaigns, not only in the University but also in the national level.
 
-This year, in an effort to best present the voting behavior and results of the elections, SINAG, CSSP's local college publication, has decided to create a data visualization project that will present the results of the 2024 CSSP Student Council Elections in a more interactive and engaging way, called SIPI.
+This year, in an effort to best present the voting behavior and results of the elections, SINAG, CSSP's local college publication, has decided to create a data visualization project that will present the results of the 2025 CSSP Student Council Elections in a more interactive and engaging way, called SIPI.
 
 ## About SIPI
 
-"SIPI" comes from the Filipino word "sipi", which means "to quote" or "to cite". The project aims to "quote" the results of the 2024 CSSP Student Council Elections in a way that is more engaging and interactive for the readers.
+"SIPI" comes from the Filipino word "sipi", which means "to quote" or "to cite". The project aims to "quote" the results of the 2025 CSSP Student Council Elections in a way that is more engaging and interactive for the readers.
 
 This was done through the use of data visualization tools such as [D3.js](https://d3js.org), a JavaScript library for producing dynamic, interactive data visualizations in web browsers, [Observable](https://observablehq.com), a platform for creating and sharing data visualizations, as well as [Flourish](https://flourish.studio/), a platform for creating data visualizations.
 
