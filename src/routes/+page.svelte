@@ -1,50 +1,21 @@
 <script lang="ts">
-	import NumberFlow, { NumberFlowGroup } from '@number-flow/svelte';
+	import { electionDates, electionDatesLookup } from '$lib/dates';
+	import sipiLogo from '$lib/img/sipi25-logo+year.png';
+	import Timer from '$lib/components/Timer.svelte';
+	import TimelineWrapper from '$lib/components/TimelineWrapper.svelte';
+	import '$lib/app.css';
+
 	import { onMount } from 'svelte';
+	import { setContext } from 'svelte';
+
 	import dayjs from 'dayjs';
 
-	import toObject from 'dayjs/plugin/toObject.js';
-	import duration from 'dayjs/plugin/duration.js';
-	import sipiLogo from '$lib/img/sipi25-logo+year.png';
-
-	dayjs.extend(toObject);
-	dayjs.extend(duration);
-
-	const format = {
-		style: 'decimal',
-		minimumIntegerDigits: 2,
-		maximumFractionDigits: 0,
-		roundingMode: 'trunc'
-	};
-	const csspElection = {
-		filingCocStart: dayjs('2025-04-07'),
-		filingCocEnd: dayjs('2025-04-14'),
-		cocDeliberationStart: dayjs('2025-04-14'),
-		cocDeliberationEnd: dayjs('2025-04-16'),
-		candidateListReleaseInitial: dayjs('2025-04-16'),
-		cocProtestStart: dayjs('2025-04-21'),
-		cocProtestEnd: dayjs('2025-04-24 12:00'),
-		candidateListReleaseFinal: dayjs('2025-04-24 15:00'),
-		campaignPeriodStart: dayjs('2025-04-28'),
-		campaignPeriodEnd: dayjs('2025-05-14'),
-		campaignMaterialsEnd: dayjs('2025-05-13'),
-		mitingDeAvance: dayjs('2025-05-14'),
-		electionStart: dayjs('2025-05-15 08:00'),
-		electionEnd: dayjs('2025-05-16 17:00')
-	};
-
-	let anchorTime = $state(new Date());
-	let electionCountdownInit = $derived(
-		dayjs.duration(dayjs(csspElection.electionStart).diff(anchorTime))
-	);
-	let electionCountdownDays = $derived(electionCountdownInit.asDays());
-	let electionCountdownHours = $derived(electionCountdownInit.hours());
-	let electionCountdownMinutes = $derived(electionCountdownInit.minutes());
-	let electionCountdownSeconds = $derived(electionCountdownInit.seconds());
+	let timeAnchor = $state(dayjs());
 
 	onMount(() => {
 		const interval = setInterval(() => {
-			anchorTime = new Date();
+			timeAnchor = dayjs();
+			setContext('timeAnchor', timeAnchor);
 		}, 1000);
 
 		return () => {
@@ -53,41 +24,19 @@
 	});
 </script>
 
-<div class="timer">
-	<img src={sipiLogo} id="sipiLogo" />
-	<h2>Days until the CSSP SC election</h2>
-	<div class="cd-timer">
-		<NumberFlowGroup>
-			<div class="countdown-display">
-				<NumberFlow value={electionCountdownDays} {format} trend="0" />
-				<p>Days</p>
-			</div>
-			<p class="separator">:</p>
-			<div class="countdown-display">
-				<NumberFlow value={electionCountdownHours} {format} trend="0" />
-				<p>Hours</p>
-			</div>
-			<p class="separator">:</p>
-			<div class="countdown-display">
-				<NumberFlow value={electionCountdownMinutes} {format} trend="0" />
-				<p>Minutes</p>
-			</div>
-			<p class="separator">:</p>
-			<div class="countdown-display">
-				<NumberFlow value={electionCountdownSeconds} {format} trend="0" />
-				<p>Seconds</p>
-			</div>
-		</NumberFlowGroup>
+<div class="main-page">
+	<div class="central-timer">
+		<img src={sipiLogo} id="sipiLogo" />
+		<h2>Days until the CSSP SC election</h2>
+		<Timer date={electionDatesLookup.get('updElectionStart')!.date} />
+	</div>
+
+	<div class="timeline">
+		<TimelineWrapper type="multiple" items={electionDates} />
 	</div>
 </div>
 
 <style>
-	@import url('https://fonts.googleapis.com/css2?family=Anybody:ital,wght@0,100..900;1,100..900&family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap');
-
-	* {
-		font-family: 'Anybody', sans-serif;
-	}
-
 	:global(body) {
 		margin: 0;
 		padding: 0;
@@ -108,53 +57,49 @@
 		z-index: -1;
 	}
 
+	.main-page {
+		padding-bottom: 3rem;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.timeline {
+		width: 50%;
+	}
+
+	.central-timer {
+		width: 100vw;
+		height: 100vh;
+
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+
+		font-variant-numeric: tabular-nums;
+		min-width: 25vw;
+
+		h2 {
+			margin-bottom: -1rem;
+			z-index: 1;
+		}
+	}
+
 	#sipiLogo {
 		width: 25vw;
 		margin: -2rem 0;
 	}
 
-	.timer {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		font-variant-numeric: tabular-nums;
-		height: 100vh;
-		min-width: 25vw;
-	}
-
-	.cd-timer {
-		color: #d31f72;
-	}
-
-	.countdown-display {
-		display: inline-flex;
-		flex-direction: column;
-		align-items: center;
-		font-size: clamp(1rem, 10vw, 6rem);
-		font-weight: 700;
-		font-family: 'Bricolage Grotesque', sans-serif !important;
-
-		p {
-			font-size: 1rem;
-			font-weight: 400;
-			text-align: center;
-			font-variant-caps: all-petite-caps;
-			margin: -1rem auto 0;
-			color: #36b1ae;
-		}
-	}
-
 	h2 {
 		font-size: clamp(0.5rem, 2.5vw, 2rem);
 		margin: 0;
-		font-weight: 400;
-		color: #a02ee9;
-	}
-
-	.separator {
-		display: inline;
-		vertical-align: center;
-		font-size: clamp(1rem, 10vw, 6rem);
+		padding: 0.33rem 0;
+		font-weight: 500;
+		background-color: #a02ee9;
+		color: #f7f7f7;
+		width: 100%;
+		text-align: center;
+		mix-blend-mode: multiply;
 	}
 </style>
