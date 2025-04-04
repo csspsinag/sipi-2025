@@ -65,7 +65,13 @@
 	}
 
 	.timeline {
-		width: 50%;
+		width: clamp(450px, 50vw, 750px);
+	}
+
+	@media (max-width: 800px) {
+		.timeline {
+			width: 100vw;
+		}
 	}
 
 	.central-timer {
@@ -78,22 +84,28 @@
 		justify-content: center;
 
 		font-variant-numeric: tabular-nums;
-		min-width: 25vw;
+		min-width: 75vw;
 
 		h2 {
-			margin-bottom: -1rem;
+			margin-bottom: clamp(0, 4vw, 3rem);
 			z-index: 1;
+		}
+
+		@media (max-width: 800px) {
+			h2 {
+				margin-bottom: -1em;
+			}
 		}
 	}
 
 	#sipiLogo {
 		width: 25vw;
-		margin: -2rem 0;
+		margin: -5rem 0 -2rem 0;
+		z-index: 2;
 	}
 
 	h2 {
 		font-size: clamp(0.5rem, 2.5vw, 2rem);
-		margin: 0;
 		padding: 0.33rem 0;
 		font-weight: 500;
 		background-color: #a02ee9;

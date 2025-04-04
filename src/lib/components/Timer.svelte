@@ -121,11 +121,11 @@
 		font-weight: 700;
 
 		p {
-			font-size: 1rem;
+			font-size: clamp(0.25rem, 3cqw, 1rem);
 			font-weight: 600;
 			text-align: center;
 			font-variant-caps: all-petite-caps;
-			margin: -1.5rem auto 0;
+			margin: calc(-1.5rem + 0.5cqh) auto 0;
 			color: #248381;
 		}
 	}
