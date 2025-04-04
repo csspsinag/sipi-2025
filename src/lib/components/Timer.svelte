@@ -9,6 +9,13 @@
 	dayjs.extend(toObject);
 	dayjs.extend(duration);
 
+	// Timezone Imports
+	import utc from 'dayjs/plugin/utc.js';
+	import timezone from 'dayjs/plugin/timezone.js';
+	dayjs.extend(utc);
+	dayjs.extend(timezone);
+	dayjs.tz.setDefault('Asia/Manila');
+
 	// Props
 	let {
 		date
@@ -21,7 +28,7 @@
 		style: 'decimal',
 		minimumIntegerDigits: 2,
 		maximumFractionDigits: 0,
-		roundingMode: 'floor'
+		roundingMode: 'trunc'
 	};
 
 	let anchorTime: dayjs.Dayjs = $state(getContext('timeAnchor') ?? dayjs());
@@ -43,7 +50,9 @@
 		minutes: () => number;
 		seconds: () => number;
 	} {
-		const electionCountdownInit = $derived(dayjs.duration(dayjs(date).diff(anchorTime)));
+		const electionCountdownInit = $derived(
+			dayjs.duration(dayjs(date).diff(anchorTime)).add(10, 'hour')
+		);
 		return {
 			days: () => electionCountdownInit.asDays(),
 			hours: () => electionCountdownInit.hours(),

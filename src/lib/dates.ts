@@ -1,4 +1,9 @@
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc.js';
+import timezone from 'dayjs/plugin/timezone.js';
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.tz.setDefault('Asia/Manila');
 import type { dateExpression } from './types';
 
 export const electionDates: Array<dateExpression> = [
@@ -6,151 +11,151 @@ export const electionDates: Array<dateExpression> = [
 		id: 'cocFilingStart',
 		level: ['uwide', 'college'],
 		name: 'Start of COC filing',
-		date: dayjs('2025-04-07'),
+		date: dayjs.tz('2025-04-07T00:00', 'Asia/Manila'),
 		tag: 'start'
 	},
 	{
 		id: 'cocFilingEnd',
 		level: ['uwide', 'college'],
 		name: 'End of COC filing',
-		date: dayjs('2025-04-14'),
+		date: dayjs.tz('2025-04-14T00:00', 'Asia/Manila'),
 		tag: 'end'
 	},
 	{
 		id: 'cocCollegeDeliberationStart',
 		level: ['college'],
 		name: 'Start of COC deliberation',
-		date: dayjs('2025-04-14'),
+		date: dayjs.tz('2025-04-14T00:00', 'Asia/Manila'),
 		tag: 'start'
 	},
 	{
 		id: 'cocCollegeDeliberationEnd',
 		level: ['college'],
 		name: 'End of COC deliberation',
-		date: dayjs('2025-04-16'),
+		date: dayjs.tz('2025-04-16T00:00', 'Asia/Manila'),
 		tag: 'end'
 	},
 	{
 		id: 'initialCollegeCandidateListRelease',
 		level: ['college'],
 		name: 'Initial candidate list release',
-		date: dayjs('2025-04-16'),
+		date: dayjs.tz('2025-04-16T00:00', 'Asia/Manila'),
 		tag: 'start'
 	},
 	{
 		id: 'initialUwideCandidateListRelease',
 		level: ['uwide'],
 		name: 'Initial candidate list release',
-		date: dayjs('2025-04-21'),
+		date: dayjs.tz('2025-04-21T00:00', 'Asia/Manila'),
 		tag: 'start'
 	},
 	{
 		id: 'cocCollegeProtestPeriodStart',
 		level: ['college'],
 		name: 'Start of COC protest period',
-		date: dayjs('2025-04-21'),
+		date: dayjs.tz('2025-04-21T00:00', 'Asia/Manila'),
 		tag: 'start'
 	},
 	{
 		id: 'cocCollegeProtestPeriodEnd',
 		level: ['college'],
 		name: 'End of COC protest period',
-		date: dayjs('2025-04-24 12:00'),
+		date: dayjs.tz('2025-04-24T12:00', 'Asia/Manila'),
 		tag: 'end'
 	},
 	{
 		id: 'finalCandidateListRelease',
 		level: ['uwide', 'college'],
 		name: 'Final candidate list release',
-		date: dayjs('2025-04-24 15:00'),
+		date: dayjs.tz('2025-04-24T15:00', 'Asia/Manila'),
 		tag: 'end'
 	},
 	{
 		id: 'updCampaignPeriodStart',
 		level: ['uwide', 'college'],
 		name: 'Start of campaign period',
-		date: dayjs('2025-04-28'),
+		date: dayjs.tz('2025-04-28T00:00', 'Asia/Manila'),
 		tag: 'start'
 	},
 	{
 		id: 'localAbsenteeVotingStart',
 		level: ['national'],
 		name: 'Start of local absentee voting',
-		date: dayjs('2025-04-28'),
+		date: dayjs.tz('2025-04-28T00:00', 'Asia/Manila'),
 		tag: 'start'
 	},
 	{
 		id: 'localAbsenteeVotingEnd',
 		level: ['national'],
 		name: 'End of local absentee voting',
-		date: dayjs('2025-04-30'),
+		date: dayjs.tz('2025-04-30T00:00', 'Asia/Manila'),
 		tag: 'start'
 	},
 	{
 		id: 'pasabogDay1',
 		level: ['college'],
-		name: 'PASABOG: CSSP Miting de Avance',
-		date: dayjs('2025-05-08'),
+		name: 'PASABOG: CSSP Miting de Avance Day 1',
+		date: dayjs.tz('2025-05-08T15:00', 'Asia/Manila'),
 		tag: 'start'
 	},
 	{
 		id: 'pasabogDay2',
 		level: ['college'],
 		name: 'PASABOG: CSSP Miting de Avance',
-		date: dayjs('2025-05-09'),
+		date: dayjs.tz('2025-05-09T15:00', 'Asia/Manila'),
 		tag: 'end'
 	},
 	{
 		id: 'nationalCampaignPeriodEnd',
 		level: ['national'],
 		name: 'End of campaign period',
-		date: dayjs('2025-05-11'),
+		date: dayjs.tz('2025-05-11T00:00', 'Asia/Manila'),
 		tag: 'end'
 	},
 	{
 		id: 'nationalElectionDay',
 		level: ['national'],
 		name: 'Election day',
-		date: dayjs('2025-05-12')
+		date: dayjs.tz('2025-05-12T06:00', 'Asia/Manila')
 	},
 	{
 		id: 'collegeCampaignMaterialsLastDay',
 		level: ['college'],
 		name: 'Last day of posting campaign materials',
-		date: dayjs('2025-05-13')
+		date: dayjs.tz('2025-05-13T00:00', 'Asia/Manila')
 	},
 	{
 		id: 'kilatiskoDay',
 		level: ['uwide'],
 		name: 'KILATISKO: UPD USC Miting de avance',
-		date: dayjs('2025-05-14')
+		date: dayjs.tz('2025-05-14T00:00', 'Asia/Manila')
 	},
 	{
 		id: 'updCampaignPeriodEnd',
 		level: ['uwide', 'college'],
 		name: 'End of campaign period',
-		date: dayjs('2025-05-14'),
+		date: dayjs.tz('2025-05-14T00:00', 'Asia/Manila'),
 		tag: 'end'
 	},
 	{
 		id: 'updElectionStart',
 		level: ['uwide', 'college'],
 		name: 'Start of election',
-		date: dayjs('2025-05-15 08:00'),
+		date: dayjs.tz('2025-05-15T08:00', 'Asia/Manila'),
 		tag: 'start'
 	},
 	{
 		id: 'updElectionEnd',
 		level: ['uwide', 'college'],
 		name: 'End of election',
-		date: dayjs('2025-05-16 17:00'),
+		date: dayjs.tz('2025-05-16T17:00', 'Asia/Manila'),
 		tag: 'end'
 	},
 	{
 		id: 'updProclamationOfWinners',
 		level: ['uwide', 'college'],
 		name: 'Proclamation of winners',
-		date: dayjs('2025-05-17 19:00')
+		date: dayjs.tz('2025-05-16T19:00', 'Asia/Manila')
 	}
 ];
 
