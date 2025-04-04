@@ -16,11 +16,11 @@
 	dayjs.tz.setDefault('Asia/Manila');
 
 	let timeAnchor = $state(dayjs());
+	setContext('timeAnchor', timeAnchor);
 
 	onMount(() => {
 		const interval = setInterval(() => {
 			timeAnchor = dayjs();
-			setContext('timeAnchor', timeAnchor);
 		}, 1000);
 
 		return () => {

@@ -31,13 +31,8 @@
 		roundingMode: 'trunc'
 	};
 
-	let anchorTime: dayjs.Dayjs = $state(getContext('timeAnchor') ?? dayjs());
+	let anchorTime: dayjs.Dayjs = $state(getContext('timeAnchor')!);
 	function updateDeterminer(): () => dayjs.Dayjs {
-		if (getContext('timeAnchor')) {
-			return () => {
-				return getContext('timeAnchor');
-			};
-		}
 		return () => {
 			return dayjs();
 		};
@@ -45,6 +40,7 @@
 	const updater = updateDeterminer();
 
 	function countdownInitializer(date: dayjs.Dayjs): {
+		months: () => number;
 		days: () => number;
 		hours: () => number;
 		minutes: () => number;
@@ -54,7 +50,8 @@
 			dayjs.duration(dayjs(date).diff(anchorTime)).add(10, 'hour')
 		);
 		return {
-			days: () => electionCountdownInit.asDays(),
+			months: () => electionCountdownInit.months(),
+			days: () => electionCountdownInit.days(),
 			hours: () => electionCountdownInit.hours(),
 			minutes: () => electionCountdownInit.minutes(),
 			seconds: () => electionCountdownInit.seconds()
@@ -78,6 +75,13 @@
 
 <div class="cd-timer">
 	<NumberFlowGroup>
+		{#if countdown.months() > 0}
+			<div class="countdown-display">
+				<NumberFlow value={countdown.months()} {format} trend="0" />
+				<p>Months</p>
+			</div>
+			<p class="separator">:</p>
+		{/if}
 		<div class="countdown-display">
 			<NumberFlow value={countdown.days()} {format} trend="0" />
 			<p>Days</p>
