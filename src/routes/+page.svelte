@@ -24,6 +24,21 @@
 	});
 </script>
 
+<svelte:head>
+	<title>SIPI 2025 Election Countdown • SINAG</title>
+	<meta name="description" content="SIPI 2025 - Election Countdown" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta property="og:site_name" content="SINAG CSSP" />
+	<meta property="og:title" content="SIPI 2025 Election Countdown • SINAG" />
+	<meta
+		property="og:description"
+		content="Countdown timers for CSSP-related election events for 2025."
+	/>
+	<meta property="og:image" content="https://sinag.press/sipi/2025/sipi-wide.png" />
+	<meta property="og:url" content="http://sinag.press/sipi/2025/" />
+	<meta name="twitter:card" content="summary_large_image" />
+</svelte:head>
+
 <div class="main-page">
 	<div class="central-timer">
 		<img src={sipiLogo} id="sipiLogo" />
