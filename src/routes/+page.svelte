@@ -24,6 +24,33 @@
 	});
 </script>
 
+<svelte:head>
+	<!-- HTML Meta Tags -->
+	<title>SIPI 2025 Election Countdown • SINAG</title>
+	<meta name="description" content="Countdown timers for CSSP-related election events for 2025." />
+
+	<!-- Facebook Meta Tags -->
+	<meta property="og:url" content="https://sinag.press/sipi/2025" />
+	<meta property="og:type" content="website" />
+	<meta property="og:title" content="SIPI 2025 Election Countdown • SINAG" />
+	<meta
+		property="og:description"
+		content="Countdown timers for CSSP-related election events for 2025."
+	/>
+	<meta property="og:image" content="https://sinag.press/sipi/2025/sipi-wide.png" />
+
+	<!-- Twitter Meta Tags -->
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta property="twitter:domain" content="sinag.press" />
+	<meta property="twitter:url" content="https://sinag.press/sipi/2025" />
+	<meta name="twitter:title" content="SIPI 2025 Election Countdown • SINAG" />
+	<meta
+		name="twitter:description"
+		content="Countdown timers for CSSP-related election events for 2025."
+	/>
+	<meta name="twitter:image" content="https://sinag.press/sipi/2025/sipi-wide.png" />
+</svelte:head>
+
 <div class="main-page">
 	<div class="central-timer">
 		<img src={sipiLogo} id="sipiLogo" />
