@@ -61,7 +61,7 @@
 >
 	<Accordion.Item {...restProps}>
 		<Accordion.Header>
-			<Accordion.Trigger disabled={date.date.isBefore(dayjs())}
+			<Accordion.Trigger disabled={date.date.add(10, 'hour').isBefore(dayjs())}
 				><div class="box-button">
 					<div class="level-name">{@html level}</div>
 					<h2>{nameOverride || date.name}</h2>
@@ -70,7 +70,7 @@
 						<span class="day-of-week">{date.date.format('(dddd)')}</span></subtitle
 					>
 					<div class="relative-date">
-						{date.date.fromNow()}
+						{date.date.add(10, 'hour').fromNow()}
 					</div>
 					<div class="date-notes">{@render dateNotes?.()}</div>
 				</div>
