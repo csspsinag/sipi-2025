@@ -146,18 +146,22 @@
 			}
 		}
 
-		:global(
-			[data-accordion-trigger]:focus,
-			[data-accordion-trigger]:active,
-			[data-accordion-trigger]:focus-within
-		) {
-			background-color: var(--level-color);
+		:global([data-accordion-trigger]:focus) {
+			background: linear-gradient(
+				to bottom,
+				color-mix(in srgb, var(--level-light-color) 50%, var(--level-color) 80%),
+				var(--level-color)
+			);
 			color: white;
 			border: none;
 		}
 
 		:global([data-accordion-trigger][data-state='open']) {
-			background-color: var(--level-color);
+			background: linear-gradient(
+				to bottom,
+				color-mix(in srgb, var(--level-light-color) 50%, var(--level-color) 80%),
+				var(--level-color)
+			);
 			color: white;
 			border: none;
 		}
