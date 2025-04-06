@@ -84,14 +84,12 @@
 			</div>
 			<p class="separator">:</p>
 		{/if}
-		{#if countdown.days() >= 0}
-			{#if countdown.months() >= 0}
-				<div class="countdown-display">
-					<NumberFlow value={countdown.days()} {format} trend="0" />
-					<p>Days</p>
-				</div>
-				<p class="separator">:</p>
-			{/if}
+		{#if countdown.days() > 1 && countdown.months() >= 0}
+			<div class="countdown-display">
+				<NumberFlow value={countdown.days()} {format} trend="0" />
+				<p>Days</p>
+			</div>
+			<p class="separator">:</p>
 		{/if}
 		<div class="countdown-display">
 			<NumberFlow value={countdown.hours()} {format} trend="0" />
