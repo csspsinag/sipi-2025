@@ -13,6 +13,7 @@
 		nameOverride?: string;
 		timelineId?: string;
 		timelineCount?: number;
+		counter?: number;
 		timerNotes?: Snippet;
 		dateNotes?: Snippet;
 	};
@@ -22,6 +23,7 @@
 		nameOverride,
 		timelineId = 'box',
 		timelineCount = 0,
+		counter = 0,
 		timerNotes,
 		dateNotes,
 		...restProps
@@ -30,17 +32,17 @@
 	let colors = (() => {
 		if (date.level[0] === 'national')
 			return {
-				main: '#d31f72',
-				light: '#f2d5cf'
+				main: '#279896',
+				light: '#dcfffe'
 			};
 		if (date.level[0] === 'college')
 			return {
-				main: '#a02ee9',
-				light: '#dacae4'
+				main: '#cc176b',
+				light: '#f7d7e1'
 			};
 		return {
-			main: '#1769aa',
-			light: '#c5d0d9'
+			main: '#992cdf',
+			light: '#e0ccec'
 		};
 	})();
 
@@ -54,12 +56,12 @@
 </script>
 
 <div
-	class={`tl-item tl-${timelineId} tl-${timelineId}-${timelineCount} tl-item-${date.id}`}
+	class={`tl-item tl-${timelineId} tl-${timelineId}-${counter} tl-item-${date.id}`}
 	style="--level-color: {colors.main}; --level-light-color: {colors.light};"
 >
 	<Accordion.Item {...restProps}>
 		<Accordion.Header>
-			<Accordion.Trigger
+			<Accordion.Trigger disabled={date.date.isBefore(dayjs())}
 				><div class="box-button">
 					<div class="level-name">{@html level}</div>
 					<h2>{nameOverride || date.name}</h2>
@@ -83,8 +85,8 @@
 
 <style>
 	.tl-item {
-		margin: 2rem;
-		border-radius: 0.5rem;
+		margin: 0 3rem 0;
+		border-radius: 3rem;
 		font-family: 'Hanken Grotesk', sans-serif;
 		border: 1px solid var(--level-color);
 		box-shadow: 3px 3px 10px var(--level-color);
@@ -197,6 +199,16 @@
 
 		:global([data-accordion-content][data-state='closed']) {
 			animation: accordionClose 300ms cubic-bezier(0.7, 0, 0.84, 0) forwards;
+		}
+
+		:global(
+			[data-accordion-content]:focus,
+			[data-accordion-content]:active,
+			[data-accordion-content]:focus-within
+		) {
+			background-color: var(--level-color);
+			color: white;
+			border: none;
 		}
 	}
 </style>

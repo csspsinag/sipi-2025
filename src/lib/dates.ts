@@ -101,7 +101,7 @@ export const electionDates: Array<dateExpression> = [
 	{
 		id: 'pasabogDay2',
 		level: ['college'],
-		name: 'PASABOG: CSSP Miting de Avance',
+		name: 'PASABOG: CSSP Miting de Avance Day 2',
 		date: dayjs.tz('2025-05-09T15:00', 'Asia/Manila'),
 		tag: 'end'
 	},

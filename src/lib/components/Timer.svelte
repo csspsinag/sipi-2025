@@ -31,10 +31,12 @@
 		roundingMode: 'trunc'
 	};
 
-	let anchorTime: dayjs.Dayjs = $state(getContext('timeAnchor')!);
+	let anchorTimeGetter: () => dayjs.Dayjs = getContext('timeAnchor')!;
+	let anchorTime: dayjs.Dayjs = anchorTimeGetter();
+	let timezoneGuess: string = getContext('timeZoneGuess');
 	function updateDeterminer(): () => dayjs.Dayjs {
 		return () => {
-			return dayjs();
+			return anchorTime.tz(timezoneGuess);
 		};
 	}
 	const updater = updateDeterminer();
@@ -47,7 +49,7 @@
 		seconds: () => number;
 	} {
 		const electionCountdownInit = $derived(
-			dayjs.duration(dayjs(date).diff(anchorTime)).add(10, 'hour')
+			dayjs.duration(dayjs(date).diff(anchorTimeGetter().tz(timezoneGuess))).add(10, 'hour')
 		);
 		return {
 			months: () => electionCountdownInit.months(),
@@ -82,11 +84,15 @@
 			</div>
 			<p class="separator">:</p>
 		{/if}
-		<div class="countdown-display">
-			<NumberFlow value={countdown.days()} {format} trend="0" />
-			<p>Days</p>
-		</div>
-		<p class="separator">:</p>
+		{#if countdown.days() >= 0}
+			{#if countdown.months() >= 0}
+				<div class="countdown-display">
+					<NumberFlow value={countdown.days()} {format} trend="0" />
+					<p>Days</p>
+				</div>
+				<p class="separator">:</p>
+			{/if}
+		{/if}
 		<div class="countdown-display">
 			<NumberFlow value={countdown.hours()} {format} trend="0" />
 			<p>Hours</p>

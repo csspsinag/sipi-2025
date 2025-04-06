@@ -13,10 +13,10 @@
 	import timezone from 'dayjs/plugin/timezone.js';
 	dayjs.extend(utc);
 	dayjs.extend(timezone);
-	dayjs.tz.setDefault('Asia/Manila');
 
 	let timeAnchor = $state(dayjs());
-	setContext('timeAnchor', timeAnchor);
+	setContext('timeZoneGuess', dayjs.tz.guess());
+	setContext('timeAnchor', () => timeAnchor);
 
 	onMount(() => {
 		const interval = setInterval(() => {
