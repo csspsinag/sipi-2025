@@ -12,6 +12,7 @@
 	import utc from 'dayjs/plugin/utc.js';
 	import timezone from 'dayjs/plugin/timezone.js';
 	import BackToTop from '$lib/components/BackToTop.svelte';
+	import SinagBar from '$lib/components/SinagBar.svelte';
 	dayjs.extend(utc);
 	dayjs.extend(timezone);
 
@@ -57,6 +58,7 @@
 	<meta name="twitter:image" content="https://sinag.press/sipi/2025/sipi-wide.png" />
 </svelte:head>
 
+<SinagBar>SIPI 2025 Election Countdown</SinagBar>
 <div class="main-page">
 	<div class="central-timer">
 		<img src={sipiLogo} id="sipiLogo" />

@@ -146,6 +146,16 @@
 			}
 		}
 
+		:global(
+			[data-accordion-trigger]:focus,
+			[data-accordion-trigger]:active,
+			[data-accordion-trigger]:focus-within
+		) {
+			background-color: var(--level-color);
+			color: white;
+			border: none;
+		}
+
 		:global([data-accordion-trigger][data-state='open']) {
 			background-color: var(--level-color);
 			color: white;
@@ -199,16 +209,6 @@
 
 		:global([data-accordion-content][data-state='closed']) {
 			animation: accordionClose 300ms cubic-bezier(0.7, 0, 0.84, 0) forwards;
-		}
-
-		:global(
-			[data-accordion-content]:focus,
-			[data-accordion-content]:active,
-			[data-accordion-content]:focus-within
-		) {
-			background-color: var(--level-color);
-			color: white;
-			border: none;
 		}
 	}
 </style>
