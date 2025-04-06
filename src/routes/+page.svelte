@@ -11,6 +11,7 @@
 	import dayjs from 'dayjs';
 	import utc from 'dayjs/plugin/utc.js';
 	import timezone from 'dayjs/plugin/timezone.js';
+	import BackToTop from '$lib/components/BackToTop.svelte';
 	dayjs.extend(utc);
 	dayjs.extend(timezone);
 
@@ -67,6 +68,7 @@
 		<TimelineWrapper type="multiple" items={electionDates} />
 	</div>
 </div>
+<BackToTop />
 
 <style>
 	:global(body) {
