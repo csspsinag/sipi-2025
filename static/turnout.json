@@ -2,6 +2,10 @@
 	"turnoutTime": "2021-10-01T00:00:00.000Z",
 	"collegewideTurnoutCount": 583,
 	"collegewideTurnoutCountMax": 2296,
+	"undergradTurnoutCount": 550,
+	"undergradTurnoutCountMax": 1496,
+	"gradTurnoutCount": 33,
+	"gradTurnoutCountMax": 800,
 	"programTurnout": [
 		{
 			"program": "Anthropology",
