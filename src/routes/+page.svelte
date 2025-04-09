@@ -496,21 +496,9 @@
 		}
 
 		h2 {
-			margin-top: clamp(-0.5rem, 4vw, 4rem);
-			margin-bottom: clamp(-0.5rem, 4vw, 2rem);
+			margin-top: clamp(-0.5rem, 4vw, 3rem);
+			margin-bottom: calc(clamp(-0.5rem, 4vw, 3rem) * -1);
 			z-index: 1;
-		}
-
-		@media (max-width: 1500px) {
-			h2 {
-				margin-bottom: 0em;
-			}
-		}
-
-		@media (max-width: 1000px) {
-			h2 {
-				margin-bottom: -2em;
-			}
 		}
 	}
 
@@ -524,7 +512,7 @@
 	}
 
 	#sipiLogo {
-		width: 25vw;
+		height: clamp(10rem, 33vh, 20rem);
 		margin: -5rem 0 calc(clamp(-0.5rem, 4vw, 4rem) * -1) 0;
 		z-index: 2;
 	}

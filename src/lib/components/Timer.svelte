@@ -115,7 +115,7 @@
 		color: #d31f72;
 		font-variant-numeric: tabular-nums;
 
-		margin: -7% 0 -3%;
+		margin: calc(clamp(2rem, 4vw, 3rem) * -1) 0 -3%;
 		padding: 0;
 		width: 100%;
 
