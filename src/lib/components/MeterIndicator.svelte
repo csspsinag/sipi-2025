@@ -1,4 +1,40 @@
 <script lang="ts">
+	import NumberFlow, { NumberFlowGroup } from '@number-flow/svelte';
+	import { Meter, useId } from 'bits-ui';
+	import type { ComponentProps } from 'svelte';
+	import { onMount } from 'svelte';
+
+	let {
+		max = 100,
+		value = 0,
+		min = 0,
+		count = 0,
+		countMax = 0,
+		label,
+		valueLabel
+	}: ComponentProps<typeof Meter.Root> & {
+		count: number;
+		countMax: number;
+		label: string;
+		valueLabel: string;
+	} = $props();
+
+	const labelId = useId();
+
+	let mainTurnoutLabel = $state({ number: 0.0 });
+	let mainTurnoutCount = $state({ number: 0.0 });
+	let mainTurnoutCountMax = $state({ number: 0.0 });
+	function rollUp(stateVar: { number: number }, value: number) {
+		stateVar.number = value;
+	}
+
+	onMount(() => {
+		setInterval(() => {
+			rollUp(mainTurnoutLabel, value / 100);
+			rollUp(mainTurnoutCount, count);
+			rollUp(mainTurnoutCountMax, countMax);
+		}, 1000);
+	});
 </script>
 
 <div class="container-lock">

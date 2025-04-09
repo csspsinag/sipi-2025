@@ -103,10 +103,24 @@
 	.container-lock {
 		container-type: inline-size;
 		width: 100%;
+		position: relative;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
+		gap: 0;
+
+		.pointer-arrow {
+			content: '';
+			position: relative;
+			top: 0;
+			left: 0;
+			width: 0;
+			height: 0;
+			border-left: 0.5rem solid transparent;
+			border-right: 0.5rem solid transparent;
+			border-bottom: 0.5rem solid #880039;
+		}
 	}
 
 	:is(.percentage-map) {
@@ -120,7 +134,7 @@
 		width: max-content;
 		padding: clamp(0.25rem, 2vw, 0.5rem) clamp(0.125rem, 1vw, 0.75rem) clamp(0.25rem, 2vw, 0.5rem)
 			clamp(0.25rem, 2vw, 1rem);
-		margin: 0.25rem 0 0;
+		margin: 0;
 
 		font-variant-numeric: tabular-nums;
 		font-family: 'Hanken Grotesk', sans-serif;
@@ -133,16 +147,6 @@
 		box-shadow: 0 0.25rem 1rem rgba(122, 122, 122, 0.596);
 
 		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.3s;
-
-		.pointer-arrow {
-			position: absolute;
-			width: 5px;
-			height: 5px;
-			border-left: 0.5rem solid transparent;
-			border-right: 0.5rem solid transparent;
-			border-bottom: 0.5rem solid #ffe8a3;
-			transform: translateX(-50%) translateY(-50%);
-		}
 
 		p {
 			margin: 0;
