@@ -2,7 +2,6 @@
 	import { electionDates, electionDatesLookup } from '$lib/dates';
 	import sipiLogo from '$lib/img/sipi25-logo+year.png';
 	import Timer from '$lib/components/Timer.svelte';
-	import TimelineWrapper from '$lib/components/TimelineWrapper.svelte';
 	import '$lib/app.css';
 
 	import { onMount } from 'svelte';
@@ -13,16 +12,72 @@
 	import timezone from 'dayjs/plugin/timezone.js';
 	import BackToTop from '$lib/components/BackToTop.svelte';
 	import SinagBar from '$lib/components/SinagBar.svelte';
-	import { Meter } from 'bits-ui';
 	import MeterBar from '$lib/components/MeterBar.svelte';
+	import FullIndicator from '$lib/components/FullIndicator.svelte';
 	dayjs.extend(utc);
 	dayjs.extend(timezone);
 
 	const SECOND = 1000;
+	const subjectColors = {
+		anthropology: {
+			color: '#de1d1d',
+			lightColor: '#f05b5b',
+			emptyColor: '#fcdede'
+		},
+		geografia: {
+			color: '#399c13',
+			lightColor: '#53bd2a',
+			emptyColor: '#edffe6'
+		},
+		kasaysayan: {
+			color: '#db9b23',
+			lightColor: '#f5b642',
+			emptyColor: '#fff4e0'
+		},
+		linguistics: {
+			color: '#15bd96',
+			lightColor: '#35e6bc',
+			emptyColor: '#ccf0e7'
+		},
+		philosophy: {
+			color: '#ebc610',
+			lightColor: '#53532a',
+			emptyColor: '#fff9de'
+		},
+		politicalScience: {
+			color: '#391d1d',
+			lightColor: '#ffe045',
+			emptyColor: '#ede6e6'
+		},
+		psychology: {
+			color: '#391d39',
+			lightColor: '#532a53',
+			emptyColor: '#ede6ed'
+		},
+		sociology: {
+			color: '#1d1d39',
+			lightColor: '#2a2a53',
+			emptyColor: '#e6e6ed'
+		},
+		nonMajor: {
+			color: '#39391d',
+			lightColor: '#53532a',
+			emptyColor: '#ede6e6'
+		},
+		populationInstitute: {
+			color: '#391d39',
+			lightColor: '#532a53',
+			emptyColor: '#ede6ed'
+		}
+	};
 
 	async function fetchTurnoutData(): Promise<{
 		collegewideTurnoutCount: number;
 		collegewideTurnoutCountMax: number;
+		undergradTurnoutCount: number;
+		undergradTurnoutCountMax: number;
+		gradTurnoutCount: number;
+		gradTurnoutCountMax: number;
 		programTurnout: {
 			program: string;
 			type: string;
@@ -42,6 +97,10 @@
 	let turnoutData = $state({
 		collegewideTurnoutCount: 0,
 		collegewideTurnoutCountMax: 1,
+		undergradTurnoutCount: 0,
+		undergradTurnoutCountMax: 1,
+		gradTurnoutCount: 0,
+		gradTurnoutCountMax: 1,
 		programTurnout: [
 			{
 				program: 'Anthropology',
@@ -153,7 +212,7 @@
 			}
 		]
 	});
-	let turnoutPlaceholder = $state(() => {
+	let turnoutResult = $state(() => {
 		return {
 			collegewide: {
 				value: 0,
@@ -276,7 +335,7 @@
 		return returnObject;
 	}
 
-	turnoutPlaceholder = () => {
+	turnoutResult = () => {
 		return {
 			collegewide: {
 				value: (turnoutData.collegewideTurnoutCount / turnoutData.collegewideTurnoutCountMax) * 100,
@@ -284,7 +343,7 @@
 				valueLabel: `${turnoutData.collegewideTurnoutCount} / ${turnoutData.collegewideTurnoutCountMax}`,
 				count: turnoutData.collegewideTurnoutCount,
 				countMax: turnoutData.collegewideTurnoutCountMax,
-				label: 'CSSP turnout'
+				label: 'CSSP% voted'
 			},
 			anthropology: turnoutBreakdownLookup('Anthropology') ?? {
 				value: 0,
@@ -377,8 +436,7 @@
 		const turnoutCheck = setInterval(async () => {
 			const fetch = await fetchTurnoutData();
 			turnoutData = fetch;
-			console.log('Checking... (every minute)');
-		}, 5 * SECOND);
+		}, 1 * SECOND);
 
 		return () => {
 			clearInterval(interval);
@@ -420,7 +478,8 @@
 		<img src={sipiLogo} id="sipiLogo" />
 
 		<div class="bar-clamp">
-			<MeterBar {...turnoutPlaceholder().collegewide} />
+			<MeterBar {...turnoutResult().collegewide} />
+			<FullIndicator data={() => turnoutData} lookup="Collegewide" />
 		</div>
 		<h2>Time Until CSSP Election End</h2>
 		<Timer date={electionDatesLookup.get('updElectionEnd')!.date} />
@@ -428,16 +487,16 @@
 </div>
 
 <div class="under-fold">
-	<MeterBar {...turnoutPlaceholder().anthropology} />
-	<MeterBar {...turnoutPlaceholder().geografia} />
-	<MeterBar {...turnoutPlaceholder().kasaysayan} />
-	<MeterBar {...turnoutPlaceholder().linguistics} />
-	<MeterBar {...turnoutPlaceholder().philosophy} />
-	<MeterBar {...turnoutPlaceholder().politicalScience} />
-	<MeterBar {...turnoutPlaceholder().psychology} />
-	<MeterBar {...turnoutPlaceholder().sociology} />
-	<MeterBar {...turnoutPlaceholder().nonMajor} />
-	<MeterBar {...turnoutPlaceholder().populationInstitute} />
+	<MeterBar {...turnoutResult().anthropology} {...subjectColors.anthropology} />
+	<MeterBar {...turnoutResult().geografia} {...subjectColors.geografia} />
+	<MeterBar {...turnoutResult().kasaysayan} {...subjectColors.kasaysayan} />
+	<MeterBar {...turnoutResult().linguistics} {...subjectColors.linguistics} />
+	<MeterBar {...turnoutResult().philosophy} {...subjectColors.philosophy} />
+	<MeterBar {...turnoutResult().politicalScience} {...subjectColors.politicalScience} />
+	<MeterBar {...turnoutResult().psychology} {...subjectColors.psychology} />
+	<MeterBar {...turnoutResult().sociology} {...subjectColors.sociology} />
+	<MeterBar {...turnoutResult().nonMajor} {...subjectColors.nonMajor} />
+	<MeterBar {...turnoutResult().populationInstitute} {...subjectColors.populationInstitute} />
 </div>
 <BackToTop />
 
