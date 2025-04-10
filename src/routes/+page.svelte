@@ -106,200 +106,452 @@
 				program: 'Anthropology',
 				type: 'Undergraduate',
 				turnoutCount: 0,
-				turnoutCountMax: 2628
+				turnoutCountMax: 1
 			},
 			{
 				program: 'Anthropology',
 				type: 'Graduate',
 				turnoutCount: 0,
-				turnoutCountMax: 2628
+				turnoutCountMax: 1
 			},
 			{
 				program: 'Geografia',
 				type: 'Undergraduate',
 				turnoutCount: 0,
-				turnoutCountMax: 2628
+				turnoutCountMax: 1
 			},
 			{
 				program: 'Geografia',
 				type: 'Graduate',
 				turnoutCount: 0,
-				turnoutCountMax: 2628
+				turnoutCountMax: 1
 			},
 			{
 				program: 'Kasaysayan',
 				type: 'Undergraduate',
 				turnoutCount: 0,
-				turnoutCountMax: 2628
+				turnoutCountMax: 1
 			},
 			{
 				program: 'Kasaysayan',
 				type: 'Graduate',
 				turnoutCount: 0,
-				turnoutCountMax: 2628
+				turnoutCountMax: 1
 			},
 			{
 				program: 'Linguistics',
 				type: 'Undergraduate',
 				turnoutCount: 0,
-				turnoutCountMax: 2628
+				turnoutCountMax: 1
 			},
 			{
 				program: 'Linguistics',
 				type: 'Graduate',
 				turnoutCount: 0,
-				turnoutCountMax: 2628
+				turnoutCountMax: 1
 			},
 			{
 				program: 'Philosophy',
 				type: 'Undergraduate',
 				turnoutCount: 0,
-				turnoutCountMax: 2628
+				turnoutCountMax: 1
 			},
 			{
 				program: 'Philosophy',
 				type: 'Graduate',
 				turnoutCount: 0,
-				turnoutCountMax: 2628
+				turnoutCountMax: 1
 			},
 			{
 				program: 'Political Science',
 				type: 'Undergraduate',
 				turnoutCount: 0,
-				turnoutCountMax: 2628
+				turnoutCountMax: 1
 			},
 			{
 				program: 'Political Science',
 				type: 'Graduate',
 				turnoutCount: 0,
-				turnoutCountMax: 2628
+				turnoutCountMax: 1
 			},
 			{
 				program: 'Psychology',
 				type: 'Undergraduate',
 				turnoutCount: 0,
-				turnoutCountMax: 2628
+				turnoutCountMax: 1
 			},
 			{
 				program: 'Psychology',
 				type: 'Graduate',
 				turnoutCount: 0,
-				turnoutCountMax: 2628
+				turnoutCountMax: 1
 			},
 			{
 				program: 'Sociology',
 				type: 'Undergraduate',
 				turnoutCount: 0,
-				turnoutCountMax: 2628
+				turnoutCountMax: 1
 			},
 			{
 				program: 'Sociology',
 				type: 'Graduate',
 				turnoutCount: 0,
-				turnoutCountMax: 2628
+				turnoutCountMax: 1
 			},
 			{
 				program: 'Non-Major',
 				type: 'Undergraduate',
 				turnoutCount: 0,
-				turnoutCountMax: 2628
+				turnoutCountMax: 1
 			},
 			{
 				program: 'Population Institute',
 				type: 'Graduate',
 				turnoutCount: 0,
-				turnoutCountMax: 2628
+				turnoutCountMax: 1
 			}
 		]
 	});
-	let turnoutResult = $state(() => {
+	let turnoutResult: () => {
+		[key: string]: {
+			value: number;
+			max: number;
+			valueLabel: string;
+			count: () => number;
+			countMax: () => number;
+			label: string;
+		};
+	} = $state(() => {
 		return {
 			collegewide: {
 				value: 0,
 				max: 1,
 				valueLabel: '0',
-				count: 0,
-				countMax: 1,
+				count: () => 0,
+				countMax: () => 1,
 				label: 'CSSP turnout'
 			},
 			anthropology: {
 				value: 0,
 				max: 1,
 				valueLabel: '0',
-				count: 0,
-				countMax: 1,
+				count: () => 0,
+				countMax: () => 1,
 				label: 'Anthropology'
 			},
 			geografia: {
 				value: 0,
 				max: 1,
 				valueLabel: '0',
-				count: 0,
-				countMax: 1,
+				count: () => 0,
+				countMax: () => 1,
 				label: 'Geografia'
 			},
 			kasaysayan: {
 				value: 0,
 				max: 1,
 				valueLabel: '0',
-				count: 0,
-				countMax: 1,
+				count: () => 0,
+				countMax: () => 1,
 				label: 'Kasaysayan'
 			},
 			linguistics: {
 				value: 0,
 				max: 1,
 				valueLabel: '0',
-				count: 0,
-				countMax: 1,
+				count: () => 0,
+				countMax: () => 1,
 				label: 'Linguistics'
 			},
 			philosophy: {
 				value: 0,
 				max: 1,
 				valueLabel: '0',
-				count: 0,
-				countMax: 1,
+				count: () => 0,
+				countMax: () => 1,
 				label: 'Philosophy'
 			},
 			politicalScience: {
 				value: 0,
 				max: 1,
 				valueLabel: '0',
-				count: 0,
-				countMax: 1,
+				count: () => 0,
+				countMax: () => 1,
 				label: 'Political Science'
 			},
 			psychology: {
 				value: 0,
 				max: 1,
 				valueLabel: '0',
-				count: 0,
-				countMax: 1,
+				count: () => 0,
+				countMax: () => 1,
 				label: 'Psychology'
 			},
 			sociology: {
 				value: 0,
 				max: 1,
 				valueLabel: '0',
-				count: 0,
-				countMax: 1,
+				count: () => 0,
+				countMax: () => 1,
 				label: 'Sociology'
 			},
 			nonMajor: {
 				value: 0,
 				max: 1,
 				valueLabel: '0',
-				count: 0,
-				countMax: 1,
+				count: () => 0,
+				countMax: () => 1,
 				label: 'Non-Major'
 			},
 			populationInstitute: {
 				value: 0,
 				max: 1,
 				valueLabel: '0',
-				count: 0,
-				countMax: 1,
+				count: () => 0,
+				countMax: () => 1,
+				label: 'Population Institute'
+			}
+		};
+	});
+
+	async function fetchTurnoutDataLast(): Promise<{
+		collegewideTurnoutCount: number;
+		collegewideTurnoutCountMax: number;
+		undergradTurnoutCount: number;
+		undergradTurnoutCountMax: number;
+		gradTurnoutCount: number;
+		gradTurnoutCountMax: number;
+		programTurnout: {
+			program: string;
+			type: string;
+			turnoutCount: number;
+			turnoutCountMax: number;
+		}[];
+	}> {
+		return fetch('turnout-old.json')
+			.then((response) => response.json())
+			.then((data) => {
+				return data;
+			})
+			.catch((error) => {
+				console.error(error);
+			});
+	}
+	let turnoutDataLast = $state({
+		collegewideTurnoutCount: 0,
+		collegewideTurnoutCountMax: 1,
+		undergradTurnoutCount: 0,
+		undergradTurnoutCountMax: 1,
+		gradTurnoutCount: 0,
+		gradTurnoutCountMax: 1,
+		programTurnout: [
+			{
+				program: 'Anthropology',
+				type: 'Undergraduate',
+				turnoutCount: 0,
+				turnoutCountMax: 1
+			},
+			{
+				program: 'Anthropology',
+				type: 'Graduate',
+				turnoutCount: 0,
+				turnoutCountMax: 1
+			},
+			{
+				program: 'Geografia',
+				type: 'Undergraduate',
+				turnoutCount: 0,
+				turnoutCountMax: 1
+			},
+			{
+				program: 'Geografia',
+				type: 'Graduate',
+				turnoutCount: 0,
+				turnoutCountMax: 1
+			},
+			{
+				program: 'Kasaysayan',
+				type: 'Undergraduate',
+				turnoutCount: 0,
+				turnoutCountMax: 1
+			},
+			{
+				program: 'Kasaysayan',
+				type: 'Graduate',
+				turnoutCount: 0,
+				turnoutCountMax: 1
+			},
+			{
+				program: 'Linguistics',
+				type: 'Undergraduate',
+				turnoutCount: 0,
+				turnoutCountMax: 1
+			},
+			{
+				program: 'Linguistics',
+				type: 'Graduate',
+				turnoutCount: 0,
+				turnoutCountMax: 1
+			},
+			{
+				program: 'Philosophy',
+				type: 'Undergraduate',
+				turnoutCount: 0,
+				turnoutCountMax: 1
+			},
+			{
+				program: 'Philosophy',
+				type: 'Graduate',
+				turnoutCount: 0,
+				turnoutCountMax: 1
+			},
+			{
+				program: 'Political Science',
+				type: 'Undergraduate',
+				turnoutCount: 0,
+				turnoutCountMax: 1
+			},
+			{
+				program: 'Political Science',
+				type: 'Graduate',
+				turnoutCount: 0,
+				turnoutCountMax: 1
+			},
+			{
+				program: 'Psychology',
+				type: 'Undergraduate',
+				turnoutCount: 0,
+				turnoutCountMax: 1
+			},
+			{
+				program: 'Psychology',
+				type: 'Graduate',
+				turnoutCount: 0,
+				turnoutCountMax: 1
+			},
+			{
+				program: 'Sociology',
+				type: 'Undergraduate',
+				turnoutCount: 0,
+				turnoutCountMax: 1
+			},
+			{
+				program: 'Sociology',
+				type: 'Graduate',
+				turnoutCount: 0,
+				turnoutCountMax: 1
+			},
+			{
+				program: 'Non-Major',
+				type: 'Undergraduate',
+				turnoutCount: 0,
+				turnoutCountMax: 1
+			},
+			{
+				program: 'Population Institute',
+				type: 'Graduate',
+				turnoutCount: 0,
+				turnoutCountMax: 1
+			}
+		]
+	});
+	let turnoutResultLast: () => {
+		[key: string]: {
+			value: number;
+			max: number;
+			valueLabel: string;
+			count: () => number;
+			countMax: () => number;
+			label: string;
+		};
+	} = $state(() => {
+		return {
+			collegewide: {
+				value: 0,
+				max: 1,
+				valueLabel: '0',
+				count: () => 0,
+				countMax: () => 1,
+				label: 'CSSP turnout'
+			},
+			anthropology: {
+				value: 0,
+				max: 1,
+				valueLabel: '0',
+				count: () => 0,
+				countMax: () => 1,
+				label: 'Anthropology'
+			},
+			geografia: {
+				value: 0,
+				max: 1,
+				valueLabel: '0',
+				count: () => 0,
+				countMax: () => 1,
+				label: 'Geografia'
+			},
+			kasaysayan: {
+				value: 0,
+				max: 1,
+				valueLabel: '0',
+				count: () => 0,
+				countMax: () => 1,
+				label: 'Kasaysayan'
+			},
+			linguistics: {
+				value: 0,
+				max: 1,
+				valueLabel: '0',
+				count: () => 0,
+				countMax: () => 1,
+				label: 'Linguistics'
+			},
+			philosophy: {
+				value: 0,
+				max: 1,
+				valueLabel: '0',
+				count: () => 0,
+				countMax: () => 1,
+				label: 'Philosophy'
+			},
+			politicalScience: {
+				value: 0,
+				max: 1,
+				valueLabel: '0',
+				count: () => 0,
+				countMax: () => 1,
+				label: 'Political Science'
+			},
+			psychology: {
+				value: 0,
+				max: 1,
+				valueLabel: '0',
+				count: () => 0,
+				countMax: () => 1,
+				label: 'Psychology'
+			},
+			sociology: {
+				value: 0,
+				max: 1,
+				valueLabel: '0',
+				count: () => 0,
+				countMax: () => 1,
+				label: 'Sociology'
+			},
+			nonMajor: {
+				value: 0,
+				max: 1,
+				valueLabel: '0',
+				count: () => 0,
+				countMax: () => 1,
+				label: 'Non-Major'
+			},
+			populationInstitute: {
+				value: 0,
+				max: 1,
+				valueLabel: '0',
+				count: () => 0,
+				countMax: () => 1,
 				label: 'Population Institute'
 			}
 		};
@@ -309,119 +561,214 @@
 	setContext('timeZoneGuess', dayjs.tz.guess());
 	setContext('timeAnchor', () => timeAnchor);
 
-	function turnoutBreakdownLookup(program: string): any {
+	function turnoutBreakdownLookup(source: typeof turnoutData, program: string) {
 		let returnObject = {
 			value: 0,
-			max: 2628,
+			max: 1,
 			valueLabel: '0',
-			count: 0,
-			countMax: 2628,
+			count: () => 0,
+			countMax: () => 1,
 			label: ''
 		};
 
-		returnObject.count = turnoutData.programTurnout
-			.filter((turnout) => turnout.program === program)
-			.flatMap((turnout) => turnout.turnoutCount)
-			.reduce((a, b) => a + b);
-		returnObject.countMax = turnoutData.programTurnout
-			.filter((turnout) => turnout.program === program)
-			.flatMap((turnout) => turnout.turnoutCountMax)
-			.reduce((a, b) => a + b);
-		returnObject.value = (returnObject.count / returnObject.countMax) * 100;
-		returnObject.max = returnObject.countMax;
+		returnObject.count = () =>
+			source.programTurnout
+				.filter((turnout) => turnout.program === program)
+				.flatMap((turnout) => turnout.turnoutCount)
+				.reduce((a, b) => a + b);
+		returnObject.countMax = () =>
+			source.programTurnout
+				.filter((turnout) => turnout.program === program)
+				.flatMap((turnout) => turnout.turnoutCountMax)
+				.reduce((a, b) => a + b);
+		returnObject.value = (returnObject.count() / returnObject.countMax()) * 100;
+		returnObject.max = returnObject.countMax();
 		returnObject.valueLabel = `${returnObject.value} / ${returnObject.max}`;
 		returnObject.label = program;
 
 		return returnObject;
 	}
-
 	turnoutResult = () => {
 		return {
 			collegewide: {
 				value: (turnoutData.collegewideTurnoutCount / turnoutData.collegewideTurnoutCountMax) * 100,
 				max: turnoutData.collegewideTurnoutCountMax,
 				valueLabel: `${turnoutData.collegewideTurnoutCount} / ${turnoutData.collegewideTurnoutCountMax}`,
-				count: turnoutData.collegewideTurnoutCount,
-				countMax: turnoutData.collegewideTurnoutCountMax,
+				count: () => turnoutData.collegewideTurnoutCount,
+				countMax: () => turnoutData.collegewideTurnoutCountMax,
 				label: 'CSSP% voted'
 			},
-			anthropology: turnoutBreakdownLookup('Anthropology') ?? {
+			anthropology: turnoutBreakdownLookup(turnoutData, 'Anthropology') ?? {
 				value: 0,
 				max: 1,
 				valueLabel: '0',
-				count: 0,
-				countMax: 1,
+				count: () => 0,
+				countMax: () => 1,
 				label: 'Anthropology'
 			},
-			geografia: turnoutBreakdownLookup('Geografia') ?? {
+			geografia: turnoutBreakdownLookup(turnoutData, 'Geografia') ?? {
 				value: 0,
 				max: 1,
 				valueLabel: '0',
-				count: 0,
-				countMax: 1,
+				count: () => 0,
+				countMax: () => 1,
 				label: 'Geografia'
 			},
-			kasaysayan: turnoutBreakdownLookup('Kasaysayan') ?? {
+			kasaysayan: turnoutBreakdownLookup(turnoutData, 'Kasaysayan') ?? {
 				value: 0,
 				max: 1,
 				valueLabel: '0',
-				count: 0,
-				countMax: 1,
+				count: () => 0,
+				countMax: () => 1,
 				label: 'Kasaysayan'
 			},
-			linguistics: turnoutBreakdownLookup('Linguistics') ?? {
+			linguistics: turnoutBreakdownLookup(turnoutData, 'Linguistics') ?? {
 				value: 0,
 				max: 1,
 				valueLabel: '0',
-				count: 0,
-				countMax: 1,
+				count: () => 0,
+				countMax: () => 1,
 				label: 'Linguistics'
 			},
-			philosophy: turnoutBreakdownLookup('Philosophy') ?? {
+			philosophy: turnoutBreakdownLookup(turnoutData, 'Philosophy') ?? {
 				value: 0,
 				max: 1,
 				valueLabel: '0',
-				count: 0,
-				countMax: 1,
+				count: () => 0,
+				countMax: () => 1,
 				label: 'Philosophy'
 			},
-			politicalScience: turnoutBreakdownLookup('Political Science') ?? {
+			politicalScience: turnoutBreakdownLookup(turnoutData, 'Political Science') ?? {
 				value: 0,
 				max: 1,
 				valueLabel: '0',
-				count: 0,
-				countMax: 1,
+				count: () => 0,
+				countMax: () => 1,
 				label: 'Political Science'
 			},
-			psychology: turnoutBreakdownLookup('Psychology') ?? {
+			psychology: turnoutBreakdownLookup(turnoutData, 'Psychology') ?? {
 				value: 0,
 				max: 1,
 				valueLabel: '0',
-				count: 0,
-				countMax: 1
+				count: () => 0,
+				countMax: () => 1
 			},
-			sociology: turnoutBreakdownLookup('Sociology') ?? {
+			sociology: turnoutBreakdownLookup(turnoutData, 'Sociology') ?? {
 				value: 0,
 				max: 1,
 				valueLabel: '0',
-				count: 0,
-				countMax: 1,
+				count: () => 0,
+				countMax: () => 1,
 				label: 'Sociology'
 			},
-			nonMajor: turnoutBreakdownLookup('Non-Major') ?? {
+			nonMajor: turnoutBreakdownLookup(turnoutData, 'Non-Major') ?? {
 				value: 0,
 				max: 1,
 				valueLabel: '0',
-				count: 0,
-				countMax: 1,
+				count: () => 0,
+				countMax: () => 1,
 				label: 'Non-Major'
 			},
-			populationInstitute: turnoutBreakdownLookup('Population Institute') ?? {
+			populationInstitute: turnoutBreakdownLookup(turnoutData, 'Population Institute') ?? {
 				value: 0,
 				max: 1,
 				valueLabel: '0',
-				count: 0,
-				countMax: 1,
+				count: () => 0,
+				countMax: () => 1,
+				label: 'Population Institute'
+			}
+		};
+	};
+
+	turnoutResultLast = () => {
+		return {
+			collegewide: {
+				value:
+					(turnoutDataLast.collegewideTurnoutCount / turnoutDataLast.collegewideTurnoutCountMax) *
+					100,
+				max: turnoutDataLast.collegewideTurnoutCountMax,
+				valueLabel: `${turnoutDataLast.collegewideTurnoutCount} / ${turnoutDataLast.collegewideTurnoutCountMax}`,
+				count: () => turnoutDataLast.collegewideTurnoutCount,
+				countMax: () => turnoutDataLast.collegewideTurnoutCountMax,
+				label: 'CSSP% voted'
+			},
+			anthropology: turnoutBreakdownLookup(turnoutDataLast, 'Anthropology') ?? {
+				value: 0,
+				max: 1,
+				valueLabel: '0',
+				count: () => 0,
+				countMax: () => 1,
+				label: 'Anthropology'
+			},
+			geografia: turnoutBreakdownLookup(turnoutDataLast, 'Geografia') ?? {
+				value: 0,
+				max: 1,
+				valueLabel: '0',
+				count: () => 0,
+				countMax: () => 1,
+				label: 'Geografia'
+			},
+			kasaysayan: turnoutBreakdownLookup(turnoutDataLast, 'Kasaysayan') ?? {
+				value: 0,
+				max: 1,
+				valueLabel: '0',
+				count: () => 0,
+				countMax: () => 1,
+				label: 'Kasaysayan'
+			},
+			linguistics: turnoutBreakdownLookup(turnoutDataLast, 'Linguistics') ?? {
+				value: 0,
+				max: 1,
+				valueLabel: '0',
+				count: () => 0,
+				countMax: () => 1,
+				label: 'Linguistics'
+			},
+			philosophy: turnoutBreakdownLookup(turnoutDataLast, 'Philosophy') ?? {
+				value: 0,
+				max: 1,
+				valueLabel: '0',
+				count: () => 0,
+				countMax: () => 1,
+				label: 'Philosophy'
+			},
+			politicalScience: turnoutBreakdownLookup(turnoutDataLast, 'Political Science') ?? {
+				value: 0,
+				max: 1,
+				valueLabel: '0',
+				count: () => 0,
+				countMax: () => 1,
+				label: 'Political Science'
+			},
+			psychology: turnoutBreakdownLookup(turnoutDataLast, 'Psychology') ?? {
+				value: 0,
+				max: 1,
+				valueLabel: '0',
+				count: () => 0,
+				countMax: () => 1
+			},
+			sociology: turnoutBreakdownLookup(turnoutDataLast, 'Sociology') ?? {
+				value: 0,
+				max: 1,
+				valueLabel: '0',
+				count: () => 0,
+				countMax: () => 1,
+				label: 'Sociology'
+			},
+			nonMajor: turnoutBreakdownLookup(turnoutDataLast, 'Non-Major') ?? {
+				value: 0,
+				max: 1,
+				valueLabel: '0',
+				count: () => 0,
+				countMax: () => 1,
+				label: 'Non-Major'
+			},
+			populationInstitute: turnoutBreakdownLookup(turnoutDataLast, 'Population Institute') ?? {
+				value: 0,
+				max: 1,
+				valueLabel: '0',
+				count: () => 0,
+				countMax: () => 1,
 				label: 'Population Institute'
 			}
 		};
@@ -430,11 +777,12 @@
 	onMount(() => {
 		const interval = setInterval(() => {
 			timeAnchor = dayjs();
-			console.log('Checking... (every second)');
 		}, 1 * SECOND);
 
 		const turnoutCheck = setInterval(async () => {
 			const fetch = await fetchTurnoutData();
+			const fetchLast = await fetchTurnoutDataLast();
+			turnoutDataLast = fetchLast;
 			turnoutData = fetch;
 		}, 1 * SECOND);
 
@@ -479,7 +827,16 @@
 
 		<div class="bar-clamp">
 			<MeterBar {...turnoutResult().collegewide} />
-			<FullIndicator data={() => turnoutData} lookup="Collegewide" />
+			<FullIndicator
+				data={() => turnoutData}
+				oldData={() => turnoutDataLast}
+				lookup="Collegewide"
+			/>
+			<FullIndicator
+				data={() => turnoutData}
+				oldData={() => turnoutDataLast}
+				lookup="Anthropology"
+			/>
 		</div>
 		<h2>Time Until CSSP Election End</h2>
 		<Timer date={electionDatesLookup.get('updElectionEnd')!.date} />
@@ -566,6 +923,9 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
+		margin: 0 auto;
+		gap: 3rem;
+		width: 60%;
 
 		margin-top: clamp(-0.5rem, 4vw, 4rem);
 	}

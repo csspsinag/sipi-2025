@@ -9,16 +9,16 @@
 		max = 100,
 		value = 0,
 		min = 0,
-		count = 0,
-		countMax = 0,
+		count = () => 0,
+		countMax = () => 0,
 		label,
 		valueLabel,
 		color = '#e63386',
 		lightColor = '#880039',
 		emptyColor = '#eec6d8'
 	}: ComponentProps<typeof Meter.Root> & {
-		count: number;
-		countMax: number;
+		count: () => number;
+		countMax: () => number;
 		label: string;
 		valueLabel: string;
 		color?: string;
@@ -39,17 +39,18 @@
 		}, 1000);
 	});
 
-	const indicatorProps: ComponentProps<typeof MeterIndicator> & {
-		count: number;
-		countMax: number;
+	const indicatorProps: {
+		value: () => number;
+		count: () => number;
+		countMax: () => number;
 		label: string;
 		color: string;
 		lightColor: string;
 		emptyColor: string;
 	} = {
 		value: () => value,
-		count: () => count,
-		countMax: () => countMax,
+		count: count,
+		countMax: countMax,
 		label,
 		color,
 		lightColor,

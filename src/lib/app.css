@@ -16,7 +16,6 @@ textarea {
 	margin-left: -0.25rem;
 	font-size: 60%;
 	font-weight: 600;
-	font-variant-numeric: normal !important;
 	font-variation-settings:
 		'wdth' 75,
 		'opsz' 96;
@@ -25,4 +24,14 @@ textarea {
 number-flow-svelte {
 	font-variant-numeric: tabular-nums;
 	font-family: 'Bricolage Grotesque', sans-serif !important;
+}
+
+number-flow-svelte::part(suffix) {
+	font-size: 70%;
+	vertical-align: baseline;
+	opacity: 0.5;
+	text-transform: uppercase;
+	font-variation-settings:
+		'wdth' 85,
+		'opsz' 96;
 }

@@ -1,18 +1,17 @@
 <script lang="ts">
 	import NumberFlow, { NumberFlowGroup } from '@number-flow/svelte';
-	import { Meter, useId } from 'bits-ui';
-	import type { ComponentProps } from 'svelte';
 	import { onMount } from 'svelte';
 
 	let {
-		value = 0,
-		count = 0,
-		countMax = 0,
+		value = () => 0,
+		count = () => 0,
+		countMax = () => 0,
 		label,
 		includeLabel = true
-	}: ComponentProps<typeof Meter.Root> & {
-		count: number | (() => number);
-		countMax: number | (() => number);
+	}: {
+		value: () => number;
+		count: () => number;
+		countMax: () => number;
 		label: string;
 		includeLabel?: boolean;
 	} = $props();
