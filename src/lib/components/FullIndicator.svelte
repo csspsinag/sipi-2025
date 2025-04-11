@@ -1,13 +1,12 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import NumberFlow, { NumberFlowGroup } from '@number-flow/svelte';
-	import { Meter, useId } from 'bits-ui';
-	import type { ComponentProps } from 'svelte';
 	import { decimalize } from '$lib/decimalizer';
 
 	let {
 		data,
 		oldData,
+		color,
 		lookup = 'Collegewide'
 	}: {
 		data: () => {
@@ -37,6 +36,11 @@
 				turnoutCount: number;
 				turnoutCountMax: number;
 			}[];
+		};
+		color: {
+			color: string;
+			lightColor: string;
+			emptyColor: string;
 		};
 		lookup:
 			| 'Collegewide'
@@ -275,7 +279,10 @@
 	});
 </script>
 
-<div class="container-lock">
+<div
+	class="container-lock"
+	style="--color: {color.color}; --light-color: {color.lightColor}; --empty-color: {color.emptyColor}"
+>
 	<NumberFlowGroup>
 		<h2>{lookupResult.label}</h2>
 		<div class="percentage">
@@ -283,19 +290,19 @@
 				value={decimalize((lookupResult.turnoutResult / lookupResult.turnoutMax) * 100, 2).value}
 				format={'00'}
 			/><span class="decimal-percent"
-				>.<NumberFlow
+				><NumberFlow
 					value={decimalize((lookupResult.turnoutResult / lookupResult.turnoutMax) * 100, 2)
 						.decimals}
+					prefix={'.'}
 					format={'00'}
 				/>%</span
 			>
 		</div>
 		<div class="turnout-numbers">
 			<div class="turnout-number">
-				<NumberFlow value={lookupResult.turnoutResult} format={'0'} />/<NumberFlow
-					value={lookupResult.turnoutMax}
-					format={'0'}
-				/>
+				<NumberFlow value={lookupResult.turnoutResult} format={'0'} /><span class="decimal-percent"
+					><NumberFlow value={lookupResult.turnoutMax} prefix={'/'} format={'0'} /></span
+				>
 			</div>
 		</div>
 		<div class="turnout-difference">
@@ -304,8 +311,8 @@
 				style={lookupResult.turnoutResult / lookupResult.turnoutMax -
 					lookupResultLast.turnoutResult / lookupResultLast.turnoutMax >
 				0
-					? 'color: green'
-					: 'color: red'}
+					? 'color: #00f200'
+					: 'color: #ff3021'}
 			>
 				<NumberFlow
 					value={lookupResult.turnoutResult / lookupResult.turnoutMax -
@@ -337,8 +344,10 @@
 				/> GD
 				<div
 					class="ugg-split-fill"
-					style="transform: translateX(calc(-{lookupResult.undergradTurnout /
-						lookupResult.turnoutResult}%))"
+					style="transform: translateX(calc({(lookupResult.undergradTurnout /
+						lookupResult.turnoutResult -
+						1) *
+						100}%))"
 				></div>
 			</div>
 		{:else}
@@ -359,8 +368,8 @@
 					style={lookupResult.turnoutResult / lookupTurnout('Collegewide').turnoutResult -
 						lookupResult.turnoutMax / lookupTurnout('Collegewide').turnoutMax >
 					0
-						? 'color: green'
-						: 'color: red'}
+						? 'color: #00f200'
+						: 'color: #ff3021'}
 				>
 					<NumberFlow
 						value={(lookupResult.turnoutResult / lookupTurnout('Collegewide').turnoutResult -
@@ -391,9 +400,14 @@
 		align-items: start;
 		justify-content: center;
 		width: min(90vw, 350px);
-		padding: clamp(0.75rem, 4vw, 1rem) var(--padding-value) clamp(0.5rem, 2vw, 0.5rem);
+		padding: clamp(0.75rem, 4vw, 1rem) var(--padding-value) clamp(0.75rem, 3vw, 0.75rem);
 		margin: 0;
-		background-color: #eee;
+		background: linear-gradient(
+			to right,
+			color-mix(in oklab, var(--color), #000),
+			color-mix(in oklab, var(--color), #000 30%)
+		);
+		border-radius: 1.5rem;
 		text-align: left;
 		box-shadow: 0 0.25rem 1rem rgba(122, 122, 122, 0.596);
 
@@ -402,35 +416,68 @@
 			padding-left: var(--padding-value);
 			margin-left: calc(var(--padding-value) * -1) !important;
 			width: 100%;
-			background-color: #fff;
+			background-color: var(--color);
+			color: white;
 			font-size: clamp(1rem, 4vw, 2rem);
 			font-weight: 500;
+			background-clip: border-box;
 			margin: 0 0;
 		}
 
 		.percentage {
 			font-size: clamp(4rem, 20vw, 8rem);
 			font-weight: 900;
+			color: color-mix(in oklab, var(--color), #fff 90%);
 			margin: max(-2rem, -6vw) 0 max(-2rem, -6vw);
 		}
 
 		.turnout-numbers {
 			position: absolute;
-			font-size: clamp(1rem, 3vw, 1.5rem);
-			top: 7.5%;
+			font-size: clamp(1.5rem, 5vw, 3rem);
+			top: clamp(0.5rem, 3vw, 0.5rem);
 			right: max(-5%, -20px);
-			background-color: #ddd;
-			padding: 0.125rem 0.5rem 0.125rem;
+			background-color: color-mix(in oklab, var(--color), #fff 40%);
+			color: color-mix(in oklab, var(--color), #000 40%);
+			font-weight: 900;
+			padding: 0 clamp(0.5rem, 3vw, 0.75rem) 0;
+			box-shadow: 0 0.25rem 1rem rgba(228, 228, 228, 0.818);
+			border-radius: 1rem;
 		}
 
 		.turnout-difference {
 			position: absolute;
-			font-size: clamp(1rem, 3vw, 1.5rem);
-			top: 25%;
+			font-size: min(clamp(1rem, 4vw, 1.5rem), clamp(1.5rem, 5vw, 3rem));
+			font-weight: 700;
+			font-variation-settings: 'wdth' 80;
+			top: clamp(4rem, 7vw, 5rem);
 			right: min(0.125rem, 5px);
 			color: green;
 			text-align: right;
 			padding: 0.125rem 0.5rem 0.125rem;
+		}
+
+		.ugg-split {
+			position: relative;
+			background-color: color-mix(in oklab, var(--color), #bbb 40%);
+			color: white;
+			font-size: clamp(0.75rem, 3vw, 1rem);
+			width: calc(100% + var(--padding-value) * 2);
+			padding-left: var(--padding-value);
+			margin-left: calc(var(--padding-value) * -1);
+			overflow: hidden;
+			background-clip: border-box;
+
+			.ugg-split-fill {
+				position: absolute;
+				top: 0;
+				left: 0;
+				mix-blend-mode: color-burn;
+
+				transform-origin: 100% 0;
+				height: 100%;
+				width: 100%;
+				background-color: color-mix(in oklab, var(--color), #ccc 40%);
+			}
 		}
 
 		.representation {
@@ -438,8 +485,9 @@
 			width: 100%;
 			flex-direction: row;
 			justify-content: space-between;
-			align-items: stretch;
+			align-items: end;
 			gap: 0.5rem;
+			margin-bottom: -0.5rem;
 
 			font-weight: 700;
 			font-variation-settings:
@@ -447,33 +495,12 @@
 				'opsz' 96;
 
 			.rep-rate {
-				font-size: clamp(0.5rem, 3vw, 1.5rem);
+				font-size: clamp(0.75rem, 5vw, 2rem);
+				color: color-mix(in oklab, var(--color), #fff 30%);
 			}
 
 			.rep-error {
-				font-size: clamp(0.5rem, 3vw, 1.5rem);
-			}
-		}
-
-		.ugg-split {
-			position: relative;
-			background-color: #bbb;
-			font-size: clamp(0.75rem, 3vw, 1rem);
-			width: calc(100% + var(--padding-value) * 2);
-			padding-left: var(--padding-value);
-			margin-left: calc(var(--padding-value) * -1);
-			overflow: hidden;
-
-			.ugg-split-fill {
-				position: absolute;
-				top: 0;
-				left: 0;
-				mix-blend-mode: multiply;
-
-				transform-origin: 100% 0;
-				height: 100%;
-				width: 100%;
-				background-color: #ccc;
+				font-size: clamp(0.75rem, 5vw, 1.75rem);
 			}
 		}
 	}

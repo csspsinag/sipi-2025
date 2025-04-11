@@ -15,9 +15,9 @@ textarea {
 .decimal-percent {
 	margin-left: -0.25rem;
 	font-size: 60%;
-	font-weight: 600;
+	font-weight: 500;
 	font-variation-settings:
-		'wdth' 75,
+		'wdth' 80,
 		'opsz' 96;
 }
 
@@ -26,12 +26,24 @@ number-flow-svelte {
 	font-family: 'Bricolage Grotesque', sans-serif !important;
 }
 
+number-flow-svelte::part(prefix) {
+	padding-left: 0.5rem;
+}
+
+number-flow-svelte::part(number) {
+	letter-spacing: -5%;
+	padding-right: 1%;
+}
+
 number-flow-svelte::part(suffix) {
 	font-size: 70%;
+	letter-spacing: -2%;
+
 	vertical-align: baseline;
-	opacity: 0.5;
 	text-transform: uppercase;
 	font-variation-settings:
 		'wdth' 85,
 		'opsz' 96;
+
+	opacity: 0.5;
 }

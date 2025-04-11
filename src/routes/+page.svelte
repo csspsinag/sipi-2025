@@ -19,6 +19,11 @@
 
 	const SECOND = 1000;
 	const subjectColors = {
+		collegewide: {
+			color: '#3fb6b4',
+			lightColor: '#57d2d0',
+			emptyColor: '#fcdede'
+		},
 		anthropology: {
 			color: '#de1d1d',
 			lightColor: '#f05b5b',
@@ -45,19 +50,19 @@
 			emptyColor: '#fff9de'
 		},
 		politicalScience: {
-			color: '#391d1d',
-			lightColor: '#ffe045',
-			emptyColor: '#ede6e6'
+			color: '#3188ff',
+			lightColor: '#7ab2ff',
+			emptyColor: '#eaf3ff'
 		},
 		psychology: {
-			color: '#391d39',
-			lightColor: '#532a53',
-			emptyColor: '#ede6ed'
+			color: '#a447e0',
+			lightColor: '#ae32ff',
+			emptyColor: '#f3e3ff'
 		},
 		sociology: {
-			color: '#1d1d39',
-			lightColor: '#2a2a53',
-			emptyColor: '#e6e6ed'
+			color: '#ff3084',
+			lightColor: '#ff85b7',
+			emptyColor: '#ffe3ee'
 		},
 		nonMajor: {
 			color: '#39391d',
@@ -65,9 +70,9 @@
 			emptyColor: '#ede6e6'
 		},
 		populationInstitute: {
-			color: '#391d39',
-			lightColor: '#532a53',
-			emptyColor: '#ede6ed'
+			color: '#d830ff',
+			lightColor: '#eda3ff',
+			emptyColor: '#fdf7ff'
 		}
 	};
 
@@ -826,16 +831,12 @@
 		<img src={sipiLogo} id="sipiLogo" />
 
 		<div class="bar-clamp">
-			<MeterBar {...turnoutResult().collegewide} />
+			<MeterBar {...turnoutResult().collegewide} {...subjectColors.collegewide} />
 			<FullIndicator
 				data={() => turnoutData}
 				oldData={() => turnoutDataLast}
+				color={subjectColors.collegewide}
 				lookup="Collegewide"
-			/>
-			<FullIndicator
-				data={() => turnoutData}
-				oldData={() => turnoutDataLast}
-				lookup="Anthropology"
 			/>
 		</div>
 		<h2>Time Until CSSP Election End</h2>
@@ -845,15 +846,75 @@
 
 <div class="under-fold">
 	<MeterBar {...turnoutResult().anthropology} {...subjectColors.anthropology} />
+	<FullIndicator
+		data={() => turnoutData}
+		oldData={() => turnoutDataLast}
+		color={subjectColors.anthropology}
+		lookup="Anthropology"
+	/>
 	<MeterBar {...turnoutResult().geografia} {...subjectColors.geografia} />
+	<FullIndicator
+		data={() => turnoutData}
+		oldData={() => turnoutDataLast}
+		color={subjectColors.geografia}
+		lookup="Geografia"
+	/>
 	<MeterBar {...turnoutResult().kasaysayan} {...subjectColors.kasaysayan} />
+	<FullIndicator
+		data={() => turnoutData}
+		oldData={() => turnoutDataLast}
+		color={subjectColors.kasaysayan}
+		lookup="Kasaysayan"
+	/>
 	<MeterBar {...turnoutResult().linguistics} {...subjectColors.linguistics} />
+	<FullIndicator
+		data={() => turnoutData}
+		oldData={() => turnoutDataLast}
+		color={subjectColors.linguistics}
+		lookup="Linguistics"
+	/>
 	<MeterBar {...turnoutResult().philosophy} {...subjectColors.philosophy} />
+	<FullIndicator
+		data={() => turnoutData}
+		oldData={() => turnoutDataLast}
+		color={subjectColors.philosophy}
+		lookup="Philosophy"
+	/>
 	<MeterBar {...turnoutResult().politicalScience} {...subjectColors.politicalScience} />
+	<FullIndicator
+		data={() => turnoutData}
+		oldData={() => turnoutDataLast}
+		color={subjectColors.politicalScience}
+		lookup="Political Science"
+	/>
 	<MeterBar {...turnoutResult().psychology} {...subjectColors.psychology} />
+	<FullIndicator
+		data={() => turnoutData}
+		oldData={() => turnoutDataLast}
+		color={subjectColors.psychology}
+		lookup="Psychology"
+	/>
 	<MeterBar {...turnoutResult().sociology} {...subjectColors.sociology} />
+	<FullIndicator
+		data={() => turnoutData}
+		oldData={() => turnoutDataLast}
+		color={subjectColors.sociology}
+		lookup="Sociology"
+	/>
 	<MeterBar {...turnoutResult().nonMajor} {...subjectColors.nonMajor} />
+	<FullIndicator
+		data={() => turnoutData}
+		oldData={() => turnoutDataLast}
+		color={subjectColors.nonMajor}
+		lookup="Non-Major"
+	/>
 	<MeterBar {...turnoutResult().populationInstitute} {...subjectColors.populationInstitute} />
+	<FullIndicator
+		data={() => turnoutData}
+		oldData={() => turnoutDataLast}
+		color={subjectColors.populationInstitute}
+		lookup="Population Institute"
+	/>
 </div>
 <BackToTop />
 
