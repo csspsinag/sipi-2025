@@ -65,8 +65,8 @@
 			emptyColor: '#ffe3ee'
 		},
 		nonMajor: {
-			color: '#39391d',
-			lightColor: '#53532a',
+			color: '#c9c91d',
+			lightColor: '#e3e32a',
 			emptyColor: '#ede6e6'
 		},
 		populationInstitute: {
@@ -77,13 +77,8 @@
 	};
 
 	async function fetchTurnoutData(): Promise<{
-		collegewideTurnoutCount: number;
-		collegewideTurnoutCountMax: number;
-		undergradTurnoutCount: number;
-		undergradTurnoutCountMax: number;
-		gradTurnoutCount: number;
-		gradTurnoutCountMax: number;
-		programTurnout: {
+		turnoutTime: string;
+		turnoutData: {
 			program: string;
 			type: string;
 			turnoutCount: number;
@@ -100,13 +95,20 @@
 			});
 	}
 	let turnoutData = $state({
-		collegewideTurnoutCount: 0,
-		collegewideTurnoutCountMax: 1,
-		undergradTurnoutCount: 0,
-		undergradTurnoutCountMax: 1,
-		gradTurnoutCount: 0,
-		gradTurnoutCountMax: 1,
-		programTurnout: [
+		turnoutTime: '0000000000',
+		turnoutData: [
+			{
+				program: 'Collegewide',
+				type: 'Undergraduate',
+				turnoutCount: 0,
+				turnoutCountMax: 1
+			},
+			{
+				program: 'Collegewide',
+				type: 'Undergraduate',
+				turnoutCount: 0,
+				turnoutCountMax: 1
+			},
 			{
 				program: 'Anthropology',
 				type: 'Undergraduate',
@@ -320,13 +322,8 @@
 	});
 
 	async function fetchTurnoutDataLast(): Promise<{
-		collegewideTurnoutCount: number;
-		collegewideTurnoutCountMax: number;
-		undergradTurnoutCount: number;
-		undergradTurnoutCountMax: number;
-		gradTurnoutCount: number;
-		gradTurnoutCountMax: number;
-		programTurnout: {
+		turnoutTime: string;
+		turnoutData: {
 			program: string;
 			type: string;
 			turnoutCount: number;
@@ -343,13 +340,20 @@
 			});
 	}
 	let turnoutDataLast = $state({
-		collegewideTurnoutCount: 0,
-		collegewideTurnoutCountMax: 1,
-		undergradTurnoutCount: 0,
-		undergradTurnoutCountMax: 1,
-		gradTurnoutCount: 0,
-		gradTurnoutCountMax: 1,
-		programTurnout: [
+		turnoutTime: '0000000000',
+		turnoutData: [
+			{
+				program: 'Collegewide',
+				type: 'Undergraduate',
+				turnoutCount: 0,
+				turnoutCountMax: 1
+			},
+			{
+				program: 'Collegewide',
+				type: 'Undergraduate',
+				turnoutCount: 0,
+				turnoutCountMax: 1
+			},
 			{
 				program: 'Anthropology',
 				type: 'Undergraduate',
@@ -577,12 +581,12 @@
 		};
 
 		returnObject.count = () =>
-			source.programTurnout
+			source.turnoutData
 				.filter((turnout) => turnout.program === program)
 				.flatMap((turnout) => turnout.turnoutCount)
 				.reduce((a, b) => a + b);
 		returnObject.countMax = () =>
-			source.programTurnout
+			source.turnoutData
 				.filter((turnout) => turnout.program === program)
 				.flatMap((turnout) => turnout.turnoutCountMax)
 				.reduce((a, b) => a + b);
@@ -595,13 +599,13 @@
 	}
 	turnoutResult = () => {
 		return {
-			collegewide: {
-				value: (turnoutData.collegewideTurnoutCount / turnoutData.collegewideTurnoutCountMax) * 100,
-				max: turnoutData.collegewideTurnoutCountMax,
-				valueLabel: `${turnoutData.collegewideTurnoutCount} / ${turnoutData.collegewideTurnoutCountMax}`,
-				count: () => turnoutData.collegewideTurnoutCount,
-				countMax: () => turnoutData.collegewideTurnoutCountMax,
-				label: 'CSSP% voted'
+			collegewide: turnoutBreakdownLookup(turnoutData, 'Collegewide') ?? {
+				value: 0,
+				max: 1,
+				valueLabel: '0',
+				count: () => 0,
+				countMax: () => 1,
+				label: 'Collegewide'
 			},
 			anthropology: turnoutBreakdownLookup(turnoutData, 'Anthropology') ?? {
 				value: 0,
@@ -687,15 +691,13 @@
 
 	turnoutResultLast = () => {
 		return {
-			collegewide: {
-				value:
-					(turnoutDataLast.collegewideTurnoutCount / turnoutDataLast.collegewideTurnoutCountMax) *
-					100,
-				max: turnoutDataLast.collegewideTurnoutCountMax,
-				valueLabel: `${turnoutDataLast.collegewideTurnoutCount} / ${turnoutDataLast.collegewideTurnoutCountMax}`,
-				count: () => turnoutDataLast.collegewideTurnoutCount,
-				countMax: () => turnoutDataLast.collegewideTurnoutCountMax,
-				label: 'CSSP% voted'
+			collegewide: turnoutBreakdownLookup(turnoutDataLast, 'Collegewide') ?? {
+				value: 0,
+				max: 1,
+				valueLabel: '0',
+				count: () => 0,
+				countMax: () => 1,
+				label: 'Collegewide'
 			},
 			anthropology: turnoutBreakdownLookup(turnoutDataLast, 'Anthropology') ?? {
 				value: 0,
