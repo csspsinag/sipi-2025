@@ -2,77 +2,103 @@
 	import NumberFlow, { NumberFlowGroup } from '@number-flow/svelte';
 	import { Meter, useId } from 'bits-ui';
 	import type { ComponentProps } from 'svelte';
-	import { onMount } from 'svelte';
+	import { getContext, onMount } from 'svelte';
 	import MeterIndicator from './MeterIndicator.svelte';
+	import type { TurnoutDisplay } from '$lib/types';
+	import { convertToVariable } from '$lib/text-map';
+
+	const turnoutResult: () => TurnoutDisplay = (
+		getContext('turnoutResult') as () => () => TurnoutDisplay
+	)();
+	const turnoutResultLast: () => TurnoutDisplay = (
+		getContext('turnoutResultLast') as () => () => TurnoutDisplay
+	)();
 
 	let {
-		max = 100,
-		value = 0,
 		min = 0,
-		count = () => 0,
-		countMax = () => 0,
 		label,
 		valueLabel,
-		color = '#e63386',
-		lightColor = '#880039',
-		emptyColor = '#eec6d8'
+		subjectColor = {
+			primary: '#007bff',
+			light: '#f8f9fa',
+			empty: '#e9ecef'
+		}
 	}: ComponentProps<typeof Meter.Root> & {
-		count: () => number;
-		countMax: () => number;
 		label: string;
 		valueLabel: string;
-		color?: string;
-		lightColor?: string;
-		emptyColor?: string;
+		subjectColor: {
+			primary: string;
+			light: string;
+			empty: string;
+		};
 	} = $props();
+
+	let max = $state(100);
+	let value = $state(0);
+	let count = $state(0);
+	let countMax = $state(1);
+	let mainTurnoutLabel = $state(0);
+
+	function setData() {
+		console.log(turnoutResult().collegewide);
+		try {
+			max = turnoutResult()[convertToVariable(label)].max;
+			value = turnoutResult()[convertToVariable(label)].value;
+			count = turnoutResult()[convertToVariable(label)].count;
+			countMax = turnoutResult()[convertToVariable(label)].countMax;
+			valueLabel = turnoutResult()[convertToVariable(label)].valueLabel;
+			mainTurnoutLabel = value / 100;
+		} catch (error) {
+			max = 0;
+			value = 0;
+			count = 0;
+			countMax = 0;
+			console.error(error);
+		}
+	}
 
 	const labelId = useId();
 
-	let mainTurnoutLabel = $state({ number: 0.0 });
-	function rollUp(stateVar: { number: number }, value: number) {
-		stateVar.number = value;
-	}
-
 	onMount(() => {
 		setInterval(() => {
-			rollUp(mainTurnoutLabel, value / 100);
+			setData();
 		}, 1000);
 	});
 
 	const indicatorProps: {
 		value: () => number;
-		count: number;
-		countMax: number;
+		count: () => number;
+		countMax: () => number;
 		label: string;
 		color: string;
 		lightColor: string;
 		emptyColor: string;
 	} = {
 		value: () => value,
-		count: count(),
-		countMax: countMax(),
+		count: () => count,
+		countMax: () => countMax,
 		label,
-		color,
-		lightColor,
-		emptyColor
+		color: subjectColor!.primary,
+		lightColor: subjectColor!.light,
+		emptyColor: subjectColor!.empty
 	};
 </script>
 
 <div
 	class="shared-width"
-	style="--color: {color}; --light-color: {lightColor}; --empty-color: {emptyColor}"
+	style="--color: {subjectColor.primary}; --light-color: {subjectColor.light}; --empty-color: {subjectColor.empty}"
 >
 	<Meter.Root aria-labelledby={labelId} aria-valuetext={valueLabel} {value} {min} {max}>
 		<div
 			data-meter-bar
-			style="transform: translateX(calc(-{(1 - mainTurnoutLabel.number) * 100}%))"
+			style="transform: translateX(calc(-{(1 - mainTurnoutLabel) * 100}%))"
 		></div></Meter.Root
 	>
 	<div
 		class="indicator-style"
-		style="--transform-size: translateX(calc((-50cqw) + {mainTurnoutLabel.number * 100}cqw))"
+		style="--transform-size: translateX(calc((-50cqw) + {mainTurnoutLabel * 100}cqw))"
 	>
-		<MeterIndicator {...indicatorProps} />
+		<!-- <MeterIndicator {...indicatorProps} /> -->
 	</div>
 </div>
 
@@ -89,7 +115,7 @@
 
 		overflow: hidden;
 
-		height: 20px;
+		height: min(10vh, 40px);
 		width: 100%;
 	}
 

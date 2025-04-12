@@ -4,14 +4,14 @@
 
 	let {
 		value = () => 0,
-		count = 0,
-		countMax = 0,
+		count = () => 0,
+		countMax = () => 0,
 		label,
 		includeLabel = true
 	}: {
 		value: () => number;
-		count: number;
-		countMax: number;
+		count: () => number;
+		countMax: () => number;
 		label: string;
 		includeLabel?: boolean;
 	} = $props();
@@ -26,8 +26,8 @@
 	onMount(() => {
 		setInterval(() => {
 			rollUp(mainTurnoutLabel, value() / 100);
-			rollUp(mainTurnoutCount, count);
-			rollUp(mainTurnoutCountMax, countMax);
+			rollUp(mainTurnoutCount, count());
+			rollUp(mainTurnoutCountMax, countMax());
 		}, 1000);
 	});
 </script>

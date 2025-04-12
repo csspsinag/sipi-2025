@@ -1,11 +1,19 @@
 <script lang="ts">
+	import {
+		turnoutDataDefault,
+		turnoutResultDefault,
+		turnoutResultPieceDefault
+	} from '$lib/turnout-defaults';
+	import { SECOND, subjectColors } from '$lib/constants';
+	import { fetchTurnoutData, turnoutBreakdownLookup } from '$lib/turnout-fetch';
 	import { electionDates, electionDatesLookup } from '$lib/dates';
 	import sipiLogo from '$lib/img/sipi25-logo+year.png';
 	import Timer from '$lib/components/Timer.svelte';
 	import '$lib/app.css';
 
-	import { onMount } from 'svelte';
-	import { setContext } from 'svelte';
+	import * as d3 from 'd3';
+
+	import { onMount, setContext } from 'svelte';
 
 	import dayjs from 'dayjs';
 	import utc from 'dayjs/plugin/utc.js';
@@ -14,772 +22,95 @@
 	import SinagBar from '$lib/components/SinagBar.svelte';
 	import MeterBar from '$lib/components/MeterBar.svelte';
 	import FullIndicator from '$lib/components/FullIndicator.svelte';
+	import type { TurnoutData, TurnoutDisplay } from '$lib/types';
+
 	dayjs.extend(utc);
 	dayjs.extend(timezone);
-
-	const SECOND = 1000;
-	const subjectColors = {
-		collegewide: {
-			color: '#3fb6b4',
-			lightColor: '#57d2d0',
-			emptyColor: '#fcdede'
-		},
-		anthropology: {
-			color: '#de1d1d',
-			lightColor: '#f05b5b',
-			emptyColor: '#fcdede'
-		},
-		geografia: {
-			color: '#399c13',
-			lightColor: '#53bd2a',
-			emptyColor: '#edffe6'
-		},
-		kasaysayan: {
-			color: '#db9b23',
-			lightColor: '#f5b642',
-			emptyColor: '#fff4e0'
-		},
-		linguistics: {
-			color: '#15bd96',
-			lightColor: '#35e6bc',
-			emptyColor: '#ccf0e7'
-		},
-		philosophy: {
-			color: '#ebc610',
-			lightColor: '#53532a',
-			emptyColor: '#fff9de'
-		},
-		politicalScience: {
-			color: '#3188ff',
-			lightColor: '#7ab2ff',
-			emptyColor: '#eaf3ff'
-		},
-		psychology: {
-			color: '#a447e0',
-			lightColor: '#ae32ff',
-			emptyColor: '#f3e3ff'
-		},
-		sociology: {
-			color: '#ff3084',
-			lightColor: '#ff85b7',
-			emptyColor: '#ffe3ee'
-		},
-		nonMajor: {
-			color: '#c9c91d',
-			lightColor: '#e3e32a',
-			emptyColor: '#ede6e6'
-		},
-		populationInstitute: {
-			color: '#d830ff',
-			lightColor: '#eda3ff',
-			emptyColor: '#fdf7ff'
-		}
-	};
-
-	async function fetchTurnoutData(): Promise<{
-		turnoutTime: string;
-		turnoutData: {
-			program: string;
-			type: string;
-			turnoutCount: number;
-			turnoutCountMax: number;
-		}[];
-	}> {
-		return fetch('turnout.json')
-			.then((response) => response.json())
-			.then((data) => {
-				return data;
-			})
-			.catch((error) => {
-				console.error(error);
-			});
-	}
-	let turnoutData = $state({
-		turnoutTime: '0000000000',
-		turnoutData: [
-			{
-				program: 'Collegewide',
-				type: 'Undergraduate',
-				turnoutCount: 0,
-				turnoutCountMax: 1
-			},
-			{
-				program: 'Collegewide',
-				type: 'Undergraduate',
-				turnoutCount: 0,
-				turnoutCountMax: 1
-			},
-			{
-				program: 'Anthropology',
-				type: 'Undergraduate',
-				turnoutCount: 0,
-				turnoutCountMax: 1
-			},
-			{
-				program: 'Anthropology',
-				type: 'Graduate',
-				turnoutCount: 0,
-				turnoutCountMax: 1
-			},
-			{
-				program: 'Geografia',
-				type: 'Undergraduate',
-				turnoutCount: 0,
-				turnoutCountMax: 1
-			},
-			{
-				program: 'Geografia',
-				type: 'Graduate',
-				turnoutCount: 0,
-				turnoutCountMax: 1
-			},
-			{
-				program: 'Kasaysayan',
-				type: 'Undergraduate',
-				turnoutCount: 0,
-				turnoutCountMax: 1
-			},
-			{
-				program: 'Kasaysayan',
-				type: 'Graduate',
-				turnoutCount: 0,
-				turnoutCountMax: 1
-			},
-			{
-				program: 'Linguistics',
-				type: 'Undergraduate',
-				turnoutCount: 0,
-				turnoutCountMax: 1
-			},
-			{
-				program: 'Linguistics',
-				type: 'Graduate',
-				turnoutCount: 0,
-				turnoutCountMax: 1
-			},
-			{
-				program: 'Philosophy',
-				type: 'Undergraduate',
-				turnoutCount: 0,
-				turnoutCountMax: 1
-			},
-			{
-				program: 'Philosophy',
-				type: 'Graduate',
-				turnoutCount: 0,
-				turnoutCountMax: 1
-			},
-			{
-				program: 'Political Science',
-				type: 'Undergraduate',
-				turnoutCount: 0,
-				turnoutCountMax: 1
-			},
-			{
-				program: 'Political Science',
-				type: 'Graduate',
-				turnoutCount: 0,
-				turnoutCountMax: 1
-			},
-			{
-				program: 'Psychology',
-				type: 'Undergraduate',
-				turnoutCount: 0,
-				turnoutCountMax: 1
-			},
-			{
-				program: 'Psychology',
-				type: 'Graduate',
-				turnoutCount: 0,
-				turnoutCountMax: 1
-			},
-			{
-				program: 'Sociology',
-				type: 'Undergraduate',
-				turnoutCount: 0,
-				turnoutCountMax: 1
-			},
-			{
-				program: 'Sociology',
-				type: 'Graduate',
-				turnoutCount: 0,
-				turnoutCountMax: 1
-			},
-			{
-				program: 'Non-Major',
-				type: 'Undergraduate',
-				turnoutCount: 0,
-				turnoutCountMax: 1
-			},
-			{
-				program: 'Population Institute',
-				type: 'Graduate',
-				turnoutCount: 0,
-				turnoutCountMax: 1
-			}
-		]
-	});
-	let turnoutResult: () => {
-		[key: string]: {
-			value: number;
-			max: number;
-			valueLabel: string;
-			count: () => number;
-			countMax: () => number;
-			label: string;
-		};
-	} = $state(() => {
-		return {
-			collegewide: {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'CSSP turnout'
-			},
-			anthropology: {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'Anthropology'
-			},
-			geografia: {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'Geografia'
-			},
-			kasaysayan: {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'Kasaysayan'
-			},
-			linguistics: {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'Linguistics'
-			},
-			philosophy: {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'Philosophy'
-			},
-			politicalScience: {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'Political Science'
-			},
-			psychology: {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'Psychology'
-			},
-			sociology: {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'Sociology'
-			},
-			nonMajor: {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'Non-Major'
-			},
-			populationInstitute: {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'Population Institute'
-			}
-		};
-	});
-
-	async function fetchTurnoutDataLast(): Promise<{
-		turnoutTime: string;
-		turnoutData: {
-			program: string;
-			type: string;
-			turnoutCount: number;
-			turnoutCountMax: number;
-		}[];
-	}> {
-		return fetch('turnout-old.json')
-			.then((response) => response.json())
-			.then((data) => {
-				return data;
-			})
-			.catch((error) => {
-				console.error(error);
-			});
-	}
-	let turnoutDataLast = $state({
-		turnoutTime: '0000000000',
-		turnoutData: [
-			{
-				program: 'Collegewide',
-				type: 'Undergraduate',
-				turnoutCount: 0,
-				turnoutCountMax: 1
-			},
-			{
-				program: 'Collegewide',
-				type: 'Undergraduate',
-				turnoutCount: 0,
-				turnoutCountMax: 1
-			},
-			{
-				program: 'Anthropology',
-				type: 'Undergraduate',
-				turnoutCount: 0,
-				turnoutCountMax: 1
-			},
-			{
-				program: 'Anthropology',
-				type: 'Graduate',
-				turnoutCount: 0,
-				turnoutCountMax: 1
-			},
-			{
-				program: 'Geografia',
-				type: 'Undergraduate',
-				turnoutCount: 0,
-				turnoutCountMax: 1
-			},
-			{
-				program: 'Geografia',
-				type: 'Graduate',
-				turnoutCount: 0,
-				turnoutCountMax: 1
-			},
-			{
-				program: 'Kasaysayan',
-				type: 'Undergraduate',
-				turnoutCount: 0,
-				turnoutCountMax: 1
-			},
-			{
-				program: 'Kasaysayan',
-				type: 'Graduate',
-				turnoutCount: 0,
-				turnoutCountMax: 1
-			},
-			{
-				program: 'Linguistics',
-				type: 'Undergraduate',
-				turnoutCount: 0,
-				turnoutCountMax: 1
-			},
-			{
-				program: 'Linguistics',
-				type: 'Graduate',
-				turnoutCount: 0,
-				turnoutCountMax: 1
-			},
-			{
-				program: 'Philosophy',
-				type: 'Undergraduate',
-				turnoutCount: 0,
-				turnoutCountMax: 1
-			},
-			{
-				program: 'Philosophy',
-				type: 'Graduate',
-				turnoutCount: 0,
-				turnoutCountMax: 1
-			},
-			{
-				program: 'Political Science',
-				type: 'Undergraduate',
-				turnoutCount: 0,
-				turnoutCountMax: 1
-			},
-			{
-				program: 'Political Science',
-				type: 'Graduate',
-				turnoutCount: 0,
-				turnoutCountMax: 1
-			},
-			{
-				program: 'Psychology',
-				type: 'Undergraduate',
-				turnoutCount: 0,
-				turnoutCountMax: 1
-			},
-			{
-				program: 'Psychology',
-				type: 'Graduate',
-				turnoutCount: 0,
-				turnoutCountMax: 1
-			},
-			{
-				program: 'Sociology',
-				type: 'Undergraduate',
-				turnoutCount: 0,
-				turnoutCountMax: 1
-			},
-			{
-				program: 'Sociology',
-				type: 'Graduate',
-				turnoutCount: 0,
-				turnoutCountMax: 1
-			},
-			{
-				program: 'Non-Major',
-				type: 'Undergraduate',
-				turnoutCount: 0,
-				turnoutCountMax: 1
-			},
-			{
-				program: 'Population Institute',
-				type: 'Graduate',
-				turnoutCount: 0,
-				turnoutCountMax: 1
-			}
-		]
-	});
-	let turnoutResultLast: () => {
-		[key: string]: {
-			value: number;
-			max: number;
-			valueLabel: string;
-			count: () => number;
-			countMax: () => number;
-			label: string;
-		};
-	} = $state(() => {
-		return {
-			collegewide: {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'CSSP turnout'
-			},
-			anthropology: {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'Anthropology'
-			},
-			geografia: {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'Geografia'
-			},
-			kasaysayan: {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'Kasaysayan'
-			},
-			linguistics: {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'Linguistics'
-			},
-			philosophy: {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'Philosophy'
-			},
-			politicalScience: {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'Political Science'
-			},
-			psychology: {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'Psychology'
-			},
-			sociology: {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'Sociology'
-			},
-			nonMajor: {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'Non-Major'
-			},
-			populationInstitute: {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'Population Institute'
-			}
-		};
-	});
 
 	let timeAnchor = $state(dayjs());
 	setContext('timeZoneGuess', dayjs.tz.guess());
 	setContext('timeAnchor', () => timeAnchor);
 
-	function turnoutBreakdownLookup(source: typeof turnoutData, program: string) {
-		let returnObject = {
-			value: 0,
-			max: 1,
-			valueLabel: '0',
-			count: () => 0,
-			countMax: () => 1,
-			label: ''
-		};
+	let turnoutData: TurnoutData = $state(turnoutDataDefault());
+	let turnoutDataLast: TurnoutData = $state(turnoutDataDefault());
+	setContext('turnoutData', () => turnoutData);
+	setContext('turnoutDataLast', () => turnoutDataLast);
 
-		returnObject.count = () =>
-			source.turnoutData
-				.filter((turnout) => turnout.program === program)
-				.flatMap((turnout) => turnout.turnoutCount)
-				.reduce((a, b) => a + b);
-		returnObject.countMax = () =>
-			source.turnoutData
-				.filter((turnout) => turnout.program === program)
-				.flatMap((turnout) => turnout.turnoutCountMax)
-				.reduce((a, b) => a + b);
-		returnObject.value = (returnObject.count() / returnObject.countMax()) * 100;
-		returnObject.max = returnObject.countMax();
-		returnObject.valueLabel = `${returnObject.value} / ${returnObject.max}`;
-		returnObject.label = program;
-
-		return returnObject;
-	}
+	let turnoutResult: () => TurnoutDisplay = $state(turnoutResultDefault);
 	turnoutResult = () => {
 		return {
-			collegewide: turnoutBreakdownLookup(turnoutData, 'Collegewide') ?? {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'Collegewide'
-			},
-			anthropology: turnoutBreakdownLookup(turnoutData, 'Anthropology') ?? {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'Anthropology'
-			},
-			geografia: turnoutBreakdownLookup(turnoutData, 'Geografia') ?? {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'Geografia'
-			},
-			kasaysayan: turnoutBreakdownLookup(turnoutData, 'Kasaysayan') ?? {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'Kasaysayan'
-			},
-			linguistics: turnoutBreakdownLookup(turnoutData, 'Linguistics') ?? {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'Linguistics'
-			},
-			philosophy: turnoutBreakdownLookup(turnoutData, 'Philosophy') ?? {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'Philosophy'
-			},
-			politicalScience: turnoutBreakdownLookup(turnoutData, 'Political Science') ?? {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'Political Science'
-			},
-			psychology: turnoutBreakdownLookup(turnoutData, 'Psychology') ?? {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1
-			},
-			sociology: turnoutBreakdownLookup(turnoutData, 'Sociology') ?? {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'Sociology'
-			},
-			nonMajor: turnoutBreakdownLookup(turnoutData, 'Non-Major') ?? {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'Non-Major'
-			},
-			populationInstitute: turnoutBreakdownLookup(turnoutData, 'Population Institute') ?? {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'Population Institute'
-			}
+			collegewide:
+				turnoutBreakdownLookup(turnoutData, 'Collegewide') ??
+				turnoutResultPieceDefault('Collegewide'),
+			anthropology:
+				turnoutBreakdownLookup(turnoutData, 'Anthropology') ??
+				turnoutResultPieceDefault('Anthropology'),
+			geografia:
+				turnoutBreakdownLookup(turnoutData, 'Geografia') ?? turnoutResultPieceDefault('Geografia'),
+			kasaysayan:
+				turnoutBreakdownLookup(turnoutData, 'Kasaysayan') ??
+				turnoutResultPieceDefault('Kasaysayan'),
+			linguistics:
+				turnoutBreakdownLookup(turnoutData, 'Linguistics') ??
+				turnoutResultPieceDefault('Linguistics'),
+			philosophy:
+				turnoutBreakdownLookup(turnoutData, 'Philosophy') ??
+				turnoutResultPieceDefault('Philosophy'),
+			politicalScience:
+				turnoutBreakdownLookup(turnoutData, 'Political Science') ??
+				turnoutResultPieceDefault('Political Science'),
+			psychology:
+				turnoutBreakdownLookup(turnoutData, 'Psychology') ??
+				turnoutResultPieceDefault('Psychology'),
+			sociology:
+				turnoutBreakdownLookup(turnoutData, 'Sociology') ?? turnoutResultPieceDefault('Sociology'),
+			nonMajor:
+				turnoutBreakdownLookup(turnoutData, 'Non-Major') ?? turnoutResultPieceDefault('Non-Major'),
+			populationInstitute:
+				turnoutBreakdownLookup(turnoutData, 'Population Institute') ??
+				turnoutResultPieceDefault('Population Institute')
 		};
 	};
-
+	let turnoutResultLast: () => TurnoutDisplay = $state(turnoutResultDefault);
 	turnoutResultLast = () => {
 		return {
-			collegewide: turnoutBreakdownLookup(turnoutDataLast, 'Collegewide') ?? {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'Collegewide'
-			},
-			anthropology: turnoutBreakdownLookup(turnoutDataLast, 'Anthropology') ?? {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'Anthropology'
-			},
-			geografia: turnoutBreakdownLookup(turnoutDataLast, 'Geografia') ?? {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'Geografia'
-			},
-			kasaysayan: turnoutBreakdownLookup(turnoutDataLast, 'Kasaysayan') ?? {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'Kasaysayan'
-			},
-			linguistics: turnoutBreakdownLookup(turnoutDataLast, 'Linguistics') ?? {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'Linguistics'
-			},
-			philosophy: turnoutBreakdownLookup(turnoutDataLast, 'Philosophy') ?? {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'Philosophy'
-			},
-			politicalScience: turnoutBreakdownLookup(turnoutDataLast, 'Political Science') ?? {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'Political Science'
-			},
-			psychology: turnoutBreakdownLookup(turnoutDataLast, 'Psychology') ?? {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1
-			},
-			sociology: turnoutBreakdownLookup(turnoutDataLast, 'Sociology') ?? {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'Sociology'
-			},
-			nonMajor: turnoutBreakdownLookup(turnoutDataLast, 'Non-Major') ?? {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'Non-Major'
-			},
-			populationInstitute: turnoutBreakdownLookup(turnoutDataLast, 'Population Institute') ?? {
-				value: 0,
-				max: 1,
-				valueLabel: '0',
-				count: () => 0,
-				countMax: () => 1,
-				label: 'Population Institute'
-			}
+			collegewide:
+				turnoutBreakdownLookup(turnoutDataLast, 'Collegewide') ??
+				turnoutResultPieceDefault('Collegewide'),
+			anthropology:
+				turnoutBreakdownLookup(turnoutDataLast, 'Anthropology') ??
+				turnoutResultPieceDefault('Anthropology'),
+			geografia:
+				turnoutBreakdownLookup(turnoutDataLast, 'Geografia') ??
+				turnoutResultPieceDefault('Geografia'),
+			kasaysayan:
+				turnoutBreakdownLookup(turnoutDataLast, 'Kasaysayan') ??
+				turnoutResultPieceDefault('Kasaysayan'),
+			linguistics:
+				turnoutBreakdownLookup(turnoutDataLast, 'Linguistics') ??
+				turnoutResultPieceDefault('Linguistics'),
+			philosophy:
+				turnoutBreakdownLookup(turnoutDataLast, 'Philosophy') ??
+				turnoutResultPieceDefault('Philosophy'),
+			politicalScience:
+				turnoutBreakdownLookup(turnoutDataLast, 'Political Science') ??
+				turnoutResultPieceDefault('Political Science'),
+			psychology:
+				turnoutBreakdownLookup(turnoutDataLast, 'Psychology') ??
+				turnoutResultPieceDefault('Psychology'),
+			sociology:
+				turnoutBreakdownLookup(turnoutDataLast, 'Sociology') ??
+				turnoutResultPieceDefault('Sociology'),
+			nonMajor:
+				turnoutBreakdownLookup(turnoutDataLast, 'Non-Major') ??
+				turnoutResultPieceDefault('Non-Major'),
+			populationInstitute:
+				turnoutBreakdownLookup(turnoutDataLast, 'Population Institute') ??
+				turnoutResultPieceDefault('Population Institute')
 		};
 	};
+	setContext('turnoutResult', () => turnoutResult);
+	setContext('turnoutResultLast', () => turnoutResultLast);
 
 	onMount(() => {
 		const interval = setInterval(() => {
@@ -787,11 +118,47 @@
 		}, 1 * SECOND);
 
 		const turnoutCheck = setInterval(async () => {
-			const fetch = await fetchTurnoutData();
-			const fetchLast = await fetchTurnoutDataLast();
-			turnoutDataLast = fetchLast;
+			const fetch = await fetchTurnoutData('turnout.json');
 			turnoutData = fetch;
+			const fetchLast = await fetchTurnoutData('turnout-old.json');
+			turnoutDataLast = fetchLast;
 		}, 1 * SECOND);
+
+		for (const id of [
+			'anthropology-rate',
+			'geografia-rate',
+			'kasaysayan-rate',
+			'linguistics-rate',
+			'philosophy-rate',
+			'political-science-rate',
+			'psychology-rate',
+			'sociology-rate',
+			'non-major-rate',
+			'population-institute-rate',
+			'collegewide-rate'
+		]) {
+			const svg = d3.select(`.${id}`);
+			const tooltipCtx = d3.select('.tooltip-container');
+			svg
+				.on('mouseover', () => {
+					tooltipCtx.select(`.${id}`).style('opacity', '1');
+				})
+				.on('touchend', () => {
+					tooltipCtx.select(`.${id}`).style('opacity', '1');
+					setTimeout(() => {
+						tooltipCtx.select(`.${id}`).style('opacity', '0');
+					}, 1500);
+				})
+				.on('mousemove', (s) => {
+					tooltipCtx
+						.select(`.${id}`)
+						.style('left', `calc(${Math.max(0, d3.pointer(s, tooltipCtx.node())[0])}px)`)
+						.style('top', d3.pointer(s, tooltipCtx.node())[1] + 'px');
+				})
+				.on('mouseout touchmove touchcancel touchstart', () => {
+					tooltipCtx.select(`.${id}`).style('opacity', '0');
+				});
+		}
 
 		return () => {
 			clearInterval(interval);
@@ -830,16 +197,10 @@
 <SinagBar>SIPI 2025 Turnout Tracker</SinagBar>
 <div class="main-page">
 	<div class="central-timer">
-		<img src={sipiLogo} id="sipiLogo" />
+		<img src={sipiLogo} id="sipiLogo" alt="SIPI logo" />
 
-		<div class="bar-clamp">
-			<MeterBar {...turnoutResult().collegewide} {...subjectColors.collegewide} />
-			<FullIndicator
-				data={() => turnoutData}
-				oldData={() => turnoutDataLast}
-				color={subjectColors.collegewide}
-				lookup="Collegewide"
-			/>
+		<div class="bar-clamp collegewide-rate">
+			<MeterBar {...turnoutResult().collegewide} subjectColor={subjectColors.collegewide.color} />
 		</div>
 		<h2>Time Until CSSP Election End</h2>
 		<Timer date={electionDatesLookup.get('updElectionEnd')!.date} />
@@ -847,80 +208,98 @@
 </div>
 
 <div class="under-fold">
-	<MeterBar {...turnoutResult().anthropology} {...subjectColors.anthropology} />
-	<FullIndicator
-		data={() => turnoutData}
-		oldData={() => turnoutDataLast}
-		color={subjectColors.anthropology}
-		lookup="Anthropology"
-	/>
-	<MeterBar {...turnoutResult().geografia} {...subjectColors.geografia} />
-	<FullIndicator
-		data={() => turnoutData}
-		oldData={() => turnoutDataLast}
-		color={subjectColors.geografia}
-		lookup="Geografia"
-	/>
-	<MeterBar {...turnoutResult().kasaysayan} {...subjectColors.kasaysayan} />
-	<FullIndicator
-		data={() => turnoutData}
-		oldData={() => turnoutDataLast}
-		color={subjectColors.kasaysayan}
-		lookup="Kasaysayan"
-	/>
-	<MeterBar {...turnoutResult().linguistics} {...subjectColors.linguistics} />
-	<FullIndicator
-		data={() => turnoutData}
-		oldData={() => turnoutDataLast}
-		color={subjectColors.linguistics}
-		lookup="Linguistics"
-	/>
-	<MeterBar {...turnoutResult().philosophy} {...subjectColors.philosophy} />
-	<FullIndicator
-		data={() => turnoutData}
-		oldData={() => turnoutDataLast}
-		color={subjectColors.philosophy}
-		lookup="Philosophy"
-	/>
-	<MeterBar {...turnoutResult().politicalScience} {...subjectColors.politicalScience} />
-	<FullIndicator
-		data={() => turnoutData}
-		oldData={() => turnoutDataLast}
-		color={subjectColors.politicalScience}
-		lookup="Political Science"
-	/>
-	<MeterBar {...turnoutResult().psychology} {...subjectColors.psychology} />
-	<FullIndicator
-		data={() => turnoutData}
-		oldData={() => turnoutDataLast}
-		color={subjectColors.psychology}
-		lookup="Psychology"
-	/>
-	<MeterBar {...turnoutResult().sociology} {...subjectColors.sociology} />
-	<FullIndicator
-		data={() => turnoutData}
-		oldData={() => turnoutDataLast}
-		color={subjectColors.sociology}
-		lookup="Sociology"
-	/>
-	<MeterBar {...turnoutResult().nonMajor} {...subjectColors.nonMajor} />
-	<FullIndicator
-		data={() => turnoutData}
-		oldData={() => turnoutDataLast}
-		color={subjectColors.nonMajor}
-		lookup="Non-Major"
-	/>
-	<MeterBar {...turnoutResult().populationInstitute} {...subjectColors.populationInstitute} />
-	<FullIndicator
-		data={() => turnoutData}
-		oldData={() => turnoutDataLast}
-		color={subjectColors.populationInstitute}
-		lookup="Population Institute"
-	/>
+	<div class="anthropology-rate">
+		<MeterBar {...turnoutResult().anthropology} subjectColor={subjectColors.anthropology.color} />
+	</div>
+	<div class="geografia-rate">
+		<MeterBar {...turnoutResult().geografia} subjectColor={subjectColors.geografia.color} />
+	</div>
+	<div class="kasaysayan-rate">
+		<MeterBar {...turnoutResult().kasaysayan} subjectColor={subjectColors.kasaysayan.color} />
+	</div>
+	<div class="linguistics-rate">
+		<MeterBar {...turnoutResult().linguistics} subjectColor={subjectColors.linguistics.color} />
+	</div>
+	<div class="philosophy-rate">
+		<MeterBar {...turnoutResult().philosophy} subjectColor={subjectColors.philosophy.color} />
+	</div>
+	<div class="political-science-rate">
+		<MeterBar
+			{...turnoutResult().politicalScience}
+			subjectColor={subjectColors.politicalScience.color}
+		/>
+	</div>
+	<div class="psychology-rate">
+		<MeterBar {...turnoutResult().psychology} subjectColor={subjectColors.psychology.color} />
+	</div>
+	<div class="sociology-rate">
+		<MeterBar {...turnoutResult().sociology} subjectColor={subjectColors.sociology.color} />
+	</div>
+	<div class="non-major-rate">
+		<MeterBar {...turnoutResult().nonMajor} subjectColor={subjectColors.nonMajor.color} />
+	</div>
+	<div class="population-institute-rate">
+		<MeterBar
+			{...turnoutResult().populationInstitute}
+			subjectColor={subjectColors.populationInstitute.color}
+		/>
+	</div>
 </div>
 <BackToTop />
 
+<div class="tooltip-container">
+	<div class="tooltip collegewide-rate">
+		<FullIndicator color={subjectColors.collegewide.color} lookup="Collegewide" />
+	</div>
+	<div class="tooltip anthropology-rate">
+		<FullIndicator color={subjectColors.anthropology.color} lookup="Anthropology" />
+	</div>
+	<div class="tooltip geografia-rate">
+		<FullIndicator color={subjectColors.geografia.color} lookup="Geografia" />
+	</div>
+	<div class="tooltip kasaysayan-rate">
+		<FullIndicator color={subjectColors.kasaysayan.color} lookup="Kasaysayan" />
+	</div>
+	<div class="tooltip linguistics-rate">
+		<FullIndicator color={subjectColors.linguistics.color} lookup="Linguistics" />
+	</div>
+	<div class="tooltip philosophy-rate">
+		<FullIndicator color={subjectColors.philosophy.color} lookup="Philosophy" />
+	</div>
+	<div class="tooltip political-science-rate">
+		<FullIndicator color={subjectColors.politicalScience.color} lookup="Political Science" />
+	</div>
+	<div class="tooltip psychology-rate">
+		<FullIndicator color={subjectColors.psychology.color} lookup="Psychology" />
+	</div>
+	<div class="tooltip sociology-rate">
+		<FullIndicator color={subjectColors.sociology.color} lookup="Sociology" />
+	</div>
+	<div class="tooltip non-major-rate">
+		<FullIndicator color={subjectColors.nonMajor.color} lookup="Non-Major" />
+	</div>
+	<div class="tooltip population-institute-rate">
+		<FullIndicator color={subjectColors.populationInstitute.color} lookup="Population Institute" />
+	</div>
+</div>
+
 <style>
+	.tooltip-container {
+		position: absolute;
+		pointer-events: none;
+		top: 0;
+		left: 0;
+		display: flex;
+		flex-direction: column;
+		z-index: 999;
+
+		> :global(*) {
+			position: absolute;
+			transform: translateX(-19.5%) translateY(2.5rem);
+			opacity: 0;
+		}
+	}
+
 	:global(body) {
 		margin: 0;
 		padding: 0;
@@ -991,6 +370,10 @@
 		width: 60%;
 
 		margin-top: clamp(-0.5rem, 4vw, 4rem);
+
+		> :global(*) {
+			width: 100%;
+		}
 	}
 
 	#sipiLogo {

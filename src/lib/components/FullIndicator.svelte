@@ -1,37 +1,14 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { getContext, onMount } from 'svelte';
 	import NumberFlow, { NumberFlowGroup } from '@number-flow/svelte';
 	import { decimalize } from '$lib/decimalizer';
+	import type { ColorDefinition, TurnoutData } from '$lib/types';
 
 	let {
-		data,
-		oldData,
 		color,
 		lookup = 'Collegewide'
 	}: {
-		data: () => {
-			turnoutTime: string;
-			turnoutData: {
-				program: string;
-				type: string;
-				turnoutCount: number;
-				turnoutCountMax: number;
-			}[];
-		};
-		oldData: () => {
-			turnoutTime: string;
-			turnoutData: {
-				program: string;
-				type: string;
-				turnoutCount: number;
-				turnoutCountMax: number;
-			}[];
-		};
-		color: {
-			color: string;
-			lightColor: string;
-			emptyColor: string;
-		};
+		color: ColorDefinition;
 		lookup:
 			| 'Collegewide'
 			| 'Anthropology'
@@ -45,6 +22,8 @@
 			| 'Non-Major'
 			| 'Population Institute';
 	} = $props();
+	let data: () => TurnoutData = getContext('turnoutData');
+	let oldData: () => TurnoutData = getContext('turnoutDataLast');
 
 	type CollegeSplits = {
 		label: typeof lookup;
@@ -93,164 +72,183 @@
 
 	type LookupResult = CollegeDepartments | PopulationInstitute | NonMajor;
 
-	let dataSource = $state(data());
+	let dataSource = data();
 	function lookupTurnout(lookupSearch: typeof lookup): LookupResult {
-		switch (lookupSearch) {
-			case 'Non-Major':
-				return {
-					label: lookupSearch,
-					turnoutResult: dataSource.turnoutData
-						.filter((turnout) => turnout.program === lookupSearch)
-						.flatMap((turnout) => turnout.turnoutCount)
-						.reduce((a, b) => a + b),
-					turnoutMax: dataSource.turnoutData
-						.filter((turnout) => turnout.program === lookupSearch)
-						.flatMap((turnout) => turnout.turnoutCountMax)
-						.reduce((a, b) => a + b),
-					undergradTurnout: dataSource.turnoutData
-						.filter((turnout) => turnout.program === lookupSearch)
-						.find((turnout) => turnout.type === 'Undergraduate')?.turnoutCount!,
-					undergradMax: dataSource.turnoutData
-						.filter((turnout) => turnout.program === lookupSearch)
-						.find((turnout) => turnout.type === 'Undergraduate')?.turnoutCountMax!
-				};
+		try {
+			switch (lookupSearch) {
+				case 'Non-Major':
+					return {
+						label: lookupSearch,
+						turnoutResult: dataSource.turnoutData
+							.filter((turnout) => turnout.program === lookupSearch)
+							.flatMap((turnout) => turnout.turnoutCount)
+							.reduce((a, b) => a + b),
+						turnoutMax: dataSource.turnoutData
+							.filter((turnout) => turnout.program === lookupSearch)
+							.flatMap((turnout) => turnout.turnoutCountMax)
+							.reduce((a, b) => a + b),
+						undergradTurnout: dataSource.turnoutData
+							.filter((turnout) => turnout.program === lookupSearch)
+							.find((turnout) => turnout.type === 'Undergraduate')?.turnoutCount!,
+						undergradMax: dataSource.turnoutData
+							.filter((turnout) => turnout.program === lookupSearch)
+							.find((turnout) => turnout.type === 'Undergraduate')?.turnoutCountMax!
+					};
 
-			case 'Population Institute':
-				return {
-					label: lookupSearch,
-					turnoutResult: dataSource.turnoutData
-						.filter((turnout) => turnout.program === lookupSearch)
-						.flatMap((turnout) => turnout.turnoutCount)
-						.reduce((a, b) => a + b),
-					turnoutMax: dataSource.turnoutData
-						.filter((turnout) => turnout.program === lookupSearch)
-						.flatMap((turnout) => turnout.turnoutCountMax)
-						.reduce((a, b) => a + b),
-					gradTurnout: dataSource.turnoutData
-						.filter((turnout) => turnout.program === lookupSearch)
-						.find((turnout) => turnout.type === 'Undergraduate')?.turnoutCount!,
-					gradMax: dataSource.turnoutData
-						.filter((turnout) => turnout.program === lookupSearch)
-						.find((turnout) => turnout.type === 'Undergraduate')?.turnoutCountMax!
-				};
+				case 'Population Institute':
+					return {
+						label: lookupSearch,
+						turnoutResult: dataSource.turnoutData
+							.filter((turnout) => turnout.program === lookupSearch)
+							.flatMap((turnout) => turnout.turnoutCount)
+							.reduce((a, b) => a + b),
+						turnoutMax: dataSource.turnoutData
+							.filter((turnout) => turnout.program === lookupSearch)
+							.flatMap((turnout) => turnout.turnoutCountMax)
+							.reduce((a, b) => a + b),
+						gradTurnout: dataSource.turnoutData
+							.filter((turnout) => turnout.program === lookupSearch)
+							.find((turnout) => turnout.type === 'Undergraduate')?.turnoutCount!,
+						gradMax: dataSource.turnoutData
+							.filter((turnout) => turnout.program === lookupSearch)
+							.find((turnout) => turnout.type === 'Undergraduate')?.turnoutCountMax!
+					};
 
-			default:
-				return {
-					label: lookupSearch,
-					turnoutResult: dataSource.turnoutData
-						.filter((turnout) => turnout.program === lookupSearch)
-						.flatMap((turnout) => turnout.turnoutCount)
-						.reduce((a, b) => a + b),
-					turnoutMax: dataSource.turnoutData
-						.filter((turnout) => turnout.program === lookupSearch)
-						.flatMap((turnout) => turnout.turnoutCountMax)
-						.reduce((a, b) => a + b),
-					undergradTurnout: dataSource.turnoutData
-						.filter((turnout) => turnout.program === lookupSearch)
-						.find((turnout) => turnout.type === 'Undergraduate')?.turnoutCount!,
-					undergradMax: dataSource.turnoutData
-						.filter((turnout) => turnout.program === lookupSearch)
-						.find((turnout) => turnout.type === 'Undergraduate')?.turnoutCountMax!,
-					gradTurnout: dataSource.turnoutData
-						.filter((turnout) => turnout.program === lookupSearch)
-						.find((turnout) => turnout.type === 'Graduate')?.turnoutCount!,
-					gradMax: dataSource.turnoutData
-						.filter((turnout) => turnout.program === lookupSearch)
-						.find((turnout) => turnout.type === 'Graduate')?.turnoutCountMax!
-				};
+				default:
+					return {
+						label: lookupSearch,
+						turnoutResult: dataSource.turnoutData
+							.filter((turnout) => turnout.program === lookupSearch)
+							.flatMap((turnout) => turnout.turnoutCount)
+							.reduce((a, b) => a + b),
+						turnoutMax: dataSource.turnoutData
+							.filter((turnout) => turnout.program === lookupSearch)
+							.flatMap((turnout) => turnout.turnoutCountMax)
+							.reduce((a, b) => a + b),
+						undergradTurnout: dataSource.turnoutData
+							.filter((turnout) => turnout.program === lookupSearch)
+							.find((turnout) => turnout.type === 'Undergraduate')?.turnoutCount!,
+						undergradMax: dataSource.turnoutData
+							.filter((turnout) => turnout.program === lookupSearch)
+							.find((turnout) => turnout.type === 'Undergraduate')?.turnoutCountMax!,
+						gradTurnout: dataSource.turnoutData
+							.filter((turnout) => turnout.program === lookupSearch)
+							.find((turnout) => turnout.type === 'Graduate')?.turnoutCount!,
+						gradMax: dataSource.turnoutData
+							.filter((turnout) => turnout.program === lookupSearch)
+							.find((turnout) => turnout.type === 'Graduate')?.turnoutCountMax!
+					};
+			}
+		} catch (error) {
+			return {
+				label: lookupSearch,
+				turnoutResult: 0,
+				turnoutMax: 0,
+				undergradTurnout: 0,
+				undergradMax: 0,
+				gradTurnout: 0,
+				gradMax: 0
+			};
 		}
 	}
 	let lookupResult = $state(lookupTurnout(lookup));
 
-	let dataSourceLast = $state(oldData());
+	let dataSourceLast = oldData();
 	function lookupTurnoutLast(lookupSearch: typeof lookup): LookupResult {
-		switch (lookupSearch) {
-			case 'Non-Major':
-				return {
-					label: lookupSearch,
-					turnoutResult: dataSourceLast.turnoutData
-						.filter((turnout) => turnout.program === lookupSearch)
-						.flatMap((turnout) => turnout.turnoutCount)
-						.reduce((a, b) => a + b),
-					turnoutMax: dataSourceLast.turnoutData
-						.filter((turnout) => turnout.program === lookupSearch)
-						.flatMap((turnout) => turnout.turnoutCountMax)
-						.reduce((a, b) => a + b),
-					undergradTurnout: dataSourceLast.turnoutData
-						.filter((turnout) => turnout.program === lookupSearch)
-						.find((turnout) => turnout.type === 'Undergraduate')?.turnoutCount!,
-					undergradMax: dataSourceLast.turnoutData
-						.filter((turnout) => turnout.program === lookupSearch)
-						.find((turnout) => turnout.type === 'Undergraduate')?.turnoutCountMax!
-				};
+		try {
+			switch (lookupSearch) {
+				case 'Non-Major':
+					return {
+						label: lookupSearch,
+						turnoutResult: dataSourceLast.turnoutData
+							.filter((turnout) => turnout.program === lookupSearch)
+							.flatMap((turnout) => turnout.turnoutCount)
+							.reduce((a, b) => a + b),
+						turnoutMax: dataSourceLast.turnoutData
+							.filter((turnout) => turnout.program === lookupSearch)
+							.flatMap((turnout) => turnout.turnoutCountMax)
+							.reduce((a, b) => a + b),
+						undergradTurnout: dataSourceLast.turnoutData
+							.filter((turnout) => turnout.program === lookupSearch)
+							.find((turnout) => turnout.type === 'Undergraduate')?.turnoutCount!,
+						undergradMax: dataSourceLast.turnoutData
+							.filter((turnout) => turnout.program === lookupSearch)
+							.find((turnout) => turnout.type === 'Undergraduate')?.turnoutCountMax!
+					};
 
-			case 'Population Institute':
-				return {
-					label: lookupSearch,
-					turnoutResult: dataSourceLast.turnoutData
-						.filter((turnout) => turnout.program === lookupSearch)
-						.flatMap((turnout) => turnout.turnoutCount)
-						.reduce((a, b) => a + b),
-					turnoutMax: dataSourceLast.turnoutData
-						.filter((turnout) => turnout.program === lookupSearch)
-						.flatMap((turnout) => turnout.turnoutCountMax)
-						.reduce((a, b) => a + b),
-					gradTurnout: dataSourceLast.turnoutData
-						.filter((turnout) => turnout.program === lookupSearch)
-						.find((turnout) => turnout.type === 'Undergraduate')?.turnoutCount!,
-					gradMax: dataSourceLast.turnoutData
-						.filter((turnout) => turnout.program === lookupSearch)
-						.find((turnout) => turnout.type === 'Undergraduate')?.turnoutCountMax!
-				};
+				case 'Population Institute':
+					return {
+						label: lookupSearch,
+						turnoutResult: dataSourceLast.turnoutData
+							.filter((turnout) => turnout.program === lookupSearch)
+							.flatMap((turnout) => turnout.turnoutCount)
+							.reduce((a, b) => a + b),
+						turnoutMax: dataSourceLast.turnoutData
+							.filter((turnout) => turnout.program === lookupSearch)
+							.flatMap((turnout) => turnout.turnoutCountMax)
+							.reduce((a, b) => a + b),
+						gradTurnout: dataSourceLast.turnoutData
+							.filter((turnout) => turnout.program === lookupSearch)
+							.find((turnout) => turnout.type === 'Undergraduate')?.turnoutCount!,
+						gradMax: dataSourceLast.turnoutData
+							.filter((turnout) => turnout.program === lookupSearch)
+							.find((turnout) => turnout.type === 'Undergraduate')?.turnoutCountMax!
+					};
 
-			default:
-				return {
-					label: lookupSearch,
-					turnoutResult: dataSourceLast.turnoutData
-						.filter((turnout) => turnout.program === lookupSearch)
-						.flatMap((turnout) => turnout.turnoutCount)
-						.reduce((a, b) => a + b),
-					turnoutMax: dataSourceLast.turnoutData
-						.filter((turnout) => turnout.program === lookupSearch)
-						.flatMap((turnout) => turnout.turnoutCountMax)
-						.reduce((a, b) => a + b),
-					undergradTurnout: dataSourceLast.turnoutData
-						.filter((turnout) => turnout.program === lookupSearch)
-						.find((turnout) => turnout.type === 'Undergraduate')?.turnoutCount!,
-					undergradMax: dataSourceLast.turnoutData
-						.filter((turnout) => turnout.program === lookupSearch)
-						.find((turnout) => turnout.type === 'Undergraduate')?.turnoutCountMax!,
-					gradTurnout: dataSourceLast.turnoutData
-						.filter((turnout) => turnout.program === lookupSearch)
-						.find((turnout) => turnout.type === 'Graduate')?.turnoutCount!,
-					gradMax: dataSourceLast.turnoutData
-						.filter((turnout) => turnout.program === lookupSearch)
-						.find((turnout) => turnout.type === 'Graduate')?.turnoutCountMax!
-				};
+				default:
+					return {
+						label: lookupSearch,
+						turnoutResult: dataSourceLast.turnoutData
+							.filter((turnout) => turnout.program === lookupSearch)
+							.flatMap((turnout) => turnout.turnoutCount)
+							.reduce((a, b) => a + b),
+						turnoutMax: dataSourceLast.turnoutData
+							.filter((turnout) => turnout.program === lookupSearch)
+							.flatMap((turnout) => turnout.turnoutCountMax)
+							.reduce((a, b) => a + b),
+						undergradTurnout: dataSourceLast.turnoutData
+							.filter((turnout) => turnout.program === lookupSearch)
+							.find((turnout) => turnout.type === 'Undergraduate')?.turnoutCount!,
+						undergradMax: dataSourceLast.turnoutData
+							.filter((turnout) => turnout.program === lookupSearch)
+							.find((turnout) => turnout.type === 'Undergraduate')?.turnoutCountMax!,
+						gradTurnout: dataSourceLast.turnoutData
+							.filter((turnout) => turnout.program === lookupSearch)
+							.find((turnout) => turnout.type === 'Graduate')?.turnoutCount!,
+						gradMax: dataSourceLast.turnoutData
+							.filter((turnout) => turnout.program === lookupSearch)
+							.find((turnout) => turnout.type === 'Graduate')?.turnoutCountMax!
+					};
+			}
+		} catch (error) {
+			return {
+				label: lookupSearch,
+				turnoutResult: 0,
+				turnoutMax: 0,
+				undergradTurnout: 0,
+				undergradMax: 0,
+				gradTurnout: 0,
+				gradMax: 0
+			};
 		}
 	}
 	let lookupResultLast = $state(lookupTurnoutLast(lookup));
 
-	function updateLookupDataSource() {
-		lookupResult = lookupTurnout(lookup);
-	}
-	function updateLookupDataSourceLast() {
-		lookupResultLast = lookupTurnoutLast(lookup);
-	}
 	onMount(() => {
 		setInterval(() => {
 			dataSource = data();
-			updateLookupDataSource();
 			dataSourceLast = oldData();
-			updateLookupDataSourceLast();
+			lookupResult = lookupTurnout(lookup);
+			lookupResultLast = lookupTurnoutLast(lookup);
 		}, 1000);
 	});
 </script>
 
 <div
 	class="container-lock"
-	style="--color: {color.color}; --light-color: {color.lightColor}; --empty-color: {color.emptyColor}"
+	style="--color: {color.primary}; --light-color: {color.light}; --empty-color: {color.empty}"
 >
+	<div class="arrow"></div>
 	<NumberFlowGroup>
 		<h2>{lookupResult.label}</h2>
 		<div class="percentage">
@@ -359,7 +357,7 @@
 		flex-grow: 1;
 		align-items: start;
 		justify-content: center;
-		width: min(90vw, 400px);
+		width: clamp(250px, 30vw, 400px);
 		padding: clamp(0.75rem, 4vw, 1rem) var(--padding-value) clamp(0.75rem, 3vw, 0.75rem);
 		margin: 0;
 		background: linear-gradient(
@@ -370,6 +368,18 @@
 		border-radius: 1.5rem;
 		text-align: left;
 		box-shadow: 0 0.25rem 1rem rgba(122, 122, 122, 0.596);
+
+		.arrow {
+			content: '';
+			position: absolute;
+			top: -1rem;
+			left: 20%;
+			width: 0;
+			height: 0;
+			border-left: 1rem solid transparent;
+			border-right: 1rem solid transparent;
+			border-bottom: 1rem solid color-mix(in oklab, var(--color), #000 40%);
+		}
 
 		h2 {
 			width: calc(100% + var(--padding-value) * 2) !important;
