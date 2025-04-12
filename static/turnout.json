@@ -1,12 +1,18 @@
 {
-	"turnoutTime": "2021-10-01T00:00:00.000Z",
-	"collegewideTurnoutCount": 772,
-	"collegewideTurnoutCountMax": 2296,
-	"undergradTurnoutCount": 724,
-	"undergradTurnoutCountMax": 1496,
-	"gradTurnoutCount": 48,
-	"gradTurnoutCountMax": 800,
-	"programTurnout": [
+	"turnoutTime": "2025-05-13T00:00:00.000Z",
+	"turnoutData": [
+		{
+			"program": "Collegewide",
+			"type": "Undergraduate",
+			"turnoutCount": 724,
+			"turnoutCountMax": 1496
+		},
+		{
+			"program": "Collegewide",
+			"type": "Graduate",
+			"turnoutCount": 48,
+			"turnoutCountMax": 800
+		},
 		{
 			"program": "Anthropology",
 			"type": "Undergraduate",

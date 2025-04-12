@@ -41,16 +41,16 @@
 
 	const indicatorProps: {
 		value: () => number;
-		count: () => number;
-		countMax: () => number;
+		count: number;
+		countMax: number;
 		label: string;
 		color: string;
 		lightColor: string;
 		emptyColor: string;
 	} = {
 		value: () => value,
-		count: count,
-		countMax: countMax,
+		count: count(),
+		countMax: countMax(),
 		label,
 		color,
 		lightColor,

@@ -393,13 +393,13 @@
 	.container-lock {
 		--padding-value: clamp(0.75rem, 4vw, 1rem);
 		container-type: inline-size;
-		width: 100%;
 		position: relative;
 		display: flex;
 		flex-direction: column;
+		flex-grow: 1;
 		align-items: start;
 		justify-content: center;
-		width: min(90vw, 350px);
+		width: min(90vw, 400px);
 		padding: clamp(0.75rem, 4vw, 1rem) var(--padding-value) clamp(0.75rem, 3vw, 0.75rem);
 		margin: 0;
 		background: linear-gradient(

@@ -1,16 +1,22 @@
 {
-	"turnoutTime": "2021-10-01T00:00:00.000Z",
-	"collegewideTurnoutCount": 583,
-	"collegewideTurnoutCountMax": 2296,
-	"undergradTurnoutCount": 550,
-	"undergradTurnoutCountMax": 1496,
-	"gradTurnoutCount": 33,
-	"gradTurnoutCountMax": 800,
-	"programTurnout": [
+	"turnoutTime": "2025-05-13T00:00:00.000Z",
+	"turnoutData": [
+		{
+			"program": "Collegewide",
+			"type": "Undergraduate",
+			"turnoutCount": 724,
+			"turnoutCountMax": 1496
+		},
+		{
+			"program": "Collegewide",
+			"type": "Graduate",
+			"turnoutCount": 48,
+			"turnoutCountMax": 800
+		},
 		{
 			"program": "Anthropology",
 			"type": "Undergraduate",
-			"turnoutCount": 22,
+			"turnoutCount": 32,
 			"turnoutCountMax": 117
 		},
 		{
@@ -22,7 +28,7 @@
 		{
 			"program": "Geografia",
 			"type": "Undergraduate",
-			"turnoutCount": 54,
+			"turnoutCount": 62,
 			"turnoutCountMax": 108
 		},
 		{
@@ -34,73 +40,73 @@
 		{
 			"program": "Kasaysayan",
 			"type": "Undergraduate",
-			"turnoutCount": 39,
+			"turnoutCount": 51,
 			"turnoutCountMax": 80
 		},
 		{
 			"program": "Kasaysayan",
 			"type": "Graduate",
-			"turnoutCount": 7,
+			"turnoutCount": 11,
 			"turnoutCountMax": 99
 		},
 		{
 			"program": "Linguistics",
 			"type": "Undergraduate",
-			"turnoutCount": 29,
+			"turnoutCount": 39,
 			"turnoutCountMax": 129
 		},
 		{
 			"program": "Linguistics",
 			"type": "Graduate",
-			"turnoutCount": 0,
+			"turnoutCount": 1,
 			"turnoutCountMax": 51
 		},
 		{
 			"program": "Philosophy",
 			"type": "Undergraduate",
-			"turnoutCount": 73,
+			"turnoutCount": 85,
 			"turnoutCountMax": 170
 		},
 		{
 			"program": "Philosophy",
 			"type": "Graduate",
-			"turnoutCount": 2,
+			"turnoutCount": 4,
 			"turnoutCountMax": 56
 		},
 		{
 			"program": "Political Science",
 			"type": "Undergraduate",
-			"turnoutCount": 126,
+			"turnoutCount": 173,
 			"turnoutCountMax": 328
 		},
 		{
 			"program": "Political Science",
 			"type": "Graduate",
-			"turnoutCount": 4,
+			"turnoutCount": 5,
 			"turnoutCountMax": 86
 		},
 		{
 			"program": "Psychology",
 			"type": "Undergraduate",
-			"turnoutCount": 165,
+			"turnoutCount": 235,
 			"turnoutCountMax": 417
 		},
 		{
 			"program": "Psychology",
 			"type": "Graduate",
-			"turnoutCount": 9,
+			"turnoutCount": 14,
 			"turnoutCountMax": 269
 		},
 		{
 			"program": "Sociology",
 			"type": "Undergraduate",
-			"turnoutCount": 42,
+			"turnoutCount": 47,
 			"turnoutCountMax": 154
 		},
 		{
 			"program": "Sociology",
 			"type": "Graduate",
-			"turnoutCount": 6,
+			"turnoutCount": 7,
 			"turnoutCountMax": 80
 		},
 		{
@@ -112,7 +118,7 @@
 		{
 			"program": "Population Institute",
 			"type": "Graduate",
-			"turnoutCount": 1,
+			"turnoutCount": 2,
 			"turnoutCountMax": 53
 		}
 	]
