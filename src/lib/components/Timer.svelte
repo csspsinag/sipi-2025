@@ -119,7 +119,11 @@
 		color: #d31f72;
 		font-variant-numeric: tabular-nums;
 
-		margin: -7% 0 -3%;
+		margin: -2cqw 0 0;
+
+		@media (min-width: 1800px) {
+			margin-top: -1.5cqw;
+		}
 		padding: 0;
 		width: 100%;
 
@@ -138,7 +142,7 @@
 		align-items: center;
 
 		font-family: 'Bricolage Grotesque', sans-serif !important;
-		font-size: clamp(1rem, 10cqw, 6rem);
+		font-size: clamp(1rem, 12cqw, 8rem);
 		font-weight: 700;
 
 		p {

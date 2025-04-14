@@ -101,7 +101,7 @@
 	}
 
 	.timeline {
-		width: clamp(450px, 50vw, 750px);
+		width: min(90vw, 750px);
 	}
 
 	@media (max-width: 800px) {
@@ -123,25 +123,23 @@
 		min-width: 75vw;
 
 		h2 {
-			margin-bottom: clamp(1rem, 2vh, 4rem);
+			margin-bottom: -2vw;
 			z-index: 1;
-		}
 
-		@media (max-width: 1200px) {
-			h2 {
-				margin-bottom: -0.75rem;
+			@media (min-width: 1800px) {
+				margin-bottom: -2rem;
 			}
-		}
 
-		@media (max-width: 1000px) {
-			h2 {
+			@media (max-width: 1200px) {
 				margin-bottom: -1rem;
 			}
-		}
 
-		@media (max-width: 800px) {
-			h2 {
-				margin-bottom: -1rem;
+			@media (max-width: 1000px) {
+				margin-bottom: -2rem;
+			}
+
+			@media (max-width: 800px) {
+				margin-bottom: -6vw;
 			}
 		}
 	}
