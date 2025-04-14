@@ -125,21 +125,21 @@ export const electionDates: Array<dateExpression> = [
 	},
 	{
 		id: 'collegeCampaignMaterialsLastDay',
-		level: ['college'],
+		level: ['uwide', 'college'],
 		name: 'Last day of posting campaign materials',
-		date: dayjs.tz('2025-05-13T00:00', 'Asia/Manila')
+		date: dayjs.tz('2025-05-13T23:59', 'Asia/Manila')
 	},
 	{
 		id: 'kilatiskoDay',
 		level: ['uwide'],
 		name: 'KILATISKO: UPD USC Miting de avance',
-		date: dayjs.tz('2025-05-14T00:00', 'Asia/Manila')
+		date: dayjs.tz('2025-05-14T13:00', 'Asia/Manila')
 	},
 	{
 		id: 'updCampaignPeriodEnd',
 		level: ['uwide', 'college'],
 		name: 'End of campaign period',
-		date: dayjs.tz('2025-05-14T00:00', 'Asia/Manila'),
+		date: dayjs.tz('2025-05-14T17:00', 'Asia/Manila'),
 		tag: 'end'
 	},
 	{
