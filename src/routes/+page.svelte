@@ -123,25 +123,37 @@
 		min-width: 75vw;
 
 		h2 {
-			margin-bottom: clamp(0, 4vw, 3rem);
+			margin-bottom: clamp(1rem, 2vh, 4rem);
 			z-index: 1;
+		}
+
+		@media (max-width: 1200px) {
+			h2 {
+				margin-bottom: -0.75rem;
+			}
+		}
+
+		@media (max-width: 1000px) {
+			h2 {
+				margin-bottom: -1rem;
+			}
 		}
 
 		@media (max-width: 800px) {
 			h2 {
-				margin-bottom: -1em;
+				margin-bottom: -1rem;
 			}
 		}
 	}
 
 	#sipiLogo {
-		width: 25vw;
-		margin: -5rem 0 -2rem 0;
+		height: clamp(10rem, 33vh, 20rem);
+		margin: -5rem 0 calc(clamp(-0.5rem, 4vw, 4rem) * -1) 0;
 		z-index: 2;
 	}
 
 	h2 {
-		font-size: clamp(0.5rem, 2.5vw, 2rem);
+		font-size: clamp(1rem, 3vw, 2rem);
 		padding: 0.33rem 0;
 		font-weight: 500;
 		background-color: #a02ee9;
