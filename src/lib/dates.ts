@@ -4,9 +4,9 @@ import timezone from 'dayjs/plugin/timezone.js';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.tz.setDefault('Asia/Manila');
-import type { dateExpression } from './types';
+import type { DateExpression } from './types';
 
-export const electionDates: Array<dateExpression> = [
+export const electionDates: Array<DateExpression> = [
 	{
 		id: 'cocFilingStart',
 		level: ['uwide', 'college'],
@@ -164,7 +164,7 @@ export const electionDates: Array<dateExpression> = [
 	}
 ];
 
-export const electionDatesLookup: Map<string, dateExpression> = (() => {
+export const electionDatesLookup: Map<string, DateExpression> = (() => {
 	const map = new Map();
 	for (const date of electionDates) {
 		map.set(date.id, date);
