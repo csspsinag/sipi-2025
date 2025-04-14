@@ -18,7 +18,7 @@ export const electionDates: Array<dateExpression> = [
 		id: 'cocFilingEnd',
 		level: ['uwide', 'college'],
 		name: 'End of COC filing',
-		date: dayjs.tz('2025-04-16T00:00', 'Asia/Manila'),
+		date: dayjs.tz('2025-04-16T12:00', 'Asia/Manila'),
 		tag: 'moved',
 		dateMoved: dayjs.tz('2025-04-14T00:00', 'Asia/Manila'),
 		movedUrl: 'https://www.facebook.com/share/1Bz6H3SCJj/'
