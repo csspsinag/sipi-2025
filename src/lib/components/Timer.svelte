@@ -42,6 +42,8 @@
 	const updater = updateDeterminer();
 
 	function countdownInitializer(date: dayjs.Dayjs): {
+		asMonths: () => number;
+		asDays: () => number;
 		months: () => number;
 		days: () => number;
 		hours: () => number;
@@ -52,6 +54,8 @@
 			dayjs.duration(dayjs(date).diff(anchorTimeGetter().tz(timezoneGuess))).add(10, 'hour')
 		);
 		return {
+			asMonths: () => electionCountdownInit.asMonths(),
+			asDays: () => electionCountdownInit.asDays(),
 			months: () => electionCountdownInit.months(),
 			days: () => electionCountdownInit.days(),
 			hours: () => electionCountdownInit.hours(),
@@ -84,7 +88,7 @@
 			</div>
 			<p class="separator">:</p>
 		{/if}
-		{#if countdown.days() > 1 && countdown.months() >= 0}
+		{#if countdown.asMonths() > 0 && countdown.asDays() >= 0}
 			<div class="countdown-display">
 				<NumberFlow value={countdown.days()} {format} trend="0" />
 				<p>Days</p>

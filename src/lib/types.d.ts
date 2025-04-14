@@ -5,7 +5,10 @@ type DateExpression = {
 	level: ('national' | 'uwide' | 'college')[];
 	name: string;
 	date: dayjs.Dayjs;
-	tag?: 'start' | 'end';
+	tag?: 'start' | 'end' | 'moved' | 'estimate';
+	dateMoved?: dayjs.Dayjs;
+	movedUrl?: string;
+	estimateReason?: string;
 };
 
 type TurnoutData = {
