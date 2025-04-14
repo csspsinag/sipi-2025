@@ -10,24 +10,34 @@ export const electionDates: Array<DateExpression> = [
 	{
 		id: 'cocFilingStart',
 		level: ['uwide', 'college'],
-		name: 'Start of COC filing',
+		name: 'Start of candidacy filing',
 		date: dayjs.tz('2025-04-07T00:00', 'Asia/Manila'),
 		tag: 'start'
 	},
 	{
-		id: 'cocFilingEnd',
-		level: ['uwide', 'college'],
-		name: 'End of COC filing',
-		date: dayjs.tz('2025-04-16T00:00', 'Asia/Manila'),
+		id: 'cocUwideFilingEnd',
+		level: ['uwide'],
+		name: 'End of candidacy filing',
+		date: dayjs.tz('2025-04-16T12:00', 'Asia/Manila'),
 		tag: 'moved',
 		dateMoved: dayjs.tz('2025-04-14T00:00', 'Asia/Manila'),
 		movedUrl: 'https://www.facebook.com/share/1Bz6H3SCJj/'
 	},
 	{
+		id: 'cocCollegeFilingEnd',
+		level: ['college'],
+		name: 'End of candidacy filing',
+		date: dayjs.tz('2025-04-21T12:00', 'Asia/Manila'),
+		tag: 'moved',
+		dateMoved: dayjs.tz('2025-04-14T12:00', 'Asia/Manila'),
+		movedUrl:
+			'https://web.facebook.com/cssposa/posts/pfbid05jSiprY2TEazfQvEz1oysbphANFeDDC6yRyZMNJfJMuz1ZiMLP2YiSyM8F8Y2kcgl'
+	},
+	{
 		id: 'cocCollegeDeliberationStart',
 		level: ['college'],
 		name: 'Start of candidacy deliberations',
-		date: dayjs.tz('2025-04-16T00:00', 'Asia/Manila'),
+		date: dayjs.tz('2025-04-21T00:00', 'Asia/Manila'),
 		tag: 'estimate',
 		estimateReason: 'candidacy filing extension'
 	},
@@ -35,7 +45,7 @@ export const electionDates: Array<DateExpression> = [
 		id: 'cocCollegeDeliberationEnd',
 		level: ['college'],
 		name: 'End of candidacy deliberations',
-		date: dayjs.tz('2025-04-17T12:00', 'Asia/Manila'),
+		date: dayjs.tz('2025-04-21T14:00', 'Asia/Manila'),
 		tag: 'estimate',
 		estimateReason: 'candidacy filing extension'
 	},
@@ -43,7 +53,7 @@ export const electionDates: Array<DateExpression> = [
 		id: 'initialCollegeCandidateListRelease',
 		level: ['college'],
 		name: 'Initial candidate list release',
-		date: dayjs.tz('2025-04-17T14:00', 'Asia/Manila'),
+		date: dayjs.tz('2025-04-21T17:00', 'Asia/Manila'),
 		tag: 'estimate',
 		estimateReason: 'candidacy filing extension'
 	},
@@ -51,7 +61,7 @@ export const electionDates: Array<DateExpression> = [
 		id: 'initialUwideCandidateListRelease',
 		level: ['uwide'],
 		name: 'Initial candidate list release',
-		date: dayjs.tz('2025-04-21T00:00', 'Asia/Manila'),
+		date: dayjs.tz('2025-04-21T17:00', 'Asia/Manila'),
 		tag: 'start'
 	},
 	{
