@@ -18,29 +18,34 @@ export const electionDates: Array<dateExpression> = [
 		id: 'cocFilingEnd',
 		level: ['uwide', 'college'],
 		name: 'End of COC filing',
-		date: dayjs.tz('2025-04-14T00:00', 'Asia/Manila'),
-		tag: 'end'
+		date: dayjs.tz('2025-04-16T00:00', 'Asia/Manila'),
+		tag: 'moved',
+		dateMoved: dayjs.tz('2025-04-14T00:00', 'Asia/Manila'),
+		movedUrl: 'https://www.facebook.com/share/1Bz6H3SCJj/'
 	},
 	{
 		id: 'cocCollegeDeliberationStart',
 		level: ['college'],
-		name: 'Start of COC deliberation',
-		date: dayjs.tz('2025-04-14T00:00', 'Asia/Manila'),
-		tag: 'start'
+		name: 'Start of candidacy deliberations',
+		date: dayjs.tz('2025-04-16T00:00', 'Asia/Manila'),
+		tag: 'estimate',
+		estimateReason: 'candidacy filing extension'
 	},
 	{
 		id: 'cocCollegeDeliberationEnd',
 		level: ['college'],
-		name: 'End of COC deliberation',
-		date: dayjs.tz('2025-04-16T00:00', 'Asia/Manila'),
-		tag: 'end'
+		name: 'End of candidacy deliberations',
+		date: dayjs.tz('2025-04-17T12:00', 'Asia/Manila'),
+		tag: 'estimate',
+		estimateReason: 'candidacy filing extension'
 	},
 	{
 		id: 'initialCollegeCandidateListRelease',
 		level: ['college'],
 		name: 'Initial candidate list release',
-		date: dayjs.tz('2025-04-16T00:00', 'Asia/Manila'),
-		tag: 'start'
+		date: dayjs.tz('2025-04-17T14:00', 'Asia/Manila'),
+		tag: 'estimate',
+		estimateReason: 'candidacy filing extension'
 	},
 	{
 		id: 'initialUwideCandidateListRelease',

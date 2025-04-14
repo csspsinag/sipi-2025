@@ -6,6 +6,7 @@
 
 	import dayjs from 'dayjs';
 	import relativeTime from 'dayjs/plugin/relativeTime.js';
+	import Icon from '@iconify/svelte';
 	dayjs.extend(relativeTime);
 
 	type Props = WithoutChildrenOrChild<Accordion.ItemProps> & {
@@ -71,6 +72,17 @@
 					>
 					<div class="relative-date">
 						{date.date.add(10, 'hour').fromNow()}
+						{#if date.dateMoved}
+							<a class="moved-timer" href={date.movedUrl} target="_blank"
+								>Moved from {date.dateMoved.add(10, 'hour').format('YYYY MMM DD')}
+								<Icon icon="tabler:external-link" /></a
+							>
+						{/if}
+						{#if date.tag === 'estimate'}
+							<div class="estimate-tag">
+								<Icon icon="tabler:calendar-clock" /> Estimate {#if date.estimateReason}due to {date.estimateReason}{/if}
+							</div>
+						{/if}
 					</div>
 					<div class="date-notes">{@render dateNotes?.()}</div>
 				</div>
@@ -100,8 +112,50 @@
 		align-items: center;
 	}
 
+	:global(.tl-item:has([disabled])) {
+		box-shadow: 1px 1px 3px #0004;
+		border: 0px;
+		background-color: color-mix(in srgb, #000 20%, var(--level-light-color) 70%);
+	}
+
 	:global(.tl-item [data-accordion-item]) {
 		width: 100%;
+	}
+
+	.moved-timer {
+		display: block;
+		width: max-content;
+		margin: 0.5rem auto 0;
+		border: 1px solid transparent;
+
+		font-size: 0.75rem;
+		background-color: #e94040;
+		color: #fff;
+		padding: 0.25rem 0.5rem;
+		border-radius: 0.25rem;
+		text-decoration: none;
+		transition:
+			background-color 0.2s ease-in-out,
+			border-color 0.2s ease-in-out;
+
+		&:hover,
+		&:focus {
+			background-color: #d31f72;
+			border: 1px solid #d31f72;
+			color: #fff;
+		}
+	}
+
+	.estimate-tag {
+		display: block;
+		width: max-content;
+		margin: 0.5rem auto 0;
+		border: 1px solid transparent;
+		font-size: 0.75rem;
+		background-color: #e6d21f;
+		color: #000;
+		padding: 0.25rem 0.5rem;
+		border-radius: 0.25rem;
 	}
 
 	.level-name {
@@ -136,12 +190,7 @@
 			align-items: center;
 			border: none;
 
-			h1,
-			h2,
-			h3,
-			h4,
-			h5,
-			h6 {
+			h2 {
 				margin: 0;
 			}
 		}
