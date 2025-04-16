@@ -1,823 +1,393 @@
-const ChairData = {
-	name: 'Chair',
-	children: [
-		{
-			name: 'Macam',
-			display: 'Macam',
-			party: 'buklod',
-			children: [
-				{
-					name: 'ANH',
-					children: [
-						{ name: 'UG', value: 7 },
-						{ name: 'GD', value: 0 }
-					]
-				},
-				{
-					name: 'GEO',
-					children: [
-						{ name: 'UG', value: 14 },
-						{ name: 'GD', value: 1 }
-					]
-				},
-				{
-					name: 'KAS',
-					children: [
-						{ name: 'UG', value: 16 },
-						{ name: 'GD', value: 11 }
-					]
-				},
-				{
-					name: 'LNG',
-					children: [
-						{ name: 'UG', value: 27 },
-						{ name: 'GD', value: 0 }
-					]
-				},
-				{
-					name: 'PLO',
-					children: [
-						{ name: 'UG', value: 20 },
-						{ name: 'GD', value: 1 }
-					]
-				},
-				{
-					name: 'PSC',
-					children: [
-						{ name: 'UG', value: 96 },
-						{ name: 'GD', value: 0 }
-					]
-				},
-				{
-					name: 'PSY',
-					children: [
-						{ name: 'UG', value: 246 },
-						{ name: 'GD', value: 8 }
-					]
-				},
-				{
-					name: 'SOC',
-					children: [
-						{ name: 'UG', value: 4 },
-						{ name: 'GD', value: 1 }
-					]
-				},
-				{ name: 'nMJ', value: 0 },
-				{ name: 'PPS', value: 0 }
-			]
-		},
-		{
-			name: 'Abstain',
-			display: 'Abstain',
-			party: 'abstain',
-			children: [
-				{
-					name: 'ANH',
-					children: [
-						{ name: 'UG', value: 11 },
-						{ name: 'GD', value: 2 }
-					]
-				},
-				{
-					name: 'GEO',
-					children: [
-						{ name: 'UG', value: 37 },
-						{ name: 'GD', value: 2 }
-					]
-				},
-				{
-					name: 'KAS',
-					children: [
-						{ name: 'UG', value: 21 },
-						{ name: 'GD', value: 11 }
-					]
-				},
-				{
-					name: 'LNG',
-					children: [
-						{ name: 'UG', value: 13 },
-						{ name: 'GD', value: 0 }
-					]
-				},
-				{
-					name: 'PHL',
-					children: [
-						{ name: 'UG', value: 21 },
-						{ name: 'GD', value: 0 }
-					]
-				},
-				{
-					name: 'PSC',
-					children: [
-						{ name: 'UG', value: 55 },
-						{ name: 'GD', value: 1 }
-					]
-				},
-				{
-					name: 'PSY',
-					children: [
-						{ name: 'UG', value: 39 },
-						{ name: 'GD', value: 3 }
-					]
-				},
-				{
-					name: 'SOC',
-					children: [
-						{ name: 'UG', value: 11 },
-						{ name: 'GD', value: 3 }
-					]
-				},
-				{ name: 'nMJ', value: 0 },
-				{ name: 'PPS', value: 0 }
-			]
-		},
-		{
-			name: 'Patawaran',
-			display: 'Patawaran',
-			party: 'saligan',
-			children: [
-				{
-					name: 'ANH',
-					children: [
-						{ name: 'UG', value: 61 },
-						{ name: 'GD', value: 3 }
-					]
-				},
-				{
-					name: 'GEO',
-					children: [
-						{ name: 'UG', value: 51 },
-						{ name: 'GD', value: 2 }
-					]
-				},
-				{
-					name: 'KAS',
-					children: [
-						{ name: 'UG', value: 24 },
-						{ name: 'GD', value: 2 }
-					]
-				},
-				{
-					name: 'LNG',
-					children: [
-						{ name: 'UG', value: 38 },
-						{ name: 'GD', value: 0 }
-					]
-				},
-				{
-					name: 'PLO',
-					children: [
-						{ name: 'UG', value: 59 },
-						{ name: 'GD', value: 1 }
-					]
-				},
-				{
-					name: 'PSC',
-					children: [
-						{ name: 'UG', value: 76 },
-						{ name: 'GD', value: 0 }
-					]
-				},
-				{
-					name: 'PSY',
-					children: [
-						{ name: 'UG', value: 25 },
-						{ name: 'GD', value: 3 }
-					]
-				},
-				{
-					name: 'SOC',
-					children: [
-						{ name: 'UG', value: 77 },
-						{ name: 'GD', value: 1 }
-					]
-				},
-				{ name: 'nMJ', value: 0 },
-				{ name: 'PPS', value: 2 }
-			]
-		}
-	]
-};
+import type { ElectionsData } from "./types";
 
-const VChairData = {
-	name: 'Vice Chair',
-	children: [
+export const electionsData: ElectionsData = {	
+	chair: {
+		name: 'Chair',
+		children: [
+			{
+				party: 'buklod', name: 'Macam', display: 'Macam', children: [
+					{name: 'anthropology',			children: [ { name: 'undergraduate', value: 7   },
+																{ name: 'graduate', 	 value: 0   } ] },
+					{name: 'geografia',				children: [ { name: 'undergraduate', value: 14 	},
+																{ name: 'graduate', 	 value: 1 	} ] },
+					{name: 'kasaysayan',			children: [ { name: 'undergraduate', value: 16 	},
+																{ name: 'graduate', 	 value: 11	} ] },
+					{name: 'linguistics',			children: [ { name: 'undergraduate', value: 12 	},
+																{ name: 'graduate', 	 value: 0	} ] },
+					{name: 'philosophy',			children: [ { name: 'undergraduate', value: 7   },
+																{ name: 'graduate', 	 value: 0   } ] },
+					{name: 'politicalScience',		children: [ { name: 'undergraduate', value: 14 	},
+																{ name: 'graduate', 	 value: 1 	} ] },
+					{name: 'psychology',			children: [ { name: 'undergraduate', value: 16 	},
+																{ name: 'graduate', 	 value: 11	} ] },
+					{name: 'sociology',				children: [ { name: 'undergraduate', value: 12 	},
+																{ name: 'graduate', 	 value: 0	} ] },
+					{name: 'nonMajor',				children: [ { name: 'undergraduate', value: 0	} ] },
+					{name: 'populationInstitute',	children: [ { name: 'graduate', 	 value: 0	} ] }
+				]
+			},
+			{
+				party: 'abstain', name: 'Abstain', display: 'Abstain', children: [
+					{name: 'anthropology',			children: [ { name: 'undergraduate', value: 7   },
+																{ name: 'graduate', 	 value: 0   } ] },
+					{name: 'geografia',				children: [ { name: 'undergraduate', value: 14 	},
+																{ name: 'graduate', 	 value: 1 	} ] },
+					{name: 'kasaysayan',			children: [ { name: 'undergraduate', value: 16 	},
+																{ name: 'graduate', 	 value: 11	} ] },
+					{name: 'linguistics',			children: [ { name: 'undergraduate', value: 12 	},
+																{ name: 'graduate', 	 value: 0	} ] },
+					{name: 'philosophy',			children: [ { name: 'undergraduate', value: 7   },
+																{ name: 'graduate', 	 value: 0   } ] },
+					{name: 'politicalScience',		children: [ { name: 'undergraduate', value: 14 	},
+																{ name: 'graduate', 	 value: 1 	} ] },
+					{name: 'psychology',			children: [ { name: 'undergraduate', value: 16 	},
+																{ name: 'graduate', 	 value: 11	} ] },
+					{name: 'sociology',				children: [ { name: 'undergraduate', value: 12 	},
+																{ name: 'graduate', 	 value: 0	} ] },
+					{name: 'nonMajor',				children: [ { name: 'undergraduate', value: 0	} ] },
+					{name: 'populationInstitute',	children: [ { name: 'graduate', 	 value: 0	} ] }
+				]
+			},
+			{
+				party: 'saligan', name: 'Patawaran', display: 'Patawaran', children: [
+					{name: 'anthropology',			children: [ { name: 'undergraduate', value: 7   },
+																{ name: 'graduate', 	 value: 0   } ] },
+					{name: 'geografia',				children: [ { name: 'undergraduate', value: 14 	},
+																{ name: 'graduate', 	 value: 1 	} ] },
+					{name: 'kasaysayan',			children: [ { name: 'undergraduate', value: 16 	},
+																{ name: 'graduate', 	 value: 11	} ] },
+					{name: 'linguistics',			children: [ { name: 'undergraduate', value: 12 	},
+																{ name: 'graduate', 	 value: 0	} ] },
+					{name: 'philosophy',			children: [ { name: 'undergraduate', value: 7   },
+																{ name: 'graduate', 	 value: 0   } ] },
+					{name: 'politicalScience',		children: [ { name: 'undergraduate', value: 14 	},
+																{ name: 'graduate', 	 value: 1 	} ] },
+					{name: 'psychology',			children: [ { name: 'undergraduate', value: 16 	},
+																{ name: 'graduate', 	 value: 11	} ] },
+					{name: 'sociology',				children: [ { name: 'undergraduate', value: 12 	},
+																{ name: 'graduate', 	 value: 0	} ] },
+					{name: 'nonMajor',				children: [ { name: 'undergraduate', value: 0	} ] },
+					{name: 'populationInstitute',	children: [ { name: 'graduate', 	 value: 0	} ] }
+				]
+			}
+		]
+	},
+	
+	viceChair: {
+		name: 'Vice Chair',
+		children: [
+			{
+				party: 'buklod', name: 'Macam', display: 'Macam', children: [
+					{name: 'anthropology',			children: [ { name: 'undergraduate', value: 7   },
+																{ name: 'graduate', 	 value: 0   } ] },
+					{name: 'geografia',				children: [ { name: 'undergraduate', value: 14 	},
+																{ name: 'graduate', 	 value: 1 	} ] },
+					{name: 'kasaysayan',			children: [ { name: 'undergraduate', value: 16 	},
+																{ name: 'graduate', 	 value: 11	} ] },
+					{name: 'linguistics',			children: [ { name: 'undergraduate', value: 12 	},
+																{ name: 'graduate', 	 value: 0	} ] },
+					{name: 'philosophy',			children: [ { name: 'undergraduate', value: 7   },
+																{ name: 'graduate', 	 value: 0   } ] },
+					{name: 'politicalScience',		children: [ { name: 'undergraduate', value: 14 	},
+																{ name: 'graduate', 	 value: 1 	} ] },
+					{name: 'psychology',			children: [ { name: 'undergraduate', value: 16 	},
+																{ name: 'graduate', 	 value: 11	} ] },
+					{name: 'sociology',				children: [ { name: 'undergraduate', value: 12 	},
+																{ name: 'graduate', 	 value: 0	} ] },
+					{name: 'nonMajor',				children: [ { name: 'undergraduate', value: 0	} ] },
+					{name: 'populationInstitute',	children: [ { name: 'graduate', 	 value: 0	} ] }
+				]
+			},
+			{
+				party: 'abstain', name: 'Abstain', display: 'Abstain', children: [
+					{name: 'anthropology',			children: [ { name: 'undergraduate', value: 7   },
+																{ name: 'graduate', 	 value: 0   } ] },
+					{name: 'geografia',				children: [ { name: 'undergraduate', value: 14 	},
+																{ name: 'graduate', 	 value: 1 	} ] },
+					{name: 'kasaysayan',			children: [ { name: 'undergraduate', value: 16 	},
+																{ name: 'graduate', 	 value: 11	} ] },
+					{name: 'linguistics',			children: [ { name: 'undergraduate', value: 12 	},
+																{ name: 'graduate', 	 value: 0	} ] },
+					{name: 'philosophy',			children: [ { name: 'undergraduate', value: 7   },
+																{ name: 'graduate', 	 value: 0   } ] },
+					{name: 'politicalScience',		children: [ { name: 'undergraduate', value: 14 	},
+																{ name: 'graduate', 	 value: 1 	} ] },
+					{name: 'psychology',			children: [ { name: 'undergraduate', value: 16 	},
+																{ name: 'graduate', 	 value: 11	} ] },
+					{name: 'sociology',				children: [ { name: 'undergraduate', value: 12 	},
+																{ name: 'graduate', 	 value: 0	} ] },
+					{name: 'nonMajor',				children: [ { name: 'undergraduate', value: 0	} ] },
+					{name: 'populationInstitute',	children: [ { name: 'graduate', 	 value: 0	} ] }
+				]
+			},
+			{
+				party: 'saligan', name: 'Patawaran', display: 'Patawaran', children: [
+					{name: 'anthropology',			children: [ { name: 'undergraduate', value: 7   },
+																{ name: 'graduate', 	 value: 0   } ] },
+					{name: 'geografia',				children: [ { name: 'undergraduate', value: 14 	},
+																{ name: 'graduate', 	 value: 1 	} ] },
+					{name: 'kasaysayan',			children: [ { name: 'undergraduate', value: 16 	},
+																{ name: 'graduate', 	 value: 11	} ] },
+					{name: 'linguistics',			children: [ { name: 'undergraduate', value: 12 	},
+																{ name: 'graduate', 	 value: 0	} ] },
+					{name: 'philosophy',			children: [ { name: 'undergraduate', value: 7   },
+																{ name: 'graduate', 	 value: 0   } ] },
+					{name: 'politicalScience',		children: [ { name: 'undergraduate', value: 14 	},
+																{ name: 'graduate', 	 value: 1 	} ] },
+					{name: 'psychology',			children: [ { name: 'undergraduate', value: 16 	},
+																{ name: 'graduate', 	 value: 11	} ] },
+					{name: 'sociology',				children: [ { name: 'undergraduate', value: 12 	},
+																{ name: 'graduate', 	 value: 0	} ] },
+					{name: 'nonMajor',				children: [ { name: 'undergraduate', value: 0	} ] },
+					{name: 'populationInstitute',	children: [ { name: 'graduate', 	 value: 0	} ] }
+				]
+			}
+		]
+	},
+	
+	collegeRepresentative: {
+		name: 'CSSP Representative to the USC',
+		display: 'CSSP Rep',
+		children: [
+			{
+				party: 'buklod', name: 'Macam', display: 'Macam', children: [
+					{name: 'anthropology',			children: [ { name: 'undergraduate', value: 7   },
+																{ name: 'graduate', 	 value: 0   } ] },
+					{name: 'geografia',				children: [ { name: 'undergraduate', value: 14 	},
+																{ name: 'graduate', 	 value: 1 	} ] },
+					{name: 'kasaysayan',			children: [ { name: 'undergraduate', value: 16 	},
+																{ name: 'graduate', 	 value: 11	} ] },
+					{name: 'linguistics',			children: [ { name: 'undergraduate', value: 12 	},
+																{ name: 'graduate', 	 value: 0	} ] },
+					{name: 'philosophy',			children: [ { name: 'undergraduate', value: 7   },
+																{ name: 'graduate', 	 value: 0   } ] },
+					{name: 'politicalScience',		children: [ { name: 'undergraduate', value: 14 	},
+																{ name: 'graduate', 	 value: 1 	} ] },
+					{name: 'psychology',			children: [ { name: 'undergraduate', value: 16 	},
+																{ name: 'graduate', 	 value: 11	} ] },
+					{name: 'sociology',				children: [ { name: 'undergraduate', value: 12 	},
+																{ name: 'graduate', 	 value: 0	} ] },
+					{name: 'nonMajor',				children: [ { name: 'undergraduate', value: 0	} ] },
+					{name: 'populationInstitute',	children: [ { name: 'graduate', 	 value: 0	} ] }
+				]
+			},
+			{
+				party: 'abstain', name: 'Abstain', display: 'Abstain', children: [
+					{name: 'anthropology',			children: [ { name: 'undergraduate', value: 7   },
+																{ name: 'graduate', 	 value: 0   } ] },
+					{name: 'geografia',				children: [ { name: 'undergraduate', value: 14 	},
+																{ name: 'graduate', 	 value: 1 	} ] },
+					{name: 'kasaysayan',			children: [ { name: 'undergraduate', value: 16 	},
+																{ name: 'graduate', 	 value: 11	} ] },
+					{name: 'linguistics',			children: [ { name: 'undergraduate', value: 12 	},
+																{ name: 'graduate', 	 value: 0	} ] },
+					{name: 'philosophy',			children: [ { name: 'undergraduate', value: 7   },
+																{ name: 'graduate', 	 value: 0   } ] },
+					{name: 'politicalScience',		children: [ { name: 'undergraduate', value: 14 	},
+																{ name: 'graduate', 	 value: 1 	} ] },
+					{name: 'psychology',			children: [ { name: 'undergraduate', value: 16 	},
+																{ name: 'graduate', 	 value: 11	} ] },
+					{name: 'sociology',				children: [ { name: 'undergraduate', value: 12 	},
+																{ name: 'graduate', 	 value: 0	} ] },
+					{name: 'nonMajor',				children: [ { name: 'undergraduate', value: 0	} ] },
+					{name: 'populationInstitute',	children: [ { name: 'graduate', 	 value: 0	} ] }
+				]
+			},
+			{
+				party: 'saligan', name: 'Patawaran', display: 'Patawaran', children: [
+					{name: 'anthropology',			children: [ { name: 'undergraduate', value: 7   },
+																{ name: 'graduate', 	 value: 0   } ] },
+					{name: 'geografia',				children: [ { name: 'undergraduate', value: 14 	},
+																{ name: 'graduate', 	 value: 1 	} ] },
+					{name: 'kasaysayan',			children: [ { name: 'undergraduate', value: 16 	},
+																{ name: 'graduate', 	 value: 11	} ] },
+					{name: 'linguistics',			children: [ { name: 'undergraduate', value: 12 	},
+																{ name: 'graduate', 	 value: 0	} ] },
+					{name: 'philosophy',			children: [ { name: 'undergraduate', value: 7   },
+																{ name: 'graduate', 	 value: 0   } ] },
+					{name: 'politicalScience',		children: [ { name: 'undergraduate', value: 14 	},
+																{ name: 'graduate', 	 value: 1 	} ] },
+					{name: 'psychology',			children: [ { name: 'undergraduate', value: 16 	},
+																{ name: 'graduate', 	 value: 11	} ] },
+					{name: 'sociology',				children: [ { name: 'undergraduate', value: 12 	},
+																{ name: 'graduate', 	 value: 0	} ] },
+					{name: 'nonMajor',				children: [ { name: 'undergraduate', value: 0	} ] },
+					{name: 'populationInstitute',	children: [ { name: 'graduate', 	 value: 0	} ] }
+				]
+			}
+		]
+	},
+	
+	councilor: [
 		{
-			name: 'Macam',
-			display: 'Macam',
-			party: 'buklod',
+			name: 'Councilor',
 			children: [
 				{
-					name: 'ANH',
-					children: [
-						{ name: 'UG', value: 7 },
-						{ name: 'GD', value: 0 }
+					party: 'buklod', name: 'Macam', display: 'Macam', children: [
+						{name: 'anthropology',			children: [ { name: 'undergraduate', value: 7   },
+																	{ name: 'graduate', 	 value: 0   } ] },
+						{name: 'geografia',				children: [ { name: 'undergraduate', value: 14 	},
+																	{ name: 'graduate', 	 value: 1 	} ] },
+						{name: 'kasaysayan',			children: [ { name: 'undergraduate', value: 16 	},
+																	{ name: 'graduate', 	 value: 11	} ] },
+						{name: 'linguistics',			children: [ { name: 'undergraduate', value: 12 	},
+																	{ name: 'graduate', 	 value: 0	} ] },
+						{name: 'philosophy',			children: [ { name: 'undergraduate', value: 7   },
+																	{ name: 'graduate', 	 value: 0   } ] },
+						{name: 'politicalScience',		children: [ { name: 'undergraduate', value: 14 	},
+																	{ name: 'graduate', 	 value: 1 	} ] },
+						{name: 'psychology',			children: [ { name: 'undergraduate', value: 16 	},
+																	{ name: 'graduate', 	 value: 11	} ] },
+						{name: 'sociology',				children: [ { name: 'undergraduate', value: 12 	},
+																	{ name: 'graduate', 	 value: 0	} ] },
+						{name: 'nonMajor',				children: [ { name: 'undergraduate', value: 0	} ] },
+						{name: 'populationInstitute',	children: [ { name: 'graduate', 	 value: 0	} ] }
 					]
 				},
 				{
-					name: 'GEO',
-					children: [
-						{ name: 'UG', value: 14 },
-						{ name: 'GD', value: 1 }
+					party: 'abstain', name: 'Abstain', children: [
+						{name: 'anthropology',			children: [ { name: 'undergraduate', value: 7   },
+																	{ name: 'graduate', 	 value: 0   } ] },
+						{name: 'geografia',				children: [ { name: 'undergraduate', value: 14 	},
+																	{ name: 'graduate', 	 value: 1 	} ] },
+						{name: 'kasaysayan',			children: [ { name: 'undergraduate', value: 16 	},
+																	{ name: 'graduate', 	 value: 11	} ] },
+						{name: 'linguistics',			children: [ { name: 'undergraduate', value: 12 	},
+																	{ name: 'graduate', 	 value: 0	} ] },
+						{name: 'philosophy',			children: [ { name: 'undergraduate', value: 7   },
+																	{ name: 'graduate', 	 value: 0   } ] },
+						{name: 'politicalScience',		children: [ { name: 'undergraduate', value: 14 	},
+																	{ name: 'graduate', 	 value: 1 	} ] },
+						{name: 'psychology',			children: [ { name: 'undergraduate', value: 16 	},
+																	{ name: 'graduate', 	 value: 11	} ] },
+						{name: 'sociology',				children: [ { name: 'undergraduate', value: 12 	},
+																	{ name: 'graduate', 	 value: 0	} ] },
+						{name: 'nonMajor',				children: [ { name: 'undergraduate', value: 0	} ] },
+						{name: 'populationInstitute',	children: [ { name: 'graduate', 	 value: 0	} ] }
 					]
 				},
 				{
-					name: 'KAS',
-					children: [
-						{ name: 'UG', value: 16 },
-						{ name: 'GD', value: 11 }
+					party: 'nonvote', name: 'Patawaran', children: [
+						{name: 'anthropology',			children: [ { name: 'undergraduate', value: 7   },
+																	{ name: 'graduate', 	 value: 0   } ] },
+						{name: 'geografia',				children: [ { name: 'undergraduate', value: 14 	},
+																	{ name: 'graduate', 	 value: 1 	} ] },
+						{name: 'kasaysayan',			children: [ { name: 'undergraduate', value: 16 	},
+																	{ name: 'graduate', 	 value: 11	} ] },
+						{name: 'linguistics',			children: [ { name: 'undergraduate', value: 12 	},
+																	{ name: 'graduate', 	 value: 0	} ] },
+						{name: 'philosophy',			children: [ { name: 'undergraduate', value: 7   },
+																	{ name: 'graduate', 	 value: 0   } ] },
+						{name: 'politicalScience',		children: [ { name: 'undergraduate', value: 14 	},
+																	{ name: 'graduate', 	 value: 1 	} ] },
+						{name: 'psychology',			children: [ { name: 'undergraduate', value: 16 	},
+																	{ name: 'graduate', 	 value: 11	} ] },
+						{name: 'sociology',				children: [ { name: 'undergraduate', value: 12 	},
+																	{ name: 'graduate', 	 value: 0	} ] },
+						{name: 'nonMajor',				children: [ { name: 'undergraduate', value: 0	} ] },
+						{name: 'populationInstitute',	children: [ { name: 'graduate', 	 value: 0	} ] }
 					]
-				},
-				{
-					name: 'LNG',
-					children: [
-						{ name: 'UG', value: 27 },
-						{ name: 'GD', value: 0 }
-					]
-				},
-				{
-					name: 'PLO',
-					children: [
-						{ name: 'UG', value: 20 },
-						{ name: 'GD', value: 1 }
-					]
-				},
-				{
-					name: 'PSC',
-					children: [
-						{ name: 'UG', value: 96 },
-						{ name: 'GD', value: 0 }
-					]
-				},
-				{
-					name: 'PSY',
-					children: [
-						{ name: 'UG', value: 246 },
-						{ name: 'GD', value: 8 }
-					]
-				},
-				{
-					name: 'SOC',
-					children: [
-						{ name: 'UG', value: 4 },
-						{ name: 'GD', value: 1 }
-					]
-				},
-				{ name: 'nMJ', value: 0 },
-				{ name: 'PPS', value: 0 }
-			]
-		},
-		{
-			name: 'Abstain',
-			display: 'Abstain',
-			party: 'abstain',
-			children: [
-				{
-					name: 'ANH',
-					children: [
-						{ name: 'UG', value: 11 },
-						{ name: 'GD', value: 2 }
-					]
-				},
-				{
-					name: 'GEO',
-					children: [
-						{ name: 'UG', value: 37 },
-						{ name: 'GD', value: 2 }
-					]
-				},
-				{
-					name: 'KAS',
-					children: [
-						{ name: 'UG', value: 21 },
-						{ name: 'GD', value: 11 }
-					]
-				},
-				{
-					name: 'LNG',
-					children: [
-						{ name: 'UG', value: 13 },
-						{ name: 'GD', value: 0 }
-					]
-				},
-				{
-					name: 'PHL',
-					children: [
-						{ name: 'UG', value: 21 },
-						{ name: 'GD', value: 0 }
-					]
-				},
-				{
-					name: 'PSC',
-					children: [
-						{ name: 'UG', value: 55 },
-						{ name: 'GD', value: 1 }
-					]
-				},
-				{
-					name: 'PSY',
-					children: [
-						{ name: 'UG', value: 39 },
-						{ name: 'GD', value: 3 }
-					]
-				},
-				{
-					name: 'SOC',
-					children: [
-						{ name: 'UG', value: 11 },
-						{ name: 'GD', value: 3 }
-					]
-				},
-				{ name: 'nMJ', value: 0 },
-				{ name: 'PPS', value: 0 }
-			]
-		},
-		{
-			name: 'Patawaran',
-			display: 'Patawaran',
-			party: 'saligan',
-			children: [
-				{
-					name: 'ANH',
-					children: [
-						{ name: 'UG', value: 61 },
-						{ name: 'GD', value: 3 }
-					]
-				},
-				{
-					name: 'GEO',
-					children: [
-						{ name: 'UG', value: 51 },
-						{ name: 'GD', value: 2 }
-					]
-				},
-				{
-					name: 'KAS',
-					children: [
-						{ name: 'UG', value: 24 },
-						{ name: 'GD', value: 2 }
-					]
-				},
-				{
-					name: 'LNG',
-					children: [
-						{ name: 'UG', value: 38 },
-						{ name: 'GD', value: 0 }
-					]
-				},
-				{
-					name: 'PLO',
-					children: [
-						{ name: 'UG', value: 59 },
-						{ name: 'GD', value: 1 }
-					]
-				},
-				{
-					name: 'PSC',
-					children: [
-						{ name: 'UG', value: 76 },
-						{ name: 'GD', value: 0 }
-					]
-				},
-				{
-					name: 'PSY',
-					children: [
-						{ name: 'UG', value: 25 },
-						{ name: 'GD', value: 3 }
-					]
-				},
-				{
-					name: 'SOC',
-					children: [
-						{ name: 'UG', value: 77 },
-						{ name: 'GD', value: 1 }
-					]
-				},
-				{ name: 'nMJ', value: 0 },
-				{ name: 'PPS', value: 2 }
+				}
 			]
 		}
-	]
-};
+	],
+	
+	departmentRepresentative: {
+		anthropology: [{ name: 'Anthropology Department Representative',
+			display: 'Anthro Rep',
+			children: [
+				{ party: 'buklod', name: 'Macam', display: 'Macam', 	children: [ { name: 'undergraduate', value: 7   },
+																					{ name: 'graduate', 	 value: 0   } ] },
+				{ party: 'abstain', name: 'Abstain', 					children: [ { name: 'undergraduate', value: 7   },
+																					{ name: 'graduate', 	 value: 0   } ] },
+				{ party: 'buklod', name: 'Patawaran', 					children: [ { name: 'undergraduate', value: 7   },
+																					{ name: 'graduate', 	 value: 0   } ] } ]
+		}],
 
-const CRepData = {
-	name: 'CSSP Rep',
-	children: [
-		{
-			name: 'Macam',
-			display: 'Macam',
-			party: 'buklod',
+		geografia: [{ name: 'Geografia Department Representative',
+			display: 'Geog Rep',
 			children: [
-				{
-					name: 'ANH',
-					children: [
-						{ name: 'UG', value: 7 },
-						{ name: 'GD', value: 0 }
-					]
-				},
-				{
-					name: 'GEO',
-					children: [
-						{ name: 'UG', value: 14 },
-						{ name: 'GD', value: 1 }
-					]
-				},
-				{
-					name: 'KAS',
-					children: [
-						{ name: 'UG', value: 16 },
-						{ name: 'GD', value: 11 }
-					]
-				},
-				{
-					name: 'LNG',
-					children: [
-						{ name: 'UG', value: 27 },
-						{ name: 'GD', value: 0 }
-					]
-				},
-				{
-					name: 'PLO',
-					children: [
-						{ name: 'UG', value: 20 },
-						{ name: 'GD', value: 1 }
-					]
-				},
-				{
-					name: 'PSC',
-					children: [
-						{ name: 'UG', value: 96 },
-						{ name: 'GD', value: 0 }
-					]
-				},
-				{
-					name: 'PSY',
-					children: [
-						{ name: 'UG', value: 246 },
-						{ name: 'GD', value: 8 }
-					]
-				},
-				{
-					name: 'SOC',
-					children: [
-						{ name: 'UG', value: 4 },
-						{ name: 'GD', value: 1 }
-					]
-				},
-				{ name: 'nMJ', value: 0 },
-				{ name: 'PPS', value: 0 }
-			]
-		},
-		{
-			name: 'Abstain',
-			display: 'Abstain',
-			party: 'abstain',
-			children: [
-				{
-					name: 'ANH',
-					children: [
-						{ name: 'UG', value: 11 },
-						{ name: 'GD', value: 2 }
-					]
-				},
-				{
-					name: 'GEO',
-					children: [
-						{ name: 'UG', value: 37 },
-						{ name: 'GD', value: 2 }
-					]
-				},
-				{
-					name: 'KAS',
-					children: [
-						{ name: 'UG', value: 21 },
-						{ name: 'GD', value: 11 }
-					]
-				},
-				{
-					name: 'LNG',
-					children: [
-						{ name: 'UG', value: 13 },
-						{ name: 'GD', value: 0 }
-					]
-				},
-				{
-					name: 'PHL',
-					children: [
-						{ name: 'UG', value: 21 },
-						{ name: 'GD', value: 0 }
-					]
-				},
-				{
-					name: 'PSC',
-					children: [
-						{ name: 'UG', value: 55 },
-						{ name: 'GD', value: 1 }
-					]
-				},
-				{
-					name: 'PSY',
-					children: [
-						{ name: 'UG', value: 39 },
-						{ name: 'GD', value: 3 }
-					]
-				},
-				{
-					name: 'SOC',
-					children: [
-						{ name: 'UG', value: 11 },
-						{ name: 'GD', value: 3 }
-					]
-				},
-				{ name: 'nMJ', value: 0 },
-				{ name: 'PPS', value: 0 }
-			]
-		},
-		{
-			name: 'Patawaran',
-			display: 'Patawaran',
-			party: 'saligan',
-			children: [
-				{
-					name: 'ANH',
-					children: [
-						{ name: 'UG', value: 61 },
-						{ name: 'GD', value: 3 }
-					]
-				},
-				{
-					name: 'GEO',
-					children: [
-						{ name: 'UG', value: 51 },
-						{ name: 'GD', value: 2 }
-					]
-				},
-				{
-					name: 'KAS',
-					children: [
-						{ name: 'UG', value: 24 },
-						{ name: 'GD', value: 2 }
-					]
-				},
-				{
-					name: 'LNG',
-					children: [
-						{ name: 'UG', value: 38 },
-						{ name: 'GD', value: 0 }
-					]
-				},
-				{
-					name: 'PLO',
-					children: [
-						{ name: 'UG', value: 59 },
-						{ name: 'GD', value: 1 }
-					]
-				},
-				{
-					name: 'PSC',
-					children: [
-						{ name: 'UG', value: 76 },
-						{ name: 'GD', value: 0 }
-					]
-				},
-				{
-					name: 'PSY',
-					children: [
-						{ name: 'UG', value: 25 },
-						{ name: 'GD', value: 3 }
-					]
-				},
-				{
-					name: 'SOC',
-					children: [
-						{ name: 'UG', value: 77 },
-						{ name: 'GD', value: 1 }
-					]
-				},
-				{ name: 'nMJ', value: 0 },
-				{ name: 'PPS', value: 2 }
-			]
-		}
-	]
-};
+				{ party: 'buklod', name: 'Macam', display: 'Macam', 	children: [ { name: 'undergraduate', value: 7   },
+																					{ name: 'graduate', 	 value: 0   } ] },
+				{ party: 'abstain', name: 'Abstain', 					children: [ { name: 'undergraduate', value: 7   },
+																					{ name: 'graduate', 	 value: 0   } ] },
+				{ party: 'buklod', name: 'Patawaran', 					children: [ { name: 'undergraduate', value: 7   },
+																					{ name: 'graduate', 	 value: 0   } ] } ]
+		}],
 
-const Cllr1Data = {
-	name: 'Councilor',
-	children: [
-		{
-			name: 'Ochosa',
-			display: 'Ochosa',
+		kasaysayan: [{ name: 'Kasaysayan Department Representative',
+			display: 'Kas Rep',
 			children: [
-				{
-					name: 'ANH',
-					children: [
-						{ name: 'UG', value: 51 },
-						{ name: 'GD', value: 4 }
-					]
-				},
-				{
-					name: 'GEO',
-					children: [
-						{ name: 'UG', value: 52 },
-						{ name: 'GD', value: 2 }
-					]
-				},
-				{
-					name: 'KAS',
-					children: [
-						{ name: 'UG', value: 26 },
-						{ name: 'GD', value: 5 }
-					]
-				},
-				{
-					name: 'LNG',
-					children: [
-						{ name: 'UG', value: 36 },
-						{ name: 'GD', value: 0 }
-					]
-				},
-				{
-					name: 'PLO',
-					children: [
-						{ name: 'UG', value: 51 },
-						{ name: 'GD', value: 2 }
-					]
-				},
-				{
-					name: 'PSC',
-					children: [
-						{ name: 'UG', value: 117 },
-						{ name: 'GD', value: 0 }
-					]
-				},
-				{
-					name: 'PSY',
-					children: [
-						{ name: 'UG', value: 77 },
-						{ name: 'GD', value: 3 }
-					]
-				},
-				{
-					name: 'SOC',
-					children: [
-						{ name: 'UG', value: 53 },
-						{ name: 'GD', value: 2 }
-					]
-				},
-				{ name: 'nMJ', value: 0 },
-				{ name: 'PPS', value: 2 }
-			]
-		},
-		{
-			name: 'nonvote',
-			display: 'Non-Vote',
+				{ party: 'buklod', name: 'Macam', display: 'Macam', 	children: [ { name: 'undergraduate', value: 7   },
+																					{ name: 'graduate', 	 value: 0   } ] },
+				{ party: 'abstain', name: 'Abstain', 					children: [ { name: 'undergraduate', value: 7   },
+																					{ name: 'graduate', 	 value: 0   } ] },
+				{ party: 'buklod', name: 'Patawaran', 					children: [ { name: 'undergraduate', value: 7   },
+																					{ name: 'graduate', 	 value: 0   } ] } ]
+		}],
+
+		linguistics: [{ name: 'Linguistics Department Representative',
+			display: 'Lingg Rep',
 			children: [
-				{
-					name: 'ANH',
-					children: [
-						{ name: 'UG', value: 15 },
-						{ name: 'GD', value: 0 }
-					]
-				},
-				{
-					name: 'GEO',
-					children: [
-						{ name: 'UG', value: 30 },
-						{ name: 'GD', value: 1 }
-					]
-				},
-				{
-					name: 'KAS',
-					children: [
-						{ name: 'UG', value: 15 },
-						{ name: 'GD', value: 8 }
-					]
-				},
-				{
-					name: 'LNG',
-					children: [
-						{ name: 'UG', value: 28 },
-						{ name: 'GD', value: 0 }
-					]
-				},
-				{
-					name: 'PHL',
-					children: [
-						{ name: 'UG', value: 34 },
-						{ name: 'GD', value: 0 }
-					]
-				},
-				{
-					name: 'PSC',
-					children: [
-						{ name: 'UG', value: 65 },
-						{ name: 'GD', value: 0 }
-					]
-				},
-				{
-					name: 'PSY',
-					children: [
-						{ name: 'UG', value: 134 },
-						{ name: 'GD', value: 5 }
-					]
-				},
-				{
-					name: 'SOC',
-					children: [
-						{ name: 'UG', value: 23 },
-						{ name: 'GD', value: 0 }
-					]
-				},
-				{ name: 'nMJ', value: 0 },
-				{ name: 'PPS', value: 0 }
-			]
-		},
-		{
-			name: 'Abstain',
-			display: 'Abstain',
+				{ party: 'buklod', name: 'Macam', display: 'Macam', 	children: [ { name: 'undergraduate', value: 7   },
+																					{ name: 'graduate', 	 value: 0   } ] },
+				{ party: 'abstain', name: 'Abstain', 					children: [ { name: 'undergraduate', value: 7   },
+																					{ name: 'graduate', 	 value: 0   } ] },
+				{ party: 'buklod', name: 'Patawaran', 					children: [ { name: 'undergraduate', value: 7   },
+																					{ name: 'graduate', 	 value: 0   } ] } ]
+		}],
+
+		philosophy: [{ name: 'Philosophy Department Representative',
+			display: 'Philo Rep',
 			children: [
-				{
-					name: 'ANH',
-					children: [
-						{ name: 'UG', value: 13 },
-						{ name: 'GD', value: 1 }
-					]
-				},
-				{
-					name: 'GEO',
-					children: [
-						{ name: 'UG', value: 20 },
-						{ name: 'GD', value: 2 }
-					]
-				},
-				{
-					name: 'KAS',
-					children: [
-						{ name: 'UG', value: 20 },
-						{ name: 'GD', value: 11 }
-					]
-				},
-				{
-					name: 'LNG',
-					children: [
-						{ name: 'UG', value: 14 },
-						{ name: 'GD', value: 0 }
-					]
-				},
-				{
-					name: 'PHL',
-					children: [
-						{ name: 'UG', value: 15 },
-						{ name: 'GD', value: 0 }
-					]
-				},
-				{
-					name: 'PSC',
-					children: [
-						{ name: 'UG', value: 45 },
-						{ name: 'GD', value: 1 }
-					]
-				},
-				{
-					name: 'PSY',
-					children: [
-						{ name: 'UG', value: 99 },
-						{ name: 'GD', value: 6 }
-					]
-				},
-				{
-					name: 'SOC',
-					children: [
-						{ name: 'UG', value: 16 },
-						{ name: 'GD', value: 3 }
-					]
-				},
-				{ name: 'nMJ', value: 0 },
-				{ name: 'PPS', value: 0 }
-			]
-		}
-	]
-};
-const AnthroData = {
-	name: 'Anthro Rep',
-	display: 'ANH Rep',
-	children: [
-		{
-			name: 'Dumo',
-			display: 'Dumo',
-			party: 'saligan',
+				{ party: 'buklod', name: 'Macam', display: 'Macam', 	children: [ { name: 'undergraduate', value: 7   },
+																					{ name: 'graduate', 	 value: 0   } ] },
+				{ party: 'abstain', name: 'Abstain', 					children: [ { name: 'undergraduate', value: 7   },
+																					{ name: 'graduate', 	 value: 0   } ] },
+				{ party: 'buklod', name: 'Patawaran', 					children: [ { name: 'undergraduate', value: 7   },
+																					{ name: 'graduate', 	 value: 0   } ] } ]
+		}],
+
+		politicalScience: [{ name: 'Political Science Department Representative',
+			display: 'PolSc Rep',
 			children: [
-				{ name: 'UG', value: 71 },
-				{ name: 'Grad', value: 5 }
-			]
-		},
-		{
-			name: 'Abstain',
-			display: 'Abstain',
+				{ party: 'buklod', name: 'Macam', display: 'Macam', 	children: [ { name: 'undergraduate', value: 7   },
+																					{ name: 'graduate', 	 value: 0   } ] },
+				{ party: 'abstain', name: 'Abstain', 					children: [ { name: 'undergraduate', value: 7   },
+																					{ name: 'graduate', 	 value: 0   } ] },
+				{ party: 'buklod', name: 'Patawaran', 					children: [ { name: 'undergraduate', value: 7   },
+																					{ name: 'graduate', 	 value: 0   } ] } ]
+		}],
+
+		psychology: [{ name: 'Psychology Department Representative',
+			display: 'Psych Rep',
 			children: [
-				{ name: 'UG', value: 8 },
-				{ name: 'Grad', value: 0 }
-			]
-		}
-	]
-};
+				{ party: 'buklod', name: 'Macam', display: 'Macam', 	children: [ { name: 'undergraduate', value: 7   },
+																					{ name: 'graduate', 	 value: 0   } ] },
+				{ party: 'abstain', name: 'Abstain', 					children: [ { name: 'undergraduate', value: 7   },
+																					{ name: 'graduate', 	 value: 0   } ] },
+				{ party: 'buklod', name: 'Patawaran', 					children: [ { name: 'undergraduate', value: 7   },
+																					{ name: 'graduate', 	 value: 0   } ] } ]
+			}, { name: 'Psychology Department Representative',
+			display: 'Psych Rep',
+			children: [
+				{ party: 'buklod', name: 'Macam', display: 'Macam', 	children: [ { name: 'undergraduate', value: 7   },
+																					{ name: 'graduate', 	 value: 0   } ] },
+				{ party: 'abstain', name: 'Abstain', 					children: [ { name: 'undergraduate', value: 7   },
+																					{ name: 'graduate', 	 value: 0   } ] },
+				{ party: 'buklod', name: 'Patawaran', 					children: [ { name: 'undergraduate', value: 7   },
+																					{ name: 'graduate', 	 value: 0   } ] } ]
+		}],
+
+		sociology: [{ name: 'Sociology Department Representative',
+			display: 'Anthropology Rep',
+			children: [
+				{ party: 'buklod', name: 'Macam', display: 'Macam', 	children: [ { name: 'undergraduate', value: 7   },
+																					{ name: 'graduate', 	 value: 0   } ] },
+				{ party: 'abstain', name: 'Abstain', 					children: [ { name: 'undergraduate', value: 7   },
+																					{ name: 'graduate', 	 value: 0   } ] },
+				{ party: 'buklod', name: 'Patawaran', 					children: [ { name: 'undergraduate', value: 7   },
+																					{ name: 'graduate', 	 value: 0   } ] } ]
+		}],
+	}
+}

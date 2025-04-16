@@ -78,3 +78,23 @@ export const subjectColors = {
 		}
 	}
 };
+
+export const departmentColors = new Map([
+	['anthropology', subjectColors.anthropology.color.primary],
+	['geografia', subjectColors.geografia.color.primary],
+	['kasaysayan', subjectColors.kasaysayan.color.primary],
+	['linguistics', subjectColors.linguistics.color.primary],
+	['philosophy', subjectColors.philosophy.color.primary],
+	['politicalScience', subjectColors.politicalScience.color.primary],
+	['psychology', subjectColors.psychology.color.primary],
+	['sociology', subjectColors.sociology.color.primary],
+	['nonMajor', subjectColors.nonMajor.color.primary],
+	['populationInstitute', subjectColors.populationInstitute.color.primary]
+]);
+
+export const partyColors = new Map([
+	['buklod', '#007267'],
+	['abstain', '#3498DB'],
+	['saligan', '#FF2D00'],
+	['nonvote', '#98C379']
+]);
