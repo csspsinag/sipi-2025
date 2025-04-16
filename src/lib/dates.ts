@@ -18,10 +18,10 @@ export const electionDates: Array<dateExpression> = [
 		id: 'cocUwideFilingEnd',
 		level: ['uwide'],
 		name: 'End of candidacy filing',
-		date: dayjs.tz('2025-04-16T12:00', 'Asia/Manila'),
+		date: dayjs.tz('2025-04-21T12:00', 'Asia/Manila'),
 		tag: 'moved',
 		dateMoved: dayjs.tz('2025-04-14T00:00', 'Asia/Manila'),
-		movedUrl: 'https://www.facebook.com/share/1Bz6H3SCJj/'
+		movedUrl: 'https://www.facebook.com/share/12ET24M4WbC/'
 	},
 	{
 		id: 'cocCollegeFilingEnd',
