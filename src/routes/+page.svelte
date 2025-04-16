@@ -9,6 +9,7 @@
 	import { electionDates, electionDatesLookup } from '$lib/dates';
 	import sipiLogo from '$lib/img/sipi25-logo+year.png';
 	import Timer from '$lib/components/Timer.svelte';
+	import { chart } from '$lib/data-join';
 	import '$lib/app.css';
 
 	import * as d3 from 'd3';
@@ -23,6 +24,7 @@
 	import MeterBar from '$lib/components/MeterBar.svelte';
 	import FullIndicator from '$lib/components/FullIndicator.svelte';
 	import type { TurnoutData, TurnoutDisplay } from '$lib/types';
+	import { drag } from 'd3-drag';
 
 	dayjs.extend(utc);
 	dayjs.extend(timezone);
@@ -160,6 +162,9 @@
 				});
 		}
 
+		let chairChart = chart('chair');
+		d3.select('.data-analysis').append(d3.call(chairChart));
+
 		return () => {
 			clearInterval(interval);
 			clearInterval(turnoutCheck);
@@ -167,6 +172,7 @@
 	});
 </script>
 
+<svelte:document />
 <svelte:head>
 	<!-- HTML Meta Tags -->
 	<title>SIPI 2025 CSSP Turnout • SINAG</title>
@@ -244,6 +250,10 @@
 			subjectColor={subjectColors.populationInstitute.color}
 		/>
 	</div>
+</div>
+
+<div class="data-analysis">
+	<svg class="chair"></svg>
 </div>
 <BackToTop />
 
@@ -334,6 +344,18 @@
 	@media (max-width: 800px) {
 		.timeline {
 			width: 100vw;
+		}
+	}
+
+	.data-analysis {
+		width: 500px;
+		display: flex;
+		position: relative;
+
+		svg {
+			width: 100%;
+			margin: 0 50% 50% 0;
+			overflow: visible;
 		}
 	}
 

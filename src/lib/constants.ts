@@ -93,8 +93,8 @@ export const departmentColors = new Map([
 ]);
 
 export const partyColors = new Map([
-	['buklod', '#007267'],
-	['abstain', '#3498DB'],
-	['saligan', '#FF2D00'],
-	['nonvote', '#98C379']
+	['buklod', '#0078d4'],
+	['abstain', '#aaaaaa'],
+	['saligan', '#fc473a'],
+	['nonvote', '#f7f7f7']
 ]);
