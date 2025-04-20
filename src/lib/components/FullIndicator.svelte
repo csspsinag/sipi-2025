@@ -235,12 +235,16 @@
 	let lookupResultLast = $state(lookupTurnoutLast(lookup));
 
 	onMount(() => {
-		setInterval(() => {
+		const interval = setInterval(() => {
 			dataSource = data();
 			dataSourceLast = oldData();
 			lookupResult = lookupTurnout(lookup);
 			lookupResultLast = lookupTurnoutLast(lookup);
-		}, 1000);
+		}, 2000);
+
+		return () => {
+			clearInterval(interval);
+		};
 	});
 </script>
 

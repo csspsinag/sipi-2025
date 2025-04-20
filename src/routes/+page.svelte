@@ -25,6 +25,7 @@
 	import FullIndicator from '$lib/components/FullIndicator.svelte';
 	import type { TurnoutData, TurnoutDisplay } from '$lib/types';
 	import { drag } from 'd3-drag';
+	import ResultsRose from '$lib/components/ResultsRose.svelte';
 
 	dayjs.extend(utc);
 	dayjs.extend(timezone);
@@ -162,9 +163,6 @@
 				});
 		}
 
-		let chairChart = chart('chair');
-		d3.select('.data-analysis').append(d3.call(chairChart));
-
 		return () => {
 			clearInterval(interval);
 			clearInterval(turnoutCheck);
@@ -253,7 +251,7 @@
 </div -->
 
 <div class="data-analysis">
-	<svg class="chair"></svg>
+	<ResultsRose search="chair" />
 </div>
 <BackToTop />
 
@@ -348,16 +346,7 @@
 	}
 
 	.data-analysis {
-		padding: 10%;
 		width: 100%;
-		display: flex;
-		position: relative;
-
-		svg {
-			width: 100%;
-			margin: 0 50% 50% 0;
-			overflow: visible;
-		}
 	}
 
 	.central-timer {

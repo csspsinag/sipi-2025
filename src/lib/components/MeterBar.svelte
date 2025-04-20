@@ -40,7 +40,6 @@
 	let mainTurnoutLabel = $state(0);
 
 	function setData() {
-		console.log(turnoutResult().collegewide);
 		try {
 			max = turnoutResult()[convertToVariable(label)].max;
 			value = turnoutResult()[convertToVariable(label)].value;
