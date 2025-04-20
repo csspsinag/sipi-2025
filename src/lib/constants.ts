@@ -98,3 +98,18 @@ export const partyColors = new Map([
 	['saligan', '#fc473a'],
 	['nonvote', '#f7f7f7']
 ]);
+
+export const departmentNames = new Map([
+	['anthropology', 'ANTHRO'],
+	['geografia', 'GEOG'],
+	['kasaysayan', 'KAS'],
+	['linguistics', 'LINGG'],
+	['philosophy', 'PHILO'],
+	['politicalScience', 'POLSC'],
+	['psychology', 'PSYCH'],
+	['sociology', 'SOCIO'],
+	['nonMajor', 'nMAJ'],
+	['populationInstitute', 'POPINS'],
+	['undergraduate', 'UG'],
+	['graduate', 'GD']
+]);

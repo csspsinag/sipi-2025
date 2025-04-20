@@ -213,7 +213,7 @@
 	</div>
 </div>
 
-<div class="under-fold">
+<!-- div class="under-fold">
 	<div class="anthropology-rate">
 		<MeterBar {...turnoutResult().anthropology} subjectColor={subjectColors.anthropology.color} />
 	</div>
@@ -250,7 +250,7 @@
 			subjectColor={subjectColors.populationInstitute.color}
 		/>
 	</div>
-</div>
+</div -->
 
 <div class="data-analysis">
 	<svg class="chair"></svg>
@@ -348,7 +348,8 @@
 	}
 
 	.data-analysis {
-		width: 500px;
+		padding: 10%;
+		width: 100%;
 		display: flex;
 		position: relative;
 

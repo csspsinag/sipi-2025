@@ -404,6 +404,7 @@
 		.turnout-numbers {
 			position: absolute;
 			font-size: clamp(1.5rem, 5vw, 3rem);
+			font-variation-settings: 'wdth' 75;
 			top: clamp(0.5rem, 3vw, 0.5rem);
 			right: max(-5%, -20px);
 			background-color: color-mix(in oklab, var(--color), #fff 40%);

@@ -4,13 +4,13 @@
 		{
 			"program": "Collegewide",
 			"type": "Undergraduate",
-			"turnoutCount": 0,
+			"turnoutCount": 1474,
 			"turnoutCountMax": 1629
 		},
 		{
 			"program": "Collegewide",
 			"type": "Graduate",
-			"turnoutCount": 0,
+			"turnoutCount": 295,
 			"turnoutCountMax": 787
 		},
 		{
