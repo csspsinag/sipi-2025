@@ -240,7 +240,11 @@
 			dataSourceLast = oldData();
 			lookupResult = lookupTurnout(lookup);
 			lookupResultLast = lookupTurnoutLast(lookup);
-		}, 1000);
+		}, 2000);
+
+		return () => {
+			clearInterval(interval);
+		};
 	});
 </script>
 
