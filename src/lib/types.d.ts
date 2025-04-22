@@ -1,4 +1,5 @@
 import type dayjs from 'dayjs';
+declare function d3.parliament(): void;
 
 type Department =
 	| 'anthropology'
@@ -113,3 +114,76 @@ type ElectionsData = {
 };
 
 type Positions = keyof ElectionsData;
+
+interface CouncilSeat {
+	name: string;
+	position:
+		| 'Chair'
+		| 'Vice Chair'
+		| 'CSSP Rep'
+		| 'Councilor'
+		| 'Anthro Rep'
+		| 'Geog Rep'
+		| 'Kas Rep'
+		| 'Lingg Rep'
+		| 'Philo Rep'
+		| 'PolSc Rep'
+		| 'Psych Rep'
+		| 'Socio Rep';
+	party: 'SALiGAN sa CSSP' | 'BUKLOD CSSP' | 'independent' | 'vacant';
+	department: Department;
+	note?: 'Resigned' | 'Appointed' | 'Special elections';
+}
+
+interface CollegewideSeats extends CouncilSeat {
+	position: 'Chair' | 'Vice Chair' | 'CSSP Rep' | 'Councilor';
+	department: Department;
+}
+interface AnthroRepSeat extends CouncilSeat {
+	position: 'Anthro Rep';
+	department: 'anthropology';
+}
+interface GeogRepSeat extends CouncilSeat {
+	position: 'Geog Rep';
+	department: 'geografia';
+}
+interface KasRepSeat extends CouncilSeat {
+	position: 'Kas Rep';
+	department: 'kasaysayan';
+}
+interface LinggRepSeat extends CouncilSeat {
+	position: 'Lingg Rep';
+	department: 'linguistics';
+}
+interface PhiloRepSeat extends CouncilSeat {
+	position: 'Philo Rep';
+	department: 'philosophy';
+}
+interface PolScRepSeat extends CouncilSeat {
+	position: 'PolSc Rep';
+	department: 'politicalScience';
+}
+interface PsychRepSeat extends CouncilSeat {
+	position: 'Psych Rep';
+	department: 'psychology';
+}
+interface SocioRepSeat extends CouncilSeat {
+	position: 'Socio Rep';
+	department: 'sociology';
+}
+
+type SeatData =
+	| CollegewideSeats
+	| AnthroRepSeat
+	| GeogRepSeat
+	| KasRepSeat
+	| LinggRepSeat
+	| PhiloRepSeat
+	| PolScRepSeat
+	| PsychRepSeat
+	| SocioRepSeat;
+
+type PartySeat = {
+	id: string;
+	seats: SeatData[];
+};

@@ -9,7 +9,7 @@
 	import { electionDates, electionDatesLookup } from '$lib/dates';
 	import sipiLogo from '$lib/img/sipi25-logo+year.png';
 	import Timer from '$lib/components/Timer.svelte';
-	import { chart } from '$lib/data-join';
+	import { resultsRose } from '$lib/data-join';
 	import '$lib/app.css';
 
 	import * as d3 from 'd3';
@@ -26,6 +26,9 @@
 	import type { TurnoutData, TurnoutDisplay } from '$lib/types';
 	import { drag } from 'd3-drag';
 	import ResultsRose from '$lib/components/ResultsRose.svelte';
+	import ParliamentChart from '$lib/components/ParliamentChart.svelte';
+	import { seatData } from '$lib/data';
+	import RadioGroup from '$lib/components/RadioGroup.svelte';
 
 	dayjs.extend(utc);
 	dayjs.extend(timezone);
@@ -114,6 +117,8 @@
 	};
 	setContext('turnoutResult', () => turnoutResult);
 	setContext('turnoutResultLast', () => turnoutResultLast);
+
+	let termSelected = $state('term2425');
 
 	onMount(() => {
 		const interval = setInterval(() => {
@@ -251,7 +256,17 @@
 </div -->
 
 <div class="data-analysis">
-	<ResultsRose search="chair" />
+	<ParliamentChart chartName={termSelected} data={seatData} value={termSelected} />
+	<RadioGroup
+		bind:value={termSelected}
+		items={[
+			{ value: 'term2122', label: 'CSSP SC 2122' },
+			{ value: 'term2223', label: 'CSSP SC 2223' },
+			{ value: 'term2324', label: 'CSSP SC 2324' },
+			{ value: 'term2425', label: 'CSSP SC 2425' },
+			{ value: 'term2526', label: 'CSSP SC 2526' }
+		]}
+	/>
 </div>
 <BackToTop />
 
@@ -347,6 +362,7 @@
 
 	.data-analysis {
 		width: 100%;
+		height: 50%;
 	}
 
 	.central-timer {

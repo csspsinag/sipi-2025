@@ -2,11 +2,18 @@
 //@ts-nocheck
 // Imports
 import * as d3 from 'd3';
-import { partyColors, departmentColors, departmentNames } from './constants';
-import type { PositionData } from './types';
+import {
+	partyColors,
+	departmentColors,
+	departmentNames,
+	partyIds,
+	partyColorsMap,
+	PositionOrder
+} from './constants';
+import type { PartySeat, PositionData, SeatData } from './types';
 
 //+ Generate position-specific pie chart
-export function chart(position: PositionData, positionName: string) {
+export function resultsRose(position: PositionData, positionName: string) {
 	const data: PositionData = position;
 	const width = 1100;
 	const height = width;
@@ -375,6 +382,365 @@ export function chart(position: PositionData, positionName: string) {
 		.text(rootDescriptor);
 
 	return svg.node();
+}
+
+export function sortPartyData(data: SeatData[]): PartySeat[] {
+	return data
+		.reduce((accumulator: PartySeat[], current: SeatData) => {
+			const party = partyIds.get(current.party);
+			if (party === undefined) return accumulator;
+			if (accumulator.find((a) => a.id === party) === undefined) {
+				accumulator.push({
+					id: party,
+					color: partyColorsMap.get(party)!,
+					legend: current.party,
+					name: current.party,
+					seats: [
+						Object.assign(
+							{
+								color: partyColorsMap.get(party)!
+							},
+							current
+						)
+					]
+				});
+			} else {
+				const partySeat = accumulator.find((a) => a.id === party);
+				partySeat.seats.push(Object.assign({ color: partyColorsMap.get(party)! }, current));
+				partySeat.seats.sort(
+					(a, b) => PositionOrder.indexOf(a.position) - PositionOrder.indexOf(b.position)
+				);
+			}
+			return accumulator;
+		}, [])
+		.sort((a, b) => b.seats.length - a.seats.length);
+}
+
+export function parliament() {
+	/* params */
+	let width,
+		height,
+		dataAnchor,
+		innerRadiusCoef = 0.4;
+
+	/* animations */
+	const enter = {
+			smallToBig: true,
+			fromCenter: true
+		},
+		update = {
+			animate: true
+		},
+		exit = {
+			bigToSmall: true,
+			toCenter: true
+		};
+
+	/* events */
+	const parliamentDispatch = d3.dispatch(
+		'click',
+		'dblclick',
+		'mousedown',
+		'mouseenter',
+		'mouseleave',
+		'mousemove',
+		'mouseout',
+		'mouseover',
+		'mouseup',
+		'touchcancel',
+		'touchend',
+		'touchmove',
+		'touchstart'
+	);
+
+	function parliament(data) {
+		data.each(function (d) {
+			// if user did not provide, fill the svg:
+			width = width ? width : this.getBoundingClientRect().width;
+			height = width ? width / 2 : this.getBoundingClientRect().width / 2;
+
+			const outerParliamentRadius = Math.min(width / 2, height);
+			const innerParliementRadius = outerParliamentRadius * innerRadiusCoef;
+
+			/* init the svg */
+			const svg = d3.select(this);
+
+			/***
+			 * compute number of seats and rows of the parliament */
+			let nSeats = 0;
+			d.forEach(function (p) {
+				nSeats += typeof p.seats === 'number' ? Math.floor(p.seats) : p.seats.length;
+			});
+
+			let nRows = 0;
+			let maxSeatNumber = 0;
+			let b = 0.5;
+			(function () {
+				const a = innerRadiusCoef / (1 - innerRadiusCoef);
+				while (maxSeatNumber < nSeats) {
+					nRows++;
+					b += a;
+					/* NOTE: the number of seats available in each row depends on the total number
+				of rows and floor() is needed because a row can only contain entire seats. So,
+				it is not possible to increment the total number of seats adding a row. */
+					maxSeatNumber = series(function (i) {
+						return Math.floor(Math.PI * (b + i));
+					}, nRows - 1);
+				}
+			})();
+
+			/***
+			 * create the seats list */
+			/* compute the cartesian and polar coordinates for each seat */
+			const rowWidth = (outerParliamentRadius - innerParliementRadius) / nRows;
+			const seats = [];
+			const seatsToRemove = maxSeatNumber - nSeats;
+			for (let i = 0; i < nRows; i++) {
+				const rowRadius = innerParliementRadius + rowWidth * (i + 0.5);
+				const rowSeats =
+					Math.floor(Math.PI * (b + i)) -
+					Math.floor(seatsToRemove / nRows) -
+					(seatsToRemove % nRows > i ? 1 : 0);
+				const anglePerSeat = Math.PI / rowSeats;
+				for (let j = 0; j < rowSeats; j++) {
+					const s = {};
+					s.polar = {
+						r: rowRadius,
+						teta: -Math.PI + anglePerSeat * (j + 0.5)
+					};
+					s.cartesian = {
+						x: s.polar.r * Math.cos(s.polar.teta),
+						y: s.polar.r * Math.sin(s.polar.teta)
+					};
+					s.data = d.data;
+
+					seats.push(s);
+				}
+			}
+
+			let partyIndex = 0;
+			let seatIndex = 0;
+			seats.forEach((s) => {
+				//get current party and go to the next one if it has all its seats filled
+				let party = d[partyIndex];
+				const nSeatsInParty = typeof party.seats === 'number' ? party.seats : party.seats.length;
+				if (seatIndex >= nSeatsInParty) {
+					partyIndex++;
+					seatIndex = 0;
+					party = d[partyIndex];
+				}
+
+				s.party = d[partyIndex];
+				s.data = d[partyIndex].seats[seatIndex];
+
+				seatIndex++;
+			});
+
+			/* sort the seats by angle */
+			seats.sort(function (a, b) {
+				return (
+					PositionOrder.indexOf(a.data.position) - PositionOrder.indexOf(b.data.position) ||
+					a.polar.teta - b.polar.teta ||
+					b.polar.r - a.polar.r
+				);
+			});
+
+			/***
+			 * helpers to get value from seat data */
+			const seatClasses = function (d) {
+				let c = `seat ${(d.data.party && d.data.party.id) || ''} ${d.data[dataAnchor].trim().replace(/\s/g, '-').toLowerCase() || ''}`;
+				return c.trim();
+			};
+			const seatX = function (d) {
+				return d.cartesian.x;
+			};
+			const seatY = function (d) {
+				return d.cartesian.y;
+			};
+			const seatRadius = function (d) {
+				let r = 0.4 * rowWidth;
+				if (d.data && typeof d.data.size === 'number') {
+					r *= d.data.size;
+				}
+				return r;
+			};
+			const seatTooltip = function (d) {
+				return `${d.data.position.toUpperCase()} ${d.data.name.split(',', 1)}`.trim();
+			};
+			const seatColor = function (d) {
+				return d.data.color;
+			};
+
+			/***
+			 * fill svg with seats as circles */
+			/* container of the parliament */
+			let container = svg.select('.parliament');
+			if (container.empty()) {
+				container = svg.append('g');
+				container.classed('parliament', true);
+			}
+			container.attr('transform', 'translate(' + width / 2 + ',' + outerParliamentRadius + ')');
+
+			/* all the seats as circles */
+			const circles = container.selectAll('.seat').data(seats);
+			circles.attr('class', seatClasses);
+
+			const names = container.selectAll('.seat-label').data(seats);
+
+			// Initial circle draw
+			const circleDraw = circles.enter().append('circle');
+			circleDraw
+				.attr('class', seatClasses)
+				.style('fill', seatColor)
+				.attr('cx', enter.fromCenter ? 0 : seatX)
+				.attr('cy', enter.fromCenter ? 0 : seatY)
+				.attr('r', enter.smallToBig ? 0 : seatRadius)
+				.append('title')
+				.text((d) => seatTooltip(d));
+
+			const entryAnimation = circleDraw.transition().duration(500);
+			entryAnimation
+				.attr('r', seatRadius)
+				.style('fill', seatColor)
+				.transition()
+				.attr('cx', seatX)
+				.attr('cy', seatY);
+
+			for (const evt in parliamentDispatch._) {
+				(function (evt) {
+					circleDraw.on(evt, function (e) {
+						parliamentDispatch.call(evt, this, e);
+					});
+				})(evt);
+			}
+
+			const circleDrawTransition = circles.transition().duration(500);
+			circleDrawTransition
+				.attr('r', seatRadius)
+				.style('fill', seatColor)
+				.transition()
+				.attr('cx', seatX)
+				.attr('cy', seatY)
+				.select('title')
+				.text((d) => seatTooltip(d));
+
+			const circleDrawExit = circles.exit().transition().duration(500);
+			circleDrawExit.attr('r', 0);
+			circleDrawExit.remove();
+
+			// Initial name draw
+			const nameDraw = names.enter().append('text');
+			nameDraw
+				.style('pointer-events', 'none')
+				.attr('opacity', 0)
+				.attr('class', 'seat-label')
+				.attr('text-anchor', 'middle')
+				.attr('dominant-baseline', 'middle')
+				.attr('font-size', '1em')
+				.style('font-family', "'Hanken Grotesk'")
+				.style('font-weight', '800')
+				.style('fill', 'white')
+				.text((d) => d.data.position)
+				.attr('x', enter.fromCenter ? 0 : seatX)
+				.attr('y', enter.fromCenter ? 0 : seatY);
+
+			const nameEntryAnimation = nameDraw.transition().duration(500);
+			nameEntryAnimation
+				.attr('opacity', 0)
+				.transition()
+				.text((d) => d.data.position)
+				.attr('x', seatX)
+				.attr('y', seatY)
+				.attr('opacity', 1);
+
+			const nameDrawTransition = names.transition().duration(500);
+			nameDrawTransition
+				.attr('opacity', 0)
+				.transition()
+				.text((d) => d.data.position)
+				.attr('x', seatX)
+				.attr('y', seatY)
+				.attr('opacity', 1);
+
+			const nameDrawExit = names.exit().transition();
+			nameDrawExit.duration(500).style('opacity', 0);
+			nameDrawExit.remove();
+		});
+	}
+
+	parliament.width = function (value) {
+		if (!arguments.length) return width;
+		width = value;
+		return parliament;
+	};
+
+	/** Deprecated since v1.0.1 */
+	parliament.height = function (value) {
+		if (!arguments.length) return height;
+		height = value;
+		return parliament;
+	};
+
+	parliament.innerRadiusCoef = function (value) {
+		if (!arguments.length) return innerRadiusCoef;
+		innerRadiusCoef = value;
+		return parliament;
+	};
+
+	parliament.enter = {
+		smallToBig: function (value) {
+			if (!arguments.length) return enter.smallToBig;
+			enter.smallToBig = value;
+			return parliament.enter;
+		},
+		fromCenter: function (value) {
+			if (!arguments.length) return enter.fromCenter;
+			enter.fromCenter = value;
+			return parliament.enter;
+		}
+	};
+
+	parliament.update = {
+		animate: function (value) {
+			if (!arguments.length) return update.animate;
+			update.animate = value;
+			return parliament.update;
+		}
+	};
+
+	parliament.exit = {
+		bigToSmall: function (value) {
+			if (!arguments.length) return exit.bigToSmall;
+			exit.bigToSmall = value;
+			return parliament.exit;
+		},
+		toCenter: function (value) {
+			if (!arguments.length) return exit.toCenter;
+			exit.toCenter = value;
+			return parliament.exit;
+		}
+	};
+
+	parliament.on = function (type, callback) {
+		parliamentDispatch.on(type, callback);
+	};
+
+	parliament.anchor = function (value) {
+		if (!arguments.length) return dataAnchor;
+		dataAnchor = value;
+		return parliament;
+	};
+
+	return parliament;
+
+	// util
+	function series(s, n) {
+		let r = 0;
+		for (let i = 0; i <= n; i++) {
+			r += s(i);
+		}
+		return r;
+	}
 }
 
 // Produce immutable base case

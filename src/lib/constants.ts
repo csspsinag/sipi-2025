@@ -96,7 +96,8 @@ export const partyColors = new Map([
 	['buklod', '#0078d4'],
 	['abstain', '#aaaaaa'],
 	['saligan', '#fc473a'],
-	['nonvote', '#f7f7f7']
+	['nonvote', '#f7f7f7'],
+	['independent', '#449955']
 ]);
 
 export const departmentNames = new Map([
@@ -113,3 +114,34 @@ export const departmentNames = new Map([
 	['undergraduate', 'UG'],
 	['graduate', 'GD']
 ]);
+
+export const partyIds = new Map([
+	['BUKLOD CSSP', 'buk'],
+	['vacant', 'abstain'],
+	['SALiGAN sa CSSP', 'sal'],
+	['Non-Vote', 'nonvote'],
+	['independent', 'ind']
+]);
+
+export const partyColorsMap = new Map([
+	['buk', partyColors.get('buklod')],
+	['abstain', partyColors.get('abstain')],
+	['sal', partyColors.get('saligan')],
+	['nonvote', partyColors.get('nonvote')],
+	['ind', partyColors.get('independent')]
+]);
+
+export const PositionOrder = [
+	'Chair',
+	'Vice Chair',
+	'CSSP Rep',
+	'Councilor',
+	'Anthro Rep',
+	'Geog Rep',
+	'Kas Rep',
+	'Lingg Rep',
+	'Philo Rep',
+	'PolSc Rep',
+	'Psych Rep',
+	'Socio Rep'
+];

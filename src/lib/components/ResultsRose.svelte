@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { chart } from '$lib/data-join';
+	import { resultsRose } from '$lib/data-join';
 	import { onMount } from 'svelte';
 	import * as d3 from 'd3';
 	import type { Department, ElectionsData, PositionData, Positions } from '$lib/types';
@@ -22,7 +22,7 @@
 	})();
 
 	onMount(() => {
-		d3.select(`.${search}`).append(chart(positionData, search));
+		d3.select(`.${search}`).append(resultsRose(positionData, search));
 	});
 </script>
 
