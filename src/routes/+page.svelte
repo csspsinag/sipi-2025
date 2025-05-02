@@ -11,6 +11,8 @@
 	import Timer from '$lib/components/Timer.svelte';
 	import { resultsRose } from '$lib/data-join';
 	import '$lib/app.css';
+	import 'tippy.js/dist/tippy.css';
+	import 'tippy.js/animations/shift-away-subtle.css';
 
 	import * as d3 from 'd3';
 
@@ -29,6 +31,8 @@
 	import ParliamentChart from '$lib/components/ParliamentChart.svelte';
 	import { seatData } from '$lib/data';
 	import RadioGroup from '$lib/components/RadioGroup.svelte';
+	import { paragraphTippyOptions } from '$lib/tippy';
+	import tippy, { type Instance } from 'tippy.js';
 
 	dayjs.extend(utc);
 	dayjs.extend(timezone);
@@ -121,6 +125,11 @@
 	let termSelected = $state('term2425');
 
 	onMount(() => {
+		let paragraphTippies: Instance[];
+		$effect(() => {
+			paragraphTippies = tippy('.paragraph-tippy-target', paragraphTippyOptions);
+		});
+
 		const interval = setInterval(() => {
 			timeAnchor = dayjs();
 		}, 1 * SECOND);
@@ -171,6 +180,7 @@
 		return () => {
 			clearInterval(interval);
 			clearInterval(turnoutCheck);
+			paragraphTippies.forEach((tippy) => tippy.destroy());
 		};
 	});
 </script>
@@ -256,6 +266,12 @@
 </div -->
 
 <div class="data-analysis">
+	<p>
+		The data analysis is still <span
+			class="paragraph-tippy-target"
+			data-tippy-content="Under construction">under construction</span
+		>.
+	</p>
 	<ParliamentChart chartName={termSelected} data={seatData} value={termSelected} />
 	<RadioGroup
 		bind:value={termSelected}

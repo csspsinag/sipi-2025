@@ -74,3 +74,8 @@ number-flow-svelte::part(suffix) {
 		}
 	}
 }
+
+.paragraph-tippy-target {
+	text-decoration: underline;
+	text-decoration-style: dashed;
+}

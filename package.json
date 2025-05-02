@@ -41,6 +41,7 @@
 		"d3-parliament": "^1.0.1",
 		"d3-parliament-chart": "^0.0.6",
 		"dayjs": "^1.11.13",
-		"ntp-time": "^2.0.6"
+		"ntp-time": "^2.0.6",
+		"tippy.js": "^6.3.7"
 	}
 }
