@@ -10,7 +10,7 @@ import {
 	partyColorsMap,
 	PositionOrder
 } from './constants';
-import type { PartySeat, PositionData, SeatData } from './types';
+import type { HistoricalTurnoutData, PartySeat, PositionData, SeatData } from './types';
 
 //+ Generate position-specific pie chart
 export function resultsRose(position: PositionData, positionName: string) {
@@ -741,6 +741,73 @@ export function parliament() {
 		}
 		return r;
 	}
+}
+
+export function turnoutRose(data, term) {
+	const dataForTerm = data[term];
+	const [width, height] = [1000, 1000];
+	const radius = Math.min(width, height) / 4;
+	let debounceVar: unknown;
+	const svg = d3
+		.select(`.turnout-rose`)
+		.attr('viewBox', [-width / 2, -height / 2, width / 2, width / 2])
+		.attr('width', '100%')
+		.attr('height', '100%')
+		.style('font', "1rem 'Hanken Grotesk'");
+
+	const departmentScale = d3
+		.scaleOrdinal(departmentColors.keys(), departmentColors.values())
+		.unknown(null);
+	const departmentNameScale = d3
+		.scaleOrdinal(departmentNames.keys(), departmentNames.values())
+		.unknown(null);
+
+	const hierarchy = d3.hierarchy(dataForTerm).sum((d) => d.max);
+	const root = d3.partition().size([2 * Math.PI, hierarchy.height])(hierarchy);
+	root.each((d) => (d.current = d));
+	let chartContext = root;
+	const heightValue = d3.scaleSqrt().range([radius * 0.3, radius]);
+
+	const fillHierarchy = d3.hierarchy(dataForTerm).sum((d) => d.value);
+	const fillRoot = d3.partition().size([2 * Math.PI, fillHierarchy.height])(fillHierarchy);
+	fillRoot.each((d) => (d.current = d));
+	let fillChartContext = fillRoot;
+
+	const baseArc = d3
+		.arc<d3.HierarchyRectangularNode<unknown>>()
+		.startAngle((d) => d.x0)
+		.endAngle((d) => d.x1)
+		.padRadius((d) => Math.max(heightValue(d.y1), 0))
+		.padAngle((d) => Math.min((d.x1 - d.x0) / 4, 0.03))
+		.innerRadius((d) => Math.max(0, heightValue(d.y0) - 10))
+		.outerRadius((d) => Math.max(0, heightValue(d.y1)))
+		.cornerRadius(5);
+
+	console.log(root.descendants());
+
+	const path = svg
+		.append('g')
+		.selectAll('path')
+		.data(root.descendants().slice(0))
+		.join('path')
+		.attr('fill', () => '#ccc')
+		.attr('d', (d) => baseArc(d.current))
+		.append('title')
+		.text((d) => `${d.data.name}: ${d.value} votes`);
+
+	const fillPath = svg
+		.append('g')
+		.selectAll('path')
+		.data(fillRoot.descendants().slice(0))
+		.join('path')
+		.attr('fill', () => '#000')
+		.attr('fill-opacity', (d) => (d.current ? (d.children ? 1 : 0.8) : 0))
+		.attr('pointer-events', (d) => (d.current ? 'auto' : 'none'))
+		.attr('d', (d) => baseArc(d.current))
+		.append('title')
+		.text((d) => `${d.data.name}: ${d.value} votes`);
+
+	return svg.node();
 }
 
 // Produce immutable base case

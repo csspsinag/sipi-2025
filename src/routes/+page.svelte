@@ -33,6 +33,7 @@
 	import RadioGroup from '$lib/components/RadioGroup.svelte';
 	import { paragraphTippyOptions } from '$lib/tippy';
 	import tippy, { type Instance } from 'tippy.js';
+	import TurnoutRose from '$lib/components/TurnoutRose.svelte';
 
 	dayjs.extend(utc);
 	dayjs.extend(timezone);
@@ -283,6 +284,7 @@
 			{ value: 'term2526', label: 'CSSP SC 2526' }
 		]}
 	/>
+	<TurnoutRose term={termSelected} />
 </div>
 <BackToTop />
 

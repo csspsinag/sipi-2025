@@ -1,4 +1,4 @@
-import type { ElectionsData, SeatData } from "./types";
+import type { ElectionsData, HistoricalTurnoutData, SeatData } from "./types";
 
 export const electionsData: ElectionsData = {	
 	chair: {
@@ -498,4 +498,99 @@ export const seatData: {
 		{ party: '',	name: '',	position: 'Socio Rep',	department: 'sociology' },
 
 	]
+}
+
+export const historicalTurnoutData: HistoricalTurnoutData = {
+	term2122: {
+		name: 'AY2019-2020',
+		children: [
+			{name: 'anthropology',			children: [ { name: 'undergraduate', value: 89 	, max:	100	},
+														{ name: 'graduate', 	 value: 12 	, max:	59	} ] },
+			{name: 'geografia',				children: [ { name: 'undergraduate', value: 66	, max:	84	},
+														{ name: 'graduate', 	 value: 11	, max:	35	} ] },
+			{name: 'kasaysayan',			children: [ { name: 'undergraduate', value: 44	, max:	54	},
+														{ name: 'graduate', 	 value: 29	, max:	82	} ] },
+			{name: 'linguistics',			children: [ { name: 'undergraduate', value: 68	, max:	91	},
+														{ name: 'graduate', 	 value: 3 	, max:	40	} ] },
+			{name: 'philosophy',			children: [ { name: 'undergraduate', value: 99	, max:	129	},
+														{ name: 'graduate', 	 value: 9	, max:	65	} ] },
+			{name: 'politicalScience',		children: [ { name: 'undergraduate', value: 214	, max:	265	},
+														{ name: 'graduate', 	 value: 20	, max:	110	} ] },
+			{name: 'psychology',			children: [ { name: 'undergraduate', value: 291	, max:	364	},
+														{ name: 'graduate', 	 value: 38	, max:	235	} ] },
+			{name: 'sociology',				children: [ { name: 'undergraduate', value: 94	, max:	119	},
+														{ name: 'graduate', 	 value: 26	, max:	73	} ] },
+			{name: 'nonMajor',				children: [ { name: 'undergraduate', value: 1	, max:	1	} ] },
+			{name: 'populationInstitute',	children: [ { name: 'graduate', 	 value: 6	, max:	55	} ] }
+		]
+	},
+	term2223: {
+		name: 'AY2020-2021',
+		children: [
+			{name: 'anthropology',			children: [ { name: 'undergraduate', value: 66 	, max:	106	},
+														{ name: 'graduate', 	 value: 6 	, max:	58	} ] },
+			{name: 'geografia',				children: [ { name: 'undergraduate', value: 64	, max:	83	},
+														{ name: 'graduate', 	 value: 2	, max:	32	} ] },
+			{name: 'kasaysayan',			children: [ { name: 'undergraduate', value: 36	, max:	61	},
+														{ name: 'graduate', 	 value: 13	, max:	78	} ] },
+			{name: 'linguistics',			children: [ { name: 'undergraduate', value: 51	, max:	107	},
+														{ name: 'graduate', 	 value: 3 	, max:	41	} ] },
+			{name: 'philosophy',			children: [ { name: 'undergraduate', value: 95	, max:	145	},
+														{ name: 'graduate', 	 value: 2	, max:	40	} ] },
+			{name: 'politicalScience',		children: [ { name: 'undergraduate', value: 171	, max:	277	},
+														{ name: 'graduate', 	 value: 8	, max:	81	} ] },
+			{name: 'psychology',			children: [ { name: 'undergraduate', value: 230	, max:	402	},
+														{ name: 'graduate', 	 value: 19	, max:	191	} ] },
+			{name: 'sociology',				children: [ { name: 'undergraduate', value: 77	, max:	136	},
+														{ name: 'graduate', 	 value: 8	, max:	53	} ] },	
+			{name: 'nonMajor',				children: [ { name: 'undergraduate', value: 0	, max:	1	} ] },	
+			{name: 'populationInstitute',	children: [ { name: 'graduate', 	 value: 2	, max:	33	} ] }
+		]
+	},
+	term2324: {
+		name: 'AY2021-2022',
+		children: [
+			{name: 'anthropology',			children: [ { name: 'undergraduate', value: 70 	, max:	117	},
+														{ name: 'graduate', 	 value: 8 	, max:	73	} ] },
+			{name: 'geografia',				children: [ { name: 'undergraduate', value: 86	, max:	108	},
+														{ name: 'graduate', 	 value: 2	, max:	33	} ] },
+			{name: 'kasaysayan',			children: [ { name: 'undergraduate', value: 61	, max:	80	},
+														{ name: 'graduate', 	 value: 18	, max:	99	} ] },
+			{name: 'linguistics',			children: [ { name: 'undergraduate', value: 68	, max:	122	},
+														{ name: 'graduate', 	 value: 1 	, max:	51	} ] },
+			{name: 'philosophy',			children: [ { name: 'undergraduate', value: 129	, max:	170	},
+														{ name: 'graduate', 	 value: 5	, max:	56	} ] },
+			{name: 'politicalScience',		children: [ { name: 'undergraduate', value: 261	, max:	328	},
+														{ name: 'graduate', 	 value: 8	, max:	86	} ] },
+			{name: 'psychology',			children: [ { name: 'undergraduate', value: 347	, max:	417	},
+														{ name: 'graduate', 	 value: 41	, max:	269	} ] },
+			{name: 'sociology',				children: [ { name: 'undergraduate', value: 94	, max:	154	},
+														{ name: 'graduate', 	 value: 12	, max:	80	} ] },	
+			{name: 'nonMajor',				children: [ { name: 'undergraduate', value: 0	, max:	0	} ] },	
+			{name: 'populationInstitute',	children: [ { name: 'graduate', 	 value: 6	, max:	53	} ] }
+		]
+	},
+	term2425: {
+		name: 'AY2022-2023',
+		children: [
+			{name: 'anthropology',			children: [ { name: 'undergraduate', value: 79 	, max:	106	},
+														{ name: 'graduate', 	 value: 5	, max:	65	} ] },
+			{name: 'geografia',				children: [ { name: 'undergraduate', value: 102	, max:	119	},
+														{ name: 'graduate', 	 value: 5	, max:	32	} ] },
+			{name: 'kasaysayan',			children: [ { name: 'undergraduate', value: 61	, max:	85	},
+														{ name: 'graduate', 	 value: 24	, max:	91	} ] },
+			{name: 'linguistics',			children: [ { name: 'undergraduate', value: 78	, max:	110	},
+														{ name: 'graduate', 	 value: 0 	, max:	41	} ] },
+			{name: 'philosophy',			children: [ { name: 'undergraduate', value: 100	, max:	176	},
+														{ name: 'graduate', 	 value: 2	, max:	54	} ] },
+			{name: 'politicalScience',		children: [ { name: 'undergraduate', value: 227	, max:	317	},
+														{ name: 'graduate', 	 value: 1	, max:	77	} ] },
+			{name: 'psychology',			children: [ { name: 'undergraduate', value: 310	, max:	406	},
+														{ name: 'graduate', 	 value: 14	, max:	210	} ] },
+			{name: 'sociology',				children: [ { name: 'undergraduate', value: 92	, max:	140	},
+														{ name: 'graduate', 	 value: 5	, max:	64	} ] },	
+			{name: 'nonMajor',				children: [ { name: 'undergraduate', value: 0	, max:	0	} ] },	
+			{name: 'populationInstitute',	children: [ { name: 'graduate', 	 value: 2	, max:	37	} ] }
+		]
+	},
 }

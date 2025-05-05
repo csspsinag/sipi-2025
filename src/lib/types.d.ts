@@ -187,3 +187,36 @@ type PartySeat = {
 	id: string;
 	seats: SeatData[];
 };
+
+type HistoricalTurnoutData = {
+	[key: string]: {
+		name: string;
+		children: {
+			name: Department;
+			children: [
+				{
+					name: 'undergraduate';
+					value: number;
+					max: number;
+				},
+				{
+					name: 'graduate';
+					value: number;
+					max: number;
+				}
+			] | [
+				{
+					name: 'undergraduate';
+					value: number;
+					max: number;
+				}
+			] | [
+				{
+					name: 'graduate';
+					value: number;
+					max: number;
+				}
+			];
+		}[]
+	};
+}
