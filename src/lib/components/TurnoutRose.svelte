@@ -5,19 +5,13 @@
 	import type { Department, Positions } from '$lib/types';
 	import { historicalTurnoutData } from '$lib/data';
 	let {
-		search = 'chair',
-		position = 0,
-		count = 0,
 		term = 'term2425'
 	}: {
-		search: Positions;
-		position?: number | Department;
-		count?: number;
 		term?: string;
 	} = $props();
 
 	onMount(() => {
-		d3.select(`.turnout-rose`).append(turnoutRose(historicalTurnoutData, term));
+		d3.select(`.turnout-rose`).call(turnoutRose(historicalTurnoutData, term));
 	});
 </script>
 

@@ -743,6 +743,157 @@ export function parliament() {
 	}
 }
 
+function turnoutHierarchy(data) {
+	let hierarchyTotal = 0;
+	for (const department of data.children) {
+		for (const deptClass of department.children) {
+			hierarchyTotal += deptClass.max;
+		}
+	}
+
+	const radiansScale = d3
+		.scaleLinear()
+		.domain([0, hierarchyTotal])
+		.range([0, Math.PI * 2]);
+
+	const eachBefore = function (callback, that) {
+		var node = this,
+			nodes = [node],
+			children,
+			i,
+			index = -1;
+		while ((node = nodes.pop())) {
+			callback.call(that, node, ++index, this);
+			if ((children = node.children)) {
+				for (i = children.length - 1; i >= 0; --i) {
+					nodes.push(children[i]);
+				}
+			}
+		}
+		return this;
+	};
+
+	const each = function (callback, that) {
+		let index = -1;
+		for (const node of this) {
+			callback.call(that, node, ++index, this);
+		}
+		return this;
+	};
+
+	const iterator = function* () {
+		var node = this,
+			current,
+			next = [node],
+			children,
+			i,
+			n;
+		do {
+			(current = next.reverse()), (next = []);
+			while ((node = current.pop())) {
+				yield node;
+				if ((children = node.children)) {
+					for (i = 0, n = children.length; i < n; ++i) {
+						next.push(children[i]);
+					}
+				}
+			}
+		} while (next.length);
+	};
+
+	const descendants = function () {
+		return Array.from(this);
+	};
+
+	const hierarchyResult = {
+		name: data.name,
+		parent: null,
+		children: [],
+		value: hierarchyTotal,
+		actualValue: 0,
+		x0: 0,
+		x1: Math.PI * 2,
+		y0: 0,
+		y1: 1,
+		height: 2,
+		depth: 0,
+		max: hierarchyTotal,
+		data: {
+			name: data.name
+		},
+		eachBefore: eachBefore,
+		each: each,
+		descendants: descendants,
+		[Symbol.iterator]: iterator
+	};
+
+	let lastX1 = 0;
+	let rotation = 0;
+	for (const department of data.children) {
+		const deptReturn = {
+			parent: hierarchyResult,
+			children: [],
+			value: 0,
+			x0: lastX1,
+			x1: lastX1 + radiansScale(department.value),
+			y0: 1,
+			y1: 2,
+			height: 1,
+			depth: 1,
+			max: 0,
+			maxRot: rotation,
+			data: {
+				name: department.name,
+				value: department.value
+			},
+			eachBefore: eachBefore,
+			each: each,
+			descendants: descendants,
+			[Symbol.iterator]: iterator
+		};
+
+		let classX0 = deptReturn.x0;
+		let previousRem = 0;
+		for (const deptClass of department.children) {
+			const deptClassReturn = {
+				parent: deptReturn,
+				children: [],
+				value: deptClass.value,
+				x0: classX0,
+				x1: classX0 + radiansScale(deptClass.value),
+				y0: 2,
+				y1: 3,
+				height: 0,
+				depth: 2,
+				max: deptClass.max,
+				maxRot: rotation + radiansScale(previousRem),
+				data: {
+					name: deptClass.name,
+					value: deptClass.value
+				},
+				eachBefore: eachBefore,
+				each: each,
+				descendants: descendants,
+				[Symbol.iterator]: iterator
+			};
+
+			previousRem = deptClassReturn.max - deptClassReturn.value;
+			classX0 = deptClassReturn.x1;
+			hierarchyResult.actualValue += deptClassReturn.value;
+			deptReturn.value += deptClassReturn.value;
+			deptReturn.max += deptClassReturn.max;
+			deptReturn.children.push(deptClassReturn);
+		}
+
+		rotation += radiansScale(deptReturn.max - deptReturn.value);
+		lastX1 = deptReturn.x0 + radiansScale(deptReturn.max);
+		hierarchyResult.children.push(deptReturn);
+	}
+
+	console.log(hierarchyResult);
+	return hierarchyResult;
+}
+
 export function turnoutRose(data, term) {
 	const dataForTerm = data[term];
 	const [width, height] = [1000, 1000];
@@ -761,14 +912,14 @@ export function turnoutRose(data, term) {
 	const departmentNameScale = d3
 		.scaleOrdinal(departmentNames.keys(), departmentNames.values())
 		.unknown(null);
+	const heightValue = d3.scaleSqrt().range([radius * 0.6, radius]);
 
 	const hierarchy = d3.hierarchy(dataForTerm).sum((d) => d.max);
 	const root = d3.partition().size([2 * Math.PI, hierarchy.height])(hierarchy);
 	root.each((d) => (d.current = d));
 	let chartContext = root;
-	const heightValue = d3.scaleSqrt().range([radius * 0.3, radius]);
 
-	const fillHierarchy = d3.hierarchy(dataForTerm).sum((d) => d.value);
+	const fillHierarchy = turnoutHierarchy(dataForTerm);
 	const fillRoot = d3.partition().size([2 * Math.PI, fillHierarchy.height])(fillHierarchy);
 	fillRoot.each((d) => (d.current = d));
 	let fillChartContext = fillRoot;
@@ -778,7 +929,17 @@ export function turnoutRose(data, term) {
 		.startAngle((d) => d.x0)
 		.endAngle((d) => d.x1)
 		.padRadius((d) => Math.max(heightValue(d.y1), 0))
-		.padAngle((d) => Math.min((d.x1 - d.x0) / 4, 0.03))
+		.padAngle((d) => Math.min(d.x1 - d.x0, 0.01))
+		.innerRadius((d) => Math.max(0, heightValue(d.y0) - 10))
+		.outerRadius((d) => Math.max(0, heightValue(d.y1)))
+		.cornerRadius(5);
+
+	const bottomArc = d3
+		.arc<d3.HierarchyRectangularNode<unknown>>()
+		.startAngle((d) => d3.scaleLinear().domain([0, 1]).range([d.x0, d.x1])(0))
+		.endAngle((d) => d3.scaleLinear().domain([0, 1]).range([d.x0, d.x1])(d.actualValue / d.max))
+		.padRadius((d) => Math.max(heightValue(d.y1), 0))
+		.padAngle((d) => Math.min(d.x1 - d.x0, 0.01))
 		.innerRadius((d) => Math.max(0, heightValue(d.y0) - 10))
 		.outerRadius((d) => Math.max(0, heightValue(d.y1)))
 		.cornerRadius(5);
@@ -790,7 +951,7 @@ export function turnoutRose(data, term) {
 		.selectAll('path')
 		.data(root.descendants().slice(0))
 		.join('path')
-		.attr('fill', () => '#ccc')
+		.attr('fill', () => '#ccc2')
 		.attr('d', (d) => baseArc(d.current))
 		.append('title')
 		.text((d) => `${d.data.name}: ${d.value} votes`);
@@ -798,14 +959,32 @@ export function turnoutRose(data, term) {
 	const fillPath = svg
 		.append('g')
 		.selectAll('path')
-		.data(fillRoot.descendants().slice(0))
+		.data(fillRoot.descendants().reverse().slice(0, -1))
 		.join('path')
-		.attr('fill', () => '#000')
+		.attr('fill', (d) => {
+			if (d.depth === 0) {
+				return '#cccd';
+			}
+			return d.depth === 2
+				? d3.interpolateLab(departmentScale(d.parent.data.name), 'black')(0.5)
+				: d3.interpolateLab(departmentScale(d.data.name), 'black')(0.2);
+		})
 		.attr('fill-opacity', (d) => (d.current ? (d.children ? 1 : 0.8) : 0))
 		.attr('pointer-events', (d) => (d.current ? 'auto' : 'none'))
 		.attr('d', (d) => baseArc(d.current))
+		.style('transform', (d) => `rotate(${d.maxRot}rad)`)
 		.append('title')
 		.text((d) => `${d.data.name}: ${d.value} votes`);
+
+	const baseFillArc = svg
+		.append('g')
+		.selectAll('path')
+		.data(fillRoot.descendants().slice(0, 1))
+		.join('path')
+		.attr('fill', () => '#c44f')
+		.attr('d', (d) => bottomArc(d.current))
+		.append('title')
+		.text((d) => `${d.data.name}: ${d.actualValue} votes`);
 
 	return svg.node();
 }
