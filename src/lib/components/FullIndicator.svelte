@@ -361,7 +361,7 @@
 		flex-grow: 1;
 		align-items: start;
 		justify-content: center;
-		width: clamp(250px, 30vw, 400px);
+		width: clamp(400px, 30vw, 550px);
 		padding: clamp(0.75rem, 4vw, 1rem) var(--padding-value) clamp(0.75rem, 3vw, 0.75rem);
 		margin: 0;
 		background: linear-gradient(

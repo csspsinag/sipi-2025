@@ -117,12 +117,19 @@
 			timeAnchor = dayjs();
 		}, 1 * SECOND);
 
+		setTimeout(async () => {
+			const fetch = await fetchTurnoutData('turnout.json');
+			turnoutData = fetch;
+			const fetchLast = await fetchTurnoutData('turnout-old.json');
+			turnoutDataLast = fetchLast;
+		}, 5000);
+
 		const turnoutCheck = setInterval(async () => {
 			const fetch = await fetchTurnoutData('turnout.json');
 			turnoutData = fetch;
 			const fetchLast = await fetchTurnoutData('turnout-old.json');
 			turnoutDataLast = fetchLast;
-		}, 1 * SECOND);
+		}, 60 * SECOND);
 
 		for (const id of [
 			'anthropology-rate',
@@ -200,6 +207,13 @@
 		<img src={sipiLogo} id="sipiLogo" alt="SIPI logo" />
 
 		<div class="bar-clamp collegewide-rate">
+			<h3 style="color: #2f9291">
+				{#if true}
+					No turnout data yet! <a href="https://halalan.upd.edu.ph/" target="_blank">Vote now!</a>
+				{:else}
+					Turnout as of {dayjs(turnoutData.turnoutTime).format('D MMM YYYY | h:mm a')}
+				{/if}
+			</h3>
 			<MeterBar {...turnoutResult().collegewide} subjectColor={subjectColors.collegewide.color} />
 		</div>
 		<h2>Time Until CSSP Election End</h2>
@@ -209,36 +223,46 @@
 
 <div class="under-fold">
 	<div class="anthropology-rate">
+		<h3>Anthropology</h3>
 		<MeterBar {...turnoutResult().anthropology} subjectColor={subjectColors.anthropology.color} />
 	</div>
 	<div class="geografia-rate">
+		<h3>Geografia</h3>
 		<MeterBar {...turnoutResult().geografia} subjectColor={subjectColors.geografia.color} />
 	</div>
 	<div class="kasaysayan-rate">
+		<h3>Kasaysayan</h3>
 		<MeterBar {...turnoutResult().kasaysayan} subjectColor={subjectColors.kasaysayan.color} />
 	</div>
 	<div class="linguistics-rate">
+		<h3>Linguistics</h3>
 		<MeterBar {...turnoutResult().linguistics} subjectColor={subjectColors.linguistics.color} />
 	</div>
 	<div class="philosophy-rate">
+		<h3>Philosophy</h3>
 		<MeterBar {...turnoutResult().philosophy} subjectColor={subjectColors.philosophy.color} />
 	</div>
 	<div class="political-science-rate">
+		<h3>Political Science</h3>
 		<MeterBar
 			{...turnoutResult().politicalScience}
 			subjectColor={subjectColors.politicalScience.color}
 		/>
 	</div>
 	<div class="psychology-rate">
+		<h3>Psychology</h3>
 		<MeterBar {...turnoutResult().psychology} subjectColor={subjectColors.psychology.color} />
 	</div>
 	<div class="sociology-rate">
+		<h3>Sociology</h3>
 		<MeterBar {...turnoutResult().sociology} subjectColor={subjectColors.sociology.color} />
 	</div>
 	<div class="non-major-rate">
+		<h3>Non-Major</h3>
 		<MeterBar {...turnoutResult().nonMajor} subjectColor={subjectColors.nonMajor.color} />
 	</div>
 	<div class="population-institute-rate">
+		<h3>Population Institute</h3>
 		<MeterBar
 			{...turnoutResult().populationInstitute}
 			subjectColor={subjectColors.populationInstitute.color}
@@ -379,6 +403,30 @@
 		height: clamp(10rem, 33vh, 20rem);
 		margin: -5rem 0 calc(clamp(-0.5rem, 4vw, 4rem) * -1) 0;
 		z-index: 2;
+		pointer-events: none;
+	}
+
+	.under-fold {
+		display: flex;
+		flex-direction: column;
+		align-items: stretch;
+		gap: 3rem;
+		width: min(90vw, 750px);
+		margin: 0 auto;
+
+		& > div {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: -1rem;
+			width: 100%;
+		}
+	}
+
+	.collegewide-rate {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 	}
 
 	h2 {

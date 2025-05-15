@@ -7,9 +7,7 @@
 	import { goto } from '$app/navigation';
 	let { children }: { children: Snippet } = $props();
 	const items = [
-		{ text: 'Results', href: '/', icon: 'lets-icons:chart-fill' },
-		{ text: 'Turnout', href: '/turnout', icon: 'tabler:chart-pie-filled' },
-		{ text: 'Articles', href: '/articles', icon: 'famicons:newspaper' },
+		{ text: 'Turnout', href: '/', icon: 'tabler:chart-pie-filled' },
 		{ text: 'Countdowns', href: '/countdown', icon: 'ri:map-pin-time-fill' }
 	];
 
