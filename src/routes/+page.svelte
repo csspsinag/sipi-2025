@@ -122,7 +122,7 @@
 			turnoutData = fetch;
 			const fetchLast = await fetchTurnoutData('turnout-old.json');
 			turnoutDataLast = fetchLast;
-		}, 5000);
+		}, 1 * SECOND);
 
 		const turnoutCheck = setInterval(async () => {
 			const fetch = await fetchTurnoutData('turnout.json');
@@ -205,19 +205,10 @@
 <div class="main-page">
 	<div class="central-timer">
 		<img src={sipiLogo} id="sipiLogo" alt="SIPI logo" />
-
 		<div class="bar-clamp collegewide-rate">
-			<h3 style="color: #2f9291">
-				{#if true}
-					No turnout data yet! <a href="https://halalan.upd.edu.ph/" target="_blank">Vote now!</a>
-				{:else}
-					Turnout as of {dayjs(turnoutData.turnoutTime).format('D MMM YYYY | h:mm a')}
-				{/if}
-			</h3>
+			<h3 style="color: #2f9291">Final Turnout</h3>
 			<MeterBar {...turnoutResult().collegewide} subjectColor={subjectColors.collegewide.color} />
 		</div>
-		<h2>Time Until CSSP Election End</h2>
-		<Timer date={electionDatesLookup.get('updElectionEnd')!.date} />
 	</div>
 </div>
 
@@ -345,7 +336,7 @@
 	}
 
 	.main-page {
-		padding-bottom: 3rem;
+		margin-bottom: 3rem;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -412,7 +403,7 @@
 		align-items: stretch;
 		gap: 3rem;
 		width: min(90vw, 750px);
-		margin: 0 auto;
+		margin: 0 auto 3rem;
 
 		& > div {
 			display: flex;

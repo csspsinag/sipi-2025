@@ -7,8 +7,8 @@
 	import { goto } from '$app/navigation';
 	let { children }: { children: Snippet } = $props();
 	const items = [
-		{ text: 'Turnout', href: '/', icon: 'tabler:chart-pie-filled' },
-		{ text: 'Countdowns', href: '/countdown', icon: 'ri:map-pin-time-fill' }
+		{ text: 'Turnout', href: '/sipi/2025', icon: 'tabler:chart-pie-filled' },
+		{ text: 'Countdowns', href: '/sipi/2025/countdown', icon: 'ri:map-pin-time-fill' }
 	];
 
 	const years = [

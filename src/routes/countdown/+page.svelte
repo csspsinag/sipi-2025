@@ -62,8 +62,8 @@
 <div class="main-page">
 	<div class="central-timer">
 		<img src={sipiLogo} id="sipiLogo" />
-		<h2>Days until the CSSP SC election</h2>
-		<Timer date={electionDatesLookup.get('updElectionStart')!.date} />
+		<h2>Days until the end of CSSP SC election</h2>
+		<Timer date={electionDatesLookup.get('updElectionEnd')!.date} />
 	</div>
 
 	<div class="timeline">

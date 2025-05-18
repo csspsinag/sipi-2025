@@ -62,7 +62,7 @@
 >
 	<Accordion.Item {...restProps}>
 		<Accordion.Header>
-			<Accordion.Trigger disabled={date.date.add(10, 'hour').isBefore(dayjs())}
+			<Accordion.Trigger disabled={date.date.subtract(8, 'hour').isBefore(dayjs())}
 				><div class="box-button">
 					<div class="level-name">{@html level}</div>
 					<h2>{nameOverride || date.name}</h2>
@@ -74,7 +74,7 @@
 						{date.date.add(10, 'hour').fromNow()}
 						{#if date.dateMoved}
 							<a class="moved-timer" href={date.movedUrl} target="_blank"
-								>Moved from {date.dateMoved.add(10, 'hour').format('YYYY MMM DD')}
+								>Moved from {date.dateMoved.subtract(8, 'hour').format('YYYY MMM DD')}
 								<Icon icon="tabler:external-link" /></a
 							>
 						{/if}

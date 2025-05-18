@@ -51,7 +51,7 @@
 		seconds: () => number;
 	} {
 		const electionCountdownInit = $derived(
-			dayjs.duration(dayjs(date).diff(anchorTimeGetter().tz(timezoneGuess))).add(10, 'hour')
+			dayjs.duration(dayjs(date).diff(anchorTimeGetter().tz(timezoneGuess)))
 		);
 		return {
 			asMonths: () => electionCountdownInit.asMonths(),

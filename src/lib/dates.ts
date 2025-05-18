@@ -163,7 +163,7 @@ export const electionDates: Array<DateExpression> = [
 		id: 'updElectionEnd',
 		level: ['uwide', 'college'],
 		name: 'End of election',
-		date: dayjs.tz('2025-05-16T17:00', 'Asia/Manila'),
+		date: dayjs.tz('2025-05-16T19:00', 'Asia/Manila'),
 		tag: 'end'
 	},
 	{
